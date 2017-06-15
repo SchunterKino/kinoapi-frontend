@@ -11,8 +11,9 @@ module.exports = {
     },
     plugins: [
         new HtmlWebpackPlugin({
-            title: 'Kino Frontend',
+            title: 'SchunterKino Fernbedienung',
             template: './app/html/frontend.ejs',
+            favicon: './app/favicon.gif',
             filename: 'frontend.html'
         }),
         new ExtractTextPlugin("styles.css"),
