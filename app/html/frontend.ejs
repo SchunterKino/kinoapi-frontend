@@ -18,11 +18,18 @@
       </div>
       <ul class="list-group">
         <li class="list-group-item">
-          <input id="play_pause" data-toggle="toggle" data-on="<i class='fa fa-play'></i> Play" data-off="<i class='fa fa-pause'></i> Pause" type="checkbox">
+          <div class="panel-body btn-group" role="group" aria-label="...">
+            <button id="play_pause" type="button" class="btn btn-default btn-lg">
+              <span id="play_pause_glyph" class="glyphicon glyphicon glyphicon-play"></span>
+            </button>
+            <button id="stop" type="button" class="btn btn-default btn-lg">
+              <span class="glyphicon glyphicon glyphicon-stop"></span>
+            </button>
+          </div>
         </li>
         <li class="list-group-item">
           <span class="glyphicon glyphicon-volume-off" aria-hidden="true"></span>
-          <input data-slider-id="volume" type="text" name="Lautstärke" data-provide="slider" data-slider-min="0" data-slider-max="100" data-slider-step="5" data-slider-value="0">
+          <input data-slider-id="volume" type="text" name="Lautstärke" data-provide="slider" data-slider-min="0.0" data-slider-max="7.0" data-slider-step="0.1" data-slider-value="0">
           <span class="glyphicon glyphicon-volume-up" aria-hidden="true"></span>
         </li>
       </ul>
@@ -34,9 +41,8 @@
       </div>
       <div class="panel-body btn-group" role="group" aria-label="...">
         <button id="light_0" type="button" class="btn btn-default">Aus</button>
-        <button id="light_25" type="button" class="btn btn-default">25%</button>
-        <button id="light_50" type="button" class="btn btn-default">50%</button>
-        <button id="light_75" type="button" class="btn btn-default">75%</button>
+        <button id="light_33" type="button" class="btn btn-default">33%</button>
+        <button id="light_66" type="button" class="btn btn-default">66%</button>
         <button id="light_100" type="button" class="btn btn-default">100%</button>
       </div>
     </div>
