@@ -1,9 +1,10 @@
 <!DOCTYPE html>
-<html>
+<html lang="de">
 
 <head>
   <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
-  <title>Sample App</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title><%= htmlWebpackPlugin.options.title %></title>
 </head>
 
 <body>
@@ -12,6 +13,7 @@
       <h1>SchunterKino Fernbedienung</h1>
     </div>
 
+    <!-- playback controls -->
     <div class="panel panel-default">
       <div class="panel-heading">
         <h3 class="panel-title">Projektor</h3>
@@ -28,13 +30,14 @@
           </div>
         </li>
         <li class="list-group-item">
-          <span class="glyphicon glyphicon-volume-off" aria-hidden="true"></span>
+          <span class="glyphicon glyphicon-volume-off hidden-xs" aria-hidden="true"></span>
           <input data-slider-id="volume" type="text" name="Lautstärke" data-provide="slider" data-slider-min="0.0" data-slider-max="7.0" data-slider-step="0.1" data-slider-value="0">
           <span class="glyphicon glyphicon-volume-up" aria-hidden="true"></span>
         </li>
       </ul>
     </div>
 
+    <!-- lights -->
     <div class="panel panel-default">
       <div class="panel-heading">
         <h3 class="panel-title">Licht</h3>
@@ -47,6 +50,7 @@
       </div>
     </div>
 
+    <!-- curtain -->
     <div class="panel panel-default">
       <div class="panel-heading">
         <h3 class="panel-title">Vorhang</h3>

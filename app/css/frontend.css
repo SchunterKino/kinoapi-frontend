@@ -6,3 +6,9 @@
   margin-left: 24px;
   margin-right: 24px;
 }
+
+body {
+    min-width:350px;
+    width: auto !important;
+    width:350px;
+}
