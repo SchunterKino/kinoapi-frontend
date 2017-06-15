@@ -1,8 +1,8 @@
-#volume .slider-selection {
+#volume-slider .slider-selection {
 	background: #286090;
 }
 
-#volume {
+#volume-slider {
   margin-left: 24px;
   margin-right: 24px;
 }
