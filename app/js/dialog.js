@@ -7,15 +7,13 @@ const dialog = $(
   '<div class="progress progress-striped active" style="margin-bottom:0;"><div class="progress-bar" style="width: 100%"></div></div>' +
   '</div>' +
   '</div></div></div>');
-  
+
 module.exports = {
-  show: function(message) {
-    dialog.find('.progress-bar').attr('class', 'progress-bar');
+  show: (message) => {
     dialog.find('h3').text(message);
     dialog.modal();
   },
-
-  hide: function() {
+  hide: () => {
     dialog.modal('hide');
   }
 }

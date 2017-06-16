@@ -18,18 +18,17 @@ var playbackState = playback.PAUSE
 const connectionMessage = 'Verbinde mit Server…'
 
 $(() => {
-  initApiConnection()
+  initDialog()
   initPlaybackControl()
   initVolumeControl()
   initLightControl()
   initCurtainControl()
 })
 
-function initApiConnection() {
+function initDialog() {
   connectingDialog.show(connectionMessage)
-  apiConnection.onDisconnected(() => connectingDialog.show(connectionMessage))
-  apiConnection.onConnected(() => connectingDialog.hide())
-  apiConnection.connect()
+  apiConnection.onopen = () => connectingDialog.hide()
+  apiConnection.onclose = (evt) => connectingDialog.show(evt.reason)
 }
 
 function initPlaybackControl() {
@@ -56,8 +55,9 @@ function initVolumeControl() {
 }
 
 function initLightControl() {
-  for (let i in [0, 33, 66, 100]) {
-    $('#light-button-' + i).click(() => {
+  const levels = [0, 33, 66, 100]
+  for (let i in levels) {
+    $('#light-button-' + levels[i]).click(() => {
       lights.setLightLevel(i)
     })
   }
