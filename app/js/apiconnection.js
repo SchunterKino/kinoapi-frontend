@@ -22,7 +22,7 @@ module.exports = {
       closeCallback()
       // try to reconnect
       if (retry) {
-        setTimeout(connect, 2000);
+        setTimeout(() => connect(retry), 2000);
       }
     }
 
@@ -35,33 +35,6 @@ module.exports = {
       } else if (data.msg_type in callbacks) {
         callbacks[data.msg_type](data)
       }
-    }
-  }
-}
-
-function connect() {
-  socket = new WebSocket('ws://localhost:8641')
-
-  socket.onopen = () => {
-    console.log("WS opened")
-    openCallback()
-  }
-
-  socket.onclose = (evt) => {
-    console.log("WS closed")
-    closeCallback()
-    // try to reconnect
-    setTimeout(connect, 2000);
-  }
-
-  // allow registering multiple handlers
-  socket.onmessage = (evt) => {
-    console.log(evt)
-    const data = JSON.parse(evt.data)
-    if (data.msg_type === 'error') {
-      errorCallback(data.error)
-    } else if (data.msg_type in callbacks) {
-      callbacks[data.msg_type](data)
     }
   }
 }
