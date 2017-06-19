@@ -18,7 +18,6 @@ import curtain from './curtain'
 import lights from './lights'
 
 const connectionMessage = 'Verbinde mit Server…'
-
 $(() => {
   apiConnection.connect(true)
   initDialog()
@@ -71,6 +70,17 @@ function initVolumeControl() {
       value: volume
     })
   })
+  $('#volume-up-button').click(() => {
+    volume.increase()
+  })
+  $('#volume-down-button').click(() => {
+    volume.decrease()
+  })
+  $('#volume-mute-button').click(() => {
+    volume.mute()
+  })
+  volume.onMute(() => $('#volume-mute-button').addClass('active'))
+  volume.onUnmute(() => $('#volume-mute-button').removeClass('active'))
 }
 
 function initLightControl() {
@@ -86,11 +96,9 @@ function initCurtainControl() {
   $('#curtain-switch').change(() => {
     $('#curtain-switch').prop('checked') ? curtain.open() : curtain.close()
   })
-
   curtain.onOpened(() => {
     $('#curtain-switch').bootstrapToggle('on')
   })
-
   curtain.onClosed(() => {
     $('#curtain-switch').bootstrapToggle('off')
   })

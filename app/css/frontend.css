@@ -13,6 +13,16 @@ body {
     width: 450px;
 }
 
+.btn-default:focus
+{
+  background-color: #ffffff;
+}
+
+.btn-default:hover
+{
+  background-color: #e6e6e6;
+}
+
 @media (min-width: 768px) {
   .container {
        padding-right: 100px;
