@@ -1,5 +1,5 @@
 import apiConnection from './apiconnection'
-apiConnection.onApiMessage('volume', (msg) => {
+apiConnection.onmessage('volume', (msg) => {
   if (msg.action === 'volume_changed') {
     volumeCallback(msg.volume)
   }
@@ -11,10 +11,8 @@ module.exports = {
     apiConnection.send(JSON.stringify({
       msg_type: 'volume',
       action: 'set_volume',
-      volume: value
+      volume: parseInt(value*10) // 4.0 -> 40
     }))
   },
-  onVolumeChanged: (callback) => {
-    volumeCallback = callback
-  }
+  onVolumeChanged: (callback) => volumeCallback = callback
 }

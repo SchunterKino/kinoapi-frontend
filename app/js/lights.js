@@ -5,7 +5,7 @@ module.exports = {
     apiConnection.send(JSON.stringify({
       msg_type: 'lights',
       action: 'set_lights',
-      level: value
+      level: level
     }))
   }
 }

@@ -27,8 +27,8 @@ $(() => {
 
 function initDialog() {
   connectingDialog.show(connectionMessage)
-  apiConnection.onopen = () => connectingDialog.hide()
-  apiConnection.onclose = (evt) => connectingDialog.show(evt.reason)
+  apiConnection.onopen(() => connectingDialog.hide())
+  apiConnection.onclose((reason) => connectingDialog.show(reason))
 }
 
 function initPlaybackControl() {

@@ -1,5 +1,5 @@
 import apiConnection from './apiconnection'
-apiConnection.onApiMessage('curtain', (msg) => {
+apiConnection.onmessage('curtain', (msg) => {
   if (msg.action === 'open') {
     openedCallback()
   } else if (msg.action === 'close') {
@@ -22,10 +22,6 @@ module.exports = {
       action: 'close',
     }))
   },
-  onOpened: (callback) => {
-    openedCallback = callback
-  },
-  onClosed: (callback) => {
-    closedCallback = callback
-  }
+  onOpened: (callback) => openedCallback = callback,
+  onClosed: (callback) => closedCallback = callback
 }
