@@ -17,7 +17,6 @@ import volume from './volume'
 import curtain from './curtain'
 import lights from './lights'
 
-var playbackState = playback.PAUSE
 const connectionMessage = 'Verbinde mit Server…'
 
 $(() => {
@@ -52,21 +51,14 @@ function initToasts() {
 }
 
 function initPlaybackControl() {
-  $('#play-pause-button').click(() => {
-    playbackState === playback.PLAY ? playback.pause() : playback.play()
+  $('#play-button').click(() => {
+    playback.play()
   })
-
+  $('#pause-button').click(() => {
+    playback.pause()
+  })
   $('#stop-button').click(() => {
     playback.stop()
-  })
-
-  playback.onPlaybackChanged((state) => {
-    playbackState = state
-    if (playbackState === playback.PLAY) {
-      $('#play-pause-glyph').addClass('glyphicon-pause').removeClass('glyphicon-play')
-    } else {
-      $('#play-pause-glyph').addClass('glyphicon-play').removeClass('glyphicon-pause')
-    }
   })
 }
 

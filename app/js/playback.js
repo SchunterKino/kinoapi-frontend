@@ -1,13 +1,7 @@
 import apiConnection from './apiconnection'
-apiConnection.onmessage('playback', (msg) => {
-  playbackCallback(msg.action)
-})
 
 var playbackCallback
 module.exports = {
-  PLAY: 'play',
-  PAUSE: 'pause',
-  STOP: 'stop',
   play: () => {
     apiConnection.send(JSON.stringify({
       msg_type: 'playback',
@@ -26,5 +20,4 @@ module.exports = {
       action: 'stop'
     }))
   },
-  onPlaybackChanged: (callback) => playbackCallback = callback
 }
