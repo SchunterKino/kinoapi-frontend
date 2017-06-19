@@ -51,7 +51,12 @@ function initPlaybackControl() {
 }
 
 function initVolumeControl() {
-  // TODO
+  $('#volume-slider').change((evt) => {
+    volume.setVolume(evt.value.newValue)
+  })
+  volume.onVolumeChanged((volume) => {
+    $('#volume-slider').slider({ value: volume })
+  })
 }
 
 function initLightControl() {
