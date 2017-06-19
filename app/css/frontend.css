@@ -8,7 +8,16 @@
 }
 
 body {
-    min-width:350px;
+    min-width: 450px;
     width: auto !important;
-    width:350px;
+    width: 450px;
+}
+
+@media (min-width: 768px) {
+  .container {
+       padding-right: 100px;
+       padding-left: 100px;
+       margin-right: auto;
+       margin-left: auto;
+  }
 }

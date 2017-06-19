@@ -37,7 +37,7 @@ module.exports = {
                 })
             },
             {
-                test: /.jpe?g$|.gif$|.png$|.svg$|.woff$|.woff2$|.ttf$|.eot$/,
+                test: /.jpe?g$|.gif$|.png$|.svg$|.woff$|.woff2$|.ttf$|.eot|.svg$/,
                 loader: 'url-loader'
             },
         ]
