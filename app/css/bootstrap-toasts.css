@@ -13,7 +13,6 @@ see https://stackoverflow.com/questions/15066882/make-toastr-alerts-look-like-bo
 }
 
 #toast-container > .alert:before {
-    position: fixed;
     font-family: FontAwesome;
     font-size: 24px;
     float: left;

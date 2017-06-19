@@ -1,6 +1,5 @@
-import '../css/frontend.css'
-import '../css/bootstrap-toasts.css'
 import 'babel-polyfill'
+import $ from 'jquery'
 import 'bootstrap'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-toggle'
@@ -9,7 +8,8 @@ import 'bootstrap-slider'
 import 'bootstrap-slider/dist/css/bootstrap-slider.css'
 import toastr from 'toastr'
 import 'toastr/build/toastr.css'
-import $ from 'jquery'
+import '../css/frontend.css'
+import '../css/bootstrap-toasts.css'
 import apiConnection from './apiconnection'
 import connectingDialog from './dialog'
 import playback from './playback'
@@ -21,6 +21,7 @@ var playbackState = playback.PAUSE
 const connectionMessage = 'Verbinde mit Server…'
 
 $(() => {
+  apiConnection.connect(true)
   initDialog()
   initToasts()
   initPlaybackControl()
@@ -32,12 +33,14 @@ $(() => {
 function initDialog() {
   connectingDialog.show(connectionMessage)
   apiConnection.onopen(() => connectingDialog.hide())
-  apiConnection.onclose((reason) => connectingDialog.show(reason))
+  apiConnection.onclose(() => connectingDialog.show(connectionMessage))
 }
 
 function initToasts() {
   toastr.options = {
     toastClass: 'alert',
+    positionClass: 'toast-bottom-full-width',
+    preventDuplicates: true,
     iconClasses: {
       error: 'alert-danger',
       info: 'alert-info',
