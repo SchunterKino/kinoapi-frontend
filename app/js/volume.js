@@ -1,13 +1,25 @@
 import apiConnection from './apiconnection'
 apiConnection.onmessage('volume', (msg) => {
-  if (msg.action === 'volume_changed') {
-    volumeCallback(msg.volume)
+  switch (msg.action) {
+    case 'volume_changed':
+      volumeCallback(msg.volume)
+      break
+    case 'mute_status_changed':
+      msg.muted ? muteCallback() : unmuteCallback()
+      break
+    case 'dolby_connection':
+      msg.connected ? availableCallback() : unavailableCallback()
+      break
+    default:
+      console.log('unsupported action: ' + msg.action)
   }
 })
 
 var volumeCallback
 var unmuteCallback
 var muteCallback
+var availableCallback
+var unavailableCallback
 module.exports = {
   setVolume: (value) => {
     apiConnection.send(JSON.stringify({
@@ -19,28 +31,32 @@ module.exports = {
   increase: () => {
     apiConnection.send(JSON.stringify({
       msg_type: 'volume',
-      action: 'increase',
+      action: 'increase_volume',
     }))
   },
   decrease: () => {
     apiConnection.send(JSON.stringify({
       msg_type: 'volume',
-      action: 'decrease',
+      action: 'decrease_volume',
     }))
   },
   mute: () => {
     apiConnection.send(JSON.stringify({
       msg_type: 'volume',
-      action: 'mute',
+      action: 'set_mute_status',
+      muted: true
     }))
   },
   unmute: () => {
     apiConnection.send(JSON.stringify({
       msg_type: 'volume',
-      action: 'unmute',
+      action: 'set_mute_status',
+      muted: false
     }))
   },
   onVolumeChanged: (callback) => volumeCallback = callback,
   onUnmute: (callback) => unmuteCallback = callback,
-  onMute: (callback) => muteCallback = callback
+  onMute: (callback) => muteCallback = callback,
+  onAvailable: (callback) => availableCallback = callback,
+  onUnavailable: (callback) => unavailableCallback = callback
 }

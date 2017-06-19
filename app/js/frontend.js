@@ -19,13 +19,13 @@ import lights from './lights'
 
 const connectionMessage = 'Verbinde mit Server…'
 $(() => {
-  apiConnection.connect(true)
   initDialog()
   initToasts()
   initPlaybackControl()
   initVolumeControl()
   initLightControl()
   initCurtainControl()
+  apiConnection.connect(true)
 })
 
 function initDialog() {
@@ -66,21 +66,30 @@ function initVolumeControl() {
     volume.setVolume(evt.value.newValue)
   })
   volume.onVolumeChanged((volume) => {
-    $('#volume-slider').slider({
-      value: volume
-    })
+    $('#volume-slider').slider('setValue', volume, true);
   })
+
   $('#volume-up-button').click(() => {
     volume.increase()
   })
   $('#volume-down-button').click(() => {
     volume.decrease()
   })
+
   $('#volume-mute-button').click(() => {
     volume.mute()
   })
   volume.onMute(() => $('#volume-mute-button').addClass('active'))
   volume.onUnmute(() => $('#volume-mute-button').removeClass('active'))
+
+  volume.onAvailable(() => {
+    $('#volume-up-button,#volume-down-button,#volume-mute-button').attr('disabled', false)
+    $('#volume-slider').slider('enable')
+  })
+  volume.onUnavailable(() => {
+    $('#volume-up-button,#volume-down-button,#volume-mute-button').attr('disabled', true)
+    $('#volume-slider').slider('disable')
+  })
 }
 
 function initLightControl() {
