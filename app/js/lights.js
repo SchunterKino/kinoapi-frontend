@@ -2,6 +2,10 @@ import apiConnection from './apiconnection'
 
 module.exports = {
   setLightLevel: (level) => {
-    // TODO apiConnection.send("...")
+    apiConnection.send(JSON.stringify({
+      msg_type: 'lights',
+      action: 'set_lights',
+      level: value
+    }))
   }
 }

@@ -1,16 +1,26 @@
 import apiConnection from './apiconnection'
-apiConnection.onApiMessage((msg) => {
-  // TODO call openedCallback/closedCallback if applicable
+apiConnection.onApiMessage('curtain', (msg) => {
+  if (msg.action === 'open') {
+    openedCallback()
+  } else if (msg.action === 'close') {
+    closedCallback()
+  }
 })
 
 var openedCallback;
 var closedCallback;
 module.exports = {
   open: () => {
-    // TODO apiConnection.send("...")
+    apiConnection.send(JSON.stringify({
+      msg_type: 'curtain',
+      action: 'open',
+    }))
   },
   close: () => {
-    // TODO apiConnection.send("...")
+    apiConnection.send(JSON.stringify({
+      msg_type: 'curtain',
+      action: 'close',
+    }))
   },
   onOpened: (callback) => {
     openedCallback = callback

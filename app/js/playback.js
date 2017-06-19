@@ -1,21 +1,30 @@
 import apiConnection from './apiconnection'
-apiConnection.onApiMessage((msg) => {
-  // TODO call playbackCallback if applicable
+apiConnection.onApiMessage('playback', (msg) => {
+  playbackCallback(msg.action)
 })
 
 var playbackCallback
 module.exports = {
-  PLAY: 'PLAY',
-  PAUSE: 'PAUSE',
-  STOP: 'STOP',
+  PLAY: 'play',
+  PAUSE: 'pause',
+  STOP: 'stop',
   play: () => {
-    // TODO apiConnection.send("...")
+    apiConnection.send(JSON.stringify({
+      msg_type: 'playback',
+      action: 'play'
+    }))
   },
   pause: () => {
-    // TODO apiConnection.send("...")
+    apiConnection.send(JSON.stringify({
+      msg_type: 'playback',
+      action: 'pause'
+    }))
   },
   stop: () => {
-    // TODO apiConnection.send("...")
+    apiConnection.send(JSON.stringify({
+      msg_type: 'playback',
+      action: 'stop'
+    }))
   },
   onPlaybackChanged: (callback) => {
     playbackCallback = callback
