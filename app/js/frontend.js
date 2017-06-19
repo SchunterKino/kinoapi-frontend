@@ -1,4 +1,5 @@
 import '../css/frontend.css'
+import '../css/bootstrap-toasts.css'
 import 'babel-polyfill'
 import 'bootstrap'
 import 'bootstrap/dist/css/bootstrap.css'
@@ -6,6 +7,8 @@ import 'bootstrap-toggle'
 import 'bootstrap-toggle/css/bootstrap-toggle.css'
 import 'bootstrap-slider'
 import 'bootstrap-slider/dist/css/bootstrap-slider.css'
+import toastr from 'toastr'
+import 'toastr/build/toastr.css'
 import $ from 'jquery'
 import apiConnection from './apiconnection'
 import connectingDialog from './dialog'
@@ -19,6 +22,7 @@ const connectionMessage = 'Verbinde mit Server…'
 
 $(() => {
   initDialog()
+  initToasts()
   initPlaybackControl()
   initVolumeControl()
   initLightControl()
@@ -29,6 +33,19 @@ function initDialog() {
   connectingDialog.show(connectionMessage)
   apiConnection.onopen(() => connectingDialog.hide())
   apiConnection.onclose((reason) => connectingDialog.show(reason))
+}
+
+function initToasts() {
+  toastr.options = {
+    toastClass: 'alert',
+    iconClasses: {
+      error: 'alert-danger',
+      info: 'alert-info',
+      success: 'alert-success',
+      warning: 'alert-warning'
+    }
+  }
+  apiConnection.onerror((msg) => toastr.error(msg))
 }
 
 function initPlaybackControl() {
@@ -55,7 +72,9 @@ function initVolumeControl() {
     volume.setVolume(evt.value.newValue)
   })
   volume.onVolumeChanged((volume) => {
-    $('#volume-slider').slider({ value: volume })
+    $('#volume-slider').slider({
+      value: volume
+    })
   })
 }
 

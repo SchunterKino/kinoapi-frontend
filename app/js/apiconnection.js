@@ -2,11 +2,13 @@ const callbacks = {} // type - callback
 var socket
 var openCallback
 var closeCallback
+var errorCallback
 module.exports = {
   onmessage: (type, callback) => callbacks[type] = callback,
   send: (msg) => socket.send(msg),
   onopen: (callback) => openCallback = callback,
-  onclose: (callback) => closeCallback = callback
+  onclose: (callback) => closeCallback = callback,
+  onerror: (callback) => errorCallback = callback
 }
 
 function connect() {
@@ -27,14 +29,13 @@ function connect() {
   // allow registering multiple handlers
   socket.onmessage = (evt) => {
     console.log(evt)
-    if (evt.msg_type in callbacks) {
-      callbacks[evt.msg_type]()
+    const data = JSON.parse(evt.data)
+    if (data.msg_type === 'error') {
+      errorCallback(data.error)
+    } else if (data.msg_type in callbacks) {
+      callbacks[data.msg_type](data)
     }
   }
-
-
-
-
 }
 
 $(connect())
