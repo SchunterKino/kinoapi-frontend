@@ -77,7 +77,7 @@ function initVolumeControl() {
   })
 
   $('#volume-mute-button').click(() => {
-    volume.mute()
+    $('#volume-mute-button').hasClass('active') ? volume.unmute() : volume.mute()
   })
   volume.onMute(() => $('#volume-mute-button').addClass('active'))
   volume.onUnmute(() => $('#volume-mute-button').removeClass('active'))
