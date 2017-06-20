@@ -99,6 +99,12 @@ function initLightControl() {
       lights.setLightLevel(i)
     })
   }
+  lights.onAvailable(() => {
+    $('[id^=light-button-]').attr('disabled', false)
+  })
+  lights.onUnavailable(() => {
+    $('[id^=light-button-]').attr('disabled', true)
+  })
 }
 
 function initCurtainControl() {
