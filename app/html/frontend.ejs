@@ -21,7 +21,7 @@
       <ul class="list-group">
         <!-- playback controls -->
         <li class="list-group-item">
-          <div class="panel-body btn-group" role="group" aria-label="...">
+          <div class="panel-body btn-group" role="group" aria-label="Playback">
             <button id="play-button" type="button" class="btn btn-default btn-lg">
               <span class="glyphicon glyphicon-play"></span>
             </button>
@@ -39,7 +39,7 @@
             <span class="glyphicon glyphicon-volume-off"></span>
           </button>
           <input id="volume-slider" type="text" name="Lautstärke" data-provide="slider" data-slider-min="0.0" data-slider-max="7.0" data-slider-step="0.1" data-slider-value="0">
-          <div class="btn-group" role="group" aria-label="...">
+          <div class="btn-group" role="group" aria-label="Lautstärke">
             <button id="volume-down-button" type="button" class="btn btn-default">
               <span class="glyphicon glyphicon-volume-down"></span>
             </button>
@@ -56,7 +56,7 @@
       <div class="panel-heading">
         <h3 class="panel-title">Licht</h3>
       </div>
-      <div class="panel-body btn-group" role="group" aria-label="...">
+      <div class="panel-body btn-group" role="group" aria-label="Licht">
         <button id="light-button-0" type="button" class="btn btn-default">Aus</button>
         <button id="light-button-33" type="button" class="btn btn-default">33%</button>
         <button id="light-button-66" type="button" class="btn btn-default">66%</button>
@@ -72,6 +72,44 @@
       <div class="panel-body">
         <input id="curtain-switch" data-toggle="toggle" data-on="Auf" data-off="Zu" type="checkbox" disabled>
       </div>
+    </div>
+
+    <!-- input modes -->
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">Input Modes</h3>
+      </div>
+      <ul class="list-group">
+        <!-- image mode -->
+        <li class="list-group-item">
+          <div class="panel-body btn-group" role="group" aria-label="Image Mode">
+            <button id="image-mode-projector-flat" type="button" class="btn btn-default">Projektor-Flat</button>
+            <button id="image-mode-projector-scope" type="button" class="btn btn-default">Projektor-Scope</button>
+            <button id="image-mode-pc-flat" type="button" class="btn btn-default">PC-Flat</button>
+            <button id="image-mode-pc-scope" type="button" class="btn btn-default">PC-Scope</button>
+          </div>
+        </li>
+                <!-- sound mode -->
+        <li class="list-group-item clearfix">
+          <label class="radio-label">Digital 1<br />
+            <input type="radio" name="sound-mode" value="0" />
+          </label>
+          <label class="radio-label">Digital 2<br />
+            <input type="radio" name="sound-mode" value="1" />
+          </label>
+          <label class="radio-label">Digital 3<br />
+            <input type="radio" name="sound-mode" value="2" />
+          </label>
+          <label class="radio-label">Digital 4<br />
+            <input type="radio" name="sound-mode" value="3" />
+          </label>
+          <label class="radio-label">Multi-Ch Analog<br />
+            <input type="radio" name="sound-mode" value="4" />
+          </label>
+          <label class="radio-label">NonSync<br />
+            <input type="radio" name="sound-mode" value="5" />
+          </label>
+        </li>
     </div>
   </div>
 </body>

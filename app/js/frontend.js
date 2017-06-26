@@ -24,6 +24,8 @@ $(() => {
   initVolumeControl()
   initLightControl()
   initCurtainControl()
+  initInputControl()
+  initAvailability()
   apiConnection.connect(true)
 })
 
@@ -61,27 +63,14 @@ function initVolumeControl() {
     $('#volume-slider').slider('setValue', volume, true);
   })
 
-  $('#volume-up-button').click(() => {
-    volume.increase()
-  })
-  $('#volume-down-button').click(() => {
-    volume.decrease()
-  })
-
   $('#volume-mute-button').click(() => {
     $('#volume-mute-button').hasClass('active') ? volume.unmute() : volume.mute()
   })
   volume.onMute(() => $('#volume-mute-button').addClass('active'))
   volume.onUnmute(() => $('#volume-mute-button').removeClass('active'))
 
-  volume.onAvailable(() => {
-    $('#volume-up-button,#volume-down-button,#volume-mute-button').attr('disabled', false)
-    $('#volume-slider').slider('enable')
-  })
-  volume.onUnavailable(() => {
-    $('#volume-up-button,#volume-down-button,#volume-mute-button').attr('disabled', true)
-    $('#volume-slider').slider('disable')
-  })
+  $('#volume-up-button').click(() => volume.increase())
+  $('#volume-down-button').click(() => volume.decrease())
 }
 
 function initLightControl() {
@@ -91,12 +80,6 @@ function initLightControl() {
       lights.setLightLevel(i)
     })
   }
-  lights.onAvailable(() => {
-    $('[id^=light-button-]').attr('disabled', false)
-  })
-  lights.onUnavailable(() => {
-    $('[id^=light-button-]').attr('disabled', true)
-  })
 }
 
 function initCurtainControl() {
@@ -108,5 +91,44 @@ function initCurtainControl() {
   })
   curtain.onClosed(() => {
     $('#curtain-switch').bootstrapToggle('off')
+  })
+}
+
+function initInputControl() {
+  $('input[name="sound-mode"]:radio' ).change((e) => {
+    volume.setInput(e.target.value)
+  })
+  volume.onInputChanged((inputMode) => {
+    $('input[name="sound-mode"]').val([inputMode])
+  })
+  $('#image-mode-pc-scope').click(() => {
+    volume.setInput('pc_scope')
+  })
+  $('#image-mode-pc-flat').click(() => {
+    volume.setInput('pc_flat')
+  })
+  $('#image-mode-projector-scope').click(() => {
+    volume.setInput('cinema_scope')
+  })
+  $('#image-mode-projector-flat').click(() => {
+    volume.setInput('cinema_flat')
+  })
+}
+
+function initAvailability() {
+  volume.onAvailable(() => {
+    $('#volume-up-button,#volume-down-button,#volume-mute-button').attr('disabled', false)
+    $('#volume-slider').slider('enable')
+  })
+  volume.onUnavailable(() => {
+    $('#volume-up-button,#volume-down-button,#volume-mute-button').attr('disabled', true)
+    $('#volume-slider').slider('disable')
+  })
+
+  lights.onAvailable(() => {
+    $('[id^=light-button-]').attr('disabled', false)
+  })
+  lights.onUnavailable(() => {
+    $('[id^=light-button-]').attr('disabled', true)
   })
 }

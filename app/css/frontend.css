@@ -17,18 +17,32 @@
 	background-color: #ffffff;
 }
 
+.radio-label {
+  float: left;
+  padding: 0 1em;
+  text-align: center;
+}
+
+.radio-label input[type='radio']:after {
+		width: 30px;
+		height: 30px;
+		border-radius: 15px;
+		top: -7px;
+		left: -10px;
+		position: relative;
+		background-color: #d1d3d1;
+		content: '';
+		display: inline-block;
+		border: 5px solid white;
+}
+
+.radio-label input[type='radio']:checked:after {
+		background-color: green;
+}
+
 #volume-mute-button.active
 {
 	background-color: #bd362f;
 	color: white;
 	opacity: 0.7;
-}
-
-@media (min-width: 768px) {
-  .container {
-       padding-right: 100px;
-       padding-left: 100px;
-       margin-right: auto;
-       margin-left: auto;
-  }
 }

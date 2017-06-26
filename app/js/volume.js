@@ -10,6 +10,9 @@ apiConnection.onmessage('volume', (msg) => {
     case 'dolby_connection':
       msg.connected ? availableCallback() : unavailableCallback()
       break
+    case 'input_mode_changed':
+      inputCallback(msg.mode)
+      break
     default:
       console.log('unsupported action: ' + msg.action)
   }
@@ -18,6 +21,7 @@ apiConnection.onmessage('volume', (msg) => {
 var volumeCallback
 var unmuteCallback
 var muteCallback
+var inputCallback
 var availableCallback
 var unavailableCallback
 module.exports = {
@@ -54,9 +58,17 @@ module.exports = {
       muted: false
     }))
   },
+  setInput: (mode) => {
+    apiConnection.send(JSON.stringify({
+      msg_type: 'volume',
+      action: 'set_input_mode',
+      mode: mode
+    }))
+  },
   onVolumeChanged: (callback) => volumeCallback = callback,
   onUnmute: (callback) => unmuteCallback = callback,
   onMute: (callback) => muteCallback = callback,
+  onInputChanged: (callback) => inputCallback = callback,
   onAvailable: (callback) => availableCallback = callback,
   onUnavailable: (callback) => unavailableCallback = callback
 }
