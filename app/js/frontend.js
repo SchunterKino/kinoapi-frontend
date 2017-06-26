@@ -9,7 +9,6 @@ import 'bootstrap-slider/dist/css/bootstrap-slider.css'
 import toastr from 'toastr'
 import 'toastr/build/toastr.css'
 import '../css/frontend.css'
-import '../css/bootstrap-toasts.css'
 import apiConnection from './apiconnection'
 import connectingDialog from './dialog'
 import playback from './playback'
@@ -36,15 +35,8 @@ function initDialog() {
 
 function initToasts() {
   toastr.options = {
-    toastClass: 'alert',
     positionClass: 'toast-bottom-full-width',
-    preventDuplicates: true,
-    iconClasses: {
-      error: 'alert-danger',
-      info: 'alert-info',
-      success: 'alert-success',
-      warning: 'alert-warning'
-    }
+    preventDuplicates: true
   }
   apiConnection.onerror((msg) => toastr.error(msg))
 }
