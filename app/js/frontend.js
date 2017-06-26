@@ -102,16 +102,16 @@ function initInputControl() {
     $('input[name="sound-mode"]').val([inputMode])
   })
   $('#image-mode-pc-scope').click(() => {
-    volume.setInput('pc_scope')
+    playback.setInput('pc_scope')
   })
   $('#image-mode-pc-flat').click(() => {
-    volume.setInput('pc_flat')
+    playback.setInput('pc_flat')
   })
   $('#image-mode-projector-scope').click(() => {
-    volume.setInput('cinema_scope')
+    playback.setInput('cinema_scope')
   })
   $('#image-mode-projector-flat').click(() => {
-    volume.setInput('cinema_flat')
+    playback.setInput('cinema_flat')
   })
 }
 
