@@ -14,7 +14,14 @@
 
 .btn-default:hover
 {
-  background-color: #e6e6e6;
+	background-color: #ffffff;
+}
+
+#volume-mute-button.active
+{
+	background-color: #bd362f;
+	color: white;
+	opacity: 0.7;
 }
 
 @media (min-width: 768px) {
