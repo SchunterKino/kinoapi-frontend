@@ -10,7 +10,7 @@ module.exports = {
   onclose: (callback) => closeCallback = callback,
   onerror: (callback) => errorCallback = callback,
   connect: function connect(retry) {
-    socket = new WebSocket('ws://localhost:8641')
+    socket = new WebSocket('ws://remote.schunterkino.de:8641')
 
     socket.onopen = () => {
       console.log("WS opened")
