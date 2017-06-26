@@ -118,10 +118,12 @@ function initInputControl() {
 function initAvailability() {
   volume.onAvailable(() => {
     $('#volume-up-button,#volume-down-button,#volume-mute-button').attr('disabled', false)
+    $('.radio-label input[type="radio"]').attr('disabled', false)
     $('#volume-slider').slider('enable')
   })
   volume.onUnavailable(() => {
     $('#volume-up-button,#volume-down-button,#volume-mute-button').attr('disabled', true)
+    $('.radio-label input[type="radio"]').attr('disabled', true)
     $('#volume-slider').slider('disable')
   })
 
@@ -130,5 +132,14 @@ function initAvailability() {
   })
   lights.onUnavailable(() => {
     $('[id^=light-button-]').attr('disabled', true)
+  })
+
+  playback.onAvailable(() => {
+    $('#play-button,#pause-button,#stop-button,#image-mode-pc-scope,#image-mode-pc-flat,#image-mode-projector-scope,#image-mode-projector-flat')
+        .attr('disabled', false)
+  })
+  playback.onUnavailable(() => {
+    $('#play-button,#pause-button,#stop-button,#image-mode-pc-scope,#image-mode-pc-flat,#image-mode-projector-scope,#image-mode-projector-flat')
+        .attr('disabled', true)
   })
 }

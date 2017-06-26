@@ -23,21 +23,26 @@
   text-align: center;
 }
 
+.radio-label input[type='radio'] {
+	-webkit-appearance: none;
+}
 .radio-label input[type='radio']:after {
-		width: 30px;
-		height: 30px;
-		border-radius: 15px;
-		top: -7px;
-		left: -10px;
-		position: relative;
-		background-color: #d1d3d1;
-		content: '';
-		display: inline-block;
-		border: 5px solid white;
+	width: 30px;
+	height: 30px;
+	border-radius: 15px;
+	top: -5px;
+	position: relative;
+	background-color: #d1d3d1;
+	content: '';
+	display: inline-block;
+	border: 5px solid white;
 }
 
+.radio-label input[type='radio']:disabled:after {
+	opacity: 0.7;
+}
 .radio-label input[type='radio']:checked:after {
-		background-color: green;
+	background-color: green;
 }
 
 #volume-mute-button.active
