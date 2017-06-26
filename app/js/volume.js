@@ -2,7 +2,7 @@ import apiConnection from './apiconnection'
 apiConnection.onmessage('volume', (msg) => {
   switch (msg.action) {
     case 'volume_changed':
-      volumeCallback(msg.volume)
+      volumeCallback(msg.volume/10.0)
       break
     case 'mute_status_changed':
       msg.muted ? muteCallback() : unmuteCallback()
