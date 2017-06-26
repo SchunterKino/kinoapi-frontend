@@ -7,12 +7,6 @@
   margin-right: 24px;
 }
 
-body {
-    min-width: 450px;
-    width: auto !important;
-    width: 450px;
-}
-
 .btn-default:focus
 {
   background-color: #ffffff;
