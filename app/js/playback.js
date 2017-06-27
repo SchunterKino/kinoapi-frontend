@@ -11,55 +11,25 @@ var playbackCallback
 var availableCallback
 var unavailableCallback
 module.exports = {
-  play: () => {
-    apiConnection.send(JSON.stringify({
-      msg_type: 'playback',
-      action: 'play'
-    }))
-  },
-  pause: () => {
-    apiConnection.send(JSON.stringify({
-      msg_type: 'playback',
-      action: 'pause'
-    }))
-  },
-  stop: () => {
-    apiConnection.send(JSON.stringify({
-      msg_type: 'playback',
-      action: 'stop'
-    }))
-  },
-  turnOnLamp: () => {
-    apiConnection.send(JSON.stringify({
-      msg_type: 'playback',
-      action: 'lamp_on'
-    }))
-  },
-  turnOffLamp: () => {
-    apiConnection.send(JSON.stringify({
-      msg_type: 'playback',
-      action: 'lamp_off'
-    }))
-  },
-  openDouser: () => {
-    apiConnection.send(JSON.stringify({
-      msg_type: 'playback',
-      action: 'douser_open'
-    }))
-  },
-  closeDouser: () => {
-    apiConnection.send(JSON.stringify({
-      msg_type: 'playback',
-      action: 'douser_close'
-    }))
-  },
-  setInput: (source) => {
-    apiConnection.send(JSON.stringify({
-      msg_type: 'playback',
-      action: 'set_input_mode',
-      mode: source
-    }))
-  },
+  play: () => send('play'),
+  pause: () => send('pause'),
+  stop: () => send('stop'),
+  turnOnLamp: () => send('lamp_on'),
+  turnOffLamp: () => send('lamp_off'),
+  openDouser: () => send('douser_open'),
+  closeDouser: () => send('douser_close'),
+  setInput: (mode) => send('set_input_mode', 'mode', mode),
   onAvailable: (callback) => availableCallback = callback,
   onUnavailable: (callback) => unavailableCallback = callback
+}
+
+function send(action, dataKey, dataValue) {
+  const msg = {
+    msg_type: 'playback',
+    action: action
+  }
+  if (dataKey) {
+    msg[dataKey] = dataValue
+  }
+  apiConnection.send(JSON.stringify(msg))
 }

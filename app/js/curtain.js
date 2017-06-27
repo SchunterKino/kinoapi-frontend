@@ -7,21 +7,18 @@ apiConnection.onmessage('curtain', (msg) => {
   }
 })
 
-var openedCallback;
-var closedCallback;
+var openedCallback
+var closedCallback
 module.exports = {
-  open: () => {
-    apiConnection.send(JSON.stringify({
-      msg_type: 'curtain',
-      action: 'open',
-    }))
-  },
-  close: () => {
-    apiConnection.send(JSON.stringify({
-      msg_type: 'curtain',
-      action: 'close',
-    }))
-  },
+  open: () => send('open'),
+  close: () => send('close'),
   onOpened: (callback) => openedCallback = callback,
   onClosed: (callback) => closedCallback = callback
+}
+
+function send(action) {
+  apiConnection.send(JSON.stringify({
+    msg_type: 'curtain',
+    action: action
+  }))
 }

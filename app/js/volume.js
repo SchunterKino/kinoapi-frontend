@@ -2,7 +2,7 @@ import apiConnection from './apiconnection'
 apiConnection.onmessage('volume', (msg) => {
   switch (msg.action) {
     case 'volume_changed':
-      volumeCallback(msg.volume/10.0)
+      volumeCallback(msg.volume / 10.0)
       break
     case 'mute_status_changed':
       msg.muted ? muteCallback() : unmuteCallback()
@@ -25,50 +25,27 @@ var inputCallback
 var availableCallback
 var unavailableCallback
 module.exports = {
-  setVolume: (value) => {
-    apiConnection.send(JSON.stringify({
-      msg_type: 'volume',
-      action: 'set_volume',
-      volume: parseInt(value * 10) // 4.0 -> 40
-    }))
-  },
-  increase: () => {
-    apiConnection.send(JSON.stringify({
-      msg_type: 'volume',
-      action: 'increase_volume',
-    }))
-  },
-  decrease: () => {
-    apiConnection.send(JSON.stringify({
-      msg_type: 'volume',
-      action: 'decrease_volume',
-    }))
-  },
-  mute: () => {
-    apiConnection.send(JSON.stringify({
-      msg_type: 'volume',
-      action: 'set_mute_status',
-      muted: true
-    }))
-  },
-  unmute: () => {
-    apiConnection.send(JSON.stringify({
-      msg_type: 'volume',
-      action: 'set_mute_status',
-      muted: false
-    }))
-  },
-  setInput: (mode) => {
-    apiConnection.send(JSON.stringify({
-      msg_type: 'volume',
-      action: 'set_input_mode',
-      mode: mode
-    }))
-  },
+  setVolume: (value) => send('set_volume', 'volume', parseInt(value * 10)), // 4.0 -> 40
+  increase: () => send('increase_volume'),
+  decrease: () => send('decrease_volume'),
+  mute: () => send('set_mute_status', 'muted', true),
+  unmute: () => send('set_mute_status', 'muted', false),
+  setInput: (mode) => send('set_input_mode', 'mode', mode),
   onVolumeChanged: (callback) => volumeCallback = callback,
   onUnmute: (callback) => unmuteCallback = callback,
   onMute: (callback) => muteCallback = callback,
   onInputChanged: (callback) => inputCallback = callback,
   onAvailable: (callback) => availableCallback = callback,
   onUnavailable: (callback) => unavailableCallback = callback
+}
+
+function send(action, dataKey, dataValue) {
+  const msg = {
+    msg_type: 'volume',
+    action: action
+  }
+  if (dataKey) {
+    msg[dataKey] = dataValue
+  }
+  apiConnection.send(JSON.stringify(msg))
 }
