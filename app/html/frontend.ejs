@@ -3,14 +3,14 @@
 
 <head>
   <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
   <title><%= htmlWebpackPlugin.options.title %></title>
 </head>
 
 <body>
-  <div class="container">
+  <div class="container text-center">
     <div class="page-header">
-      <img class="img-responsive center-block" src="<%= require('../logo.svg')%>">
+      <img class="img-responsive center-block" src="<%= require('../logo.svg')%>" alt="Logo">
     </div>
 
     <!-- projector -->
@@ -21,31 +21,41 @@
       <ul class="list-group">
         <!-- playback controls -->
         <li class="list-group-item">
-          <div class="panel-body btn-group" role="group" aria-label="Playback">
-            <button id="play-button" type="button" class="btn btn-default btn-lg">
-              <span class="glyphicon glyphicon-play"></span>
-            </button>
-            <button id="pause-button" type="button" class="btn btn-default btn-lg">
-              <span class="glyphicon glyphicon-pause"></span>
-            </button>
-            <button id="stop-button" type="button" class="btn btn-default btn-lg">
-              <span class="glyphicon glyphicon-stop"></span>
-            </button>
+          <div class="row ">
+            <div class="col-md-12">
+              <div class="btn-group" role="group" aria-label="Playback">
+                <button id="play-button" type="button" class="btn btn-default btn-lg">
+                  <span class="glyphicon glyphicon-play"></span>
+                </button>
+                <button id="pause-button" type="button" class="btn btn-default btn-lg">
+                  <span class="glyphicon glyphicon-pause"></span>
+                </button>
+                <button id="stop-button" type="button" class="btn btn-default btn-lg">
+                  <span class="glyphicon glyphicon-stop"></span>
+                </button>
+              </div>
+            </div>
           </div>
         </li>
         <!-- volume controls -->
         <li class="list-group-item">
-          <button id="volume-mute-button" type="button" class="btn btn-default">
-            <span class="glyphicon glyphicon-volume-off"></span>
-          </button>
-          <input id="volume-slider" data-slider-id="volume-slider-data" type="text" name="Lautstärke" data-provide="slider" data-slider-min="0.0" data-slider-max="5.0" data-slider-step="0.1" data-slider-value="0" data-slider-tooltip="always">
-          <div class="btn-group" role="group" aria-label="Lautstärke">
-            <button id="volume-down-button" type="button" class="btn btn-default">
-              <span class="glyphicon glyphicon-volume-down"></span>
-            </button>
-            <button id="volume-up-button" type="button" class="btn btn-default">
-              <span class="glyphicon glyphicon-volume-up"></span>
-            </button>
+          <div class="row vertical-align">
+            <div class="col-xs-offset-1 col-sm-offset-2 col-xs-5 col-sm-5">
+              <input id="volume-slider" data-slider-id="volume-slider-data" type="text" name="Lautstärke" data-provide="slider" data-slider-min="0.0" data-slider-max="5.0" data-slider-step="0.1" data-slider-value="0" data-slider-tooltip="always">
+            </div>
+            <div class=" col-xs-7 col-sm-3">
+              <div class="btn-group" role="group" aria-label="Lautstärke">
+                <button id="volume-mute-button" type="button" class="btn btn-default">
+                  <span class="glyphicon glyphicon-volume-off"></span>
+                </button>
+                <button id="volume-down-button" type="button" class="btn btn-default">
+                  <span class="glyphicon glyphicon-volume-down"></span>
+                </button>
+                <button id="volume-up-button" type="button" class="btn btn-default">
+                  <span class="glyphicon glyphicon-volume-up"></span>
+                </button>
+              </div>
+            </div>
           </div>
         </li>
       </ul>
@@ -77,12 +87,15 @@
     <!-- input modes -->
     <div class="panel panel-default">
       <div class="panel-heading">
-        <h3 class="panel-title">Input Modes</h3>
+        <h3 class="panel-title">Video- und Audioquelle</h3>
       </div>
       <ul class="list-group">
         <!-- image mode -->
         <li class="list-group-item">
-          <div class="panel-body btn-group" role="group" aria-label="Image Mode">
+          <div class="col-xs-12 col-sm-1">
+            <label>Video:</label>
+          </div>
+          <div id="image-mode" class="btn-group" role="group" aria-label="Video">
             <button id="image-mode-projector-flat" type="button" class="btn btn-default">Projektor-Flat</button>
             <button id="image-mode-projector-scope" type="button" class="btn btn-default">Projektor-Scope</button>
             <button id="image-mode-pc-flat" type="button" class="btn btn-default">PC-Flat</button>
@@ -91,27 +104,32 @@
         </li>
         <!-- sound mode -->
         <li class="list-group-item clearfix">
-          <label class="radio-label">Digital 1<br />
-            <input type="radio" name="sound-mode" value="0" />
+          <div class="col-xs-12 col-sm-1">
+            <label>Audio:</label>
+          </div>
+          <label class="sound-mode-label">Digital 1<br />
+            <input type="radio" name="sound-mode" value="0" /><span></span>
           </label>
-          <label class="radio-label">Digital 2<br />
-            <input type="radio" name="sound-mode" value="1" />
+          <label class="sound-mode-label">Digital 2<br />
+            <input type="radio" name="sound-mode" value="1" /><span></span>
           </label>
-          <label class="radio-label">Digital 3<br />
-            <input type="radio" name="sound-mode" value="2" />
+          <label class="sound-mode-label">Digital 3<br />
+            <input type="radio" name="sound-mode" value="2" /><span></span>
           </label>
-          <label class="radio-label">Digital 4<br />
-            <input type="radio" name="sound-mode" value="3" />
+          <label class="sound-mode-label">Digital 4<br />
+            <input type="radio" name="sound-mode" value="3" /><span></span>
           </label>
-          <label class="radio-label">Multi-Ch Analog<br />
-            <input type="radio" name="sound-mode" value="4" />
+          <label class="sound-mode-label">Multi-Ch Analog<br />
+            <input type="radio" name="sound-mode" value="4" /><span></span>
           </label>
-          <label class="radio-label">NonSync<br />
-            <input type="radio" name="sound-mode" value="5" />
+          <label class="sound-mode-label">NonSync<br />
+            <input type="radio" name="sound-mode" value="5" /><span></span>
           </label>
         </li>
+      </ul>
     </div>
   </div>
+
 </body>
 
 </html>
