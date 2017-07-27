@@ -1,13 +1,18 @@
 import apiConnection from './apiconnection'
 apiConnection.onmessage('playback', (msg) => {
-  if (msg.action == 'projector_connection') {
-    msg.connected ? availableCallback() : unavailableCallback()
-  } else {
-    console.log('unsupported action ' + msg.action)
+  switch (msg.action) {
+    case 'projector_connection':
+      msg.connected ? availableCallback() : unavailableCallback()
+      break
+    case 'lamp_off':
+      lampCallback(msg.timestamp)
+      break
+    default:
+      console.log('unsupported action: ' + msg.action)
   }
 })
 
-var playbackCallback
+var lampCallback
 var availableCallback
 var unavailableCallback
 module.exports = {
@@ -19,6 +24,7 @@ module.exports = {
   openDouser: () => send('douser_open'),
   closeDouser: () => send('douser_close'),
   setInput: (mode) => send('set_input_mode', 'mode', mode),
+  onLampOff: (callback) => lampCallback = callback,
   onAvailable: (callback) => availableCallback = callback,
   onUnavailable: (callback) => unavailableCallback = callback
 }

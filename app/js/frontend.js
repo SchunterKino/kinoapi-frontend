@@ -8,6 +8,7 @@ import 'bootstrap-slider'
 import 'bootstrap-slider/dist/css/bootstrap-slider.css'
 import toastr from 'toastr'
 import 'toastr/build/toastr.css'
+import Notify from 'notifyjs'
 import '../css/frontend.css'
 import apiConnection from './apiconnection'
 import connectingDialog from './dialog'
@@ -17,6 +18,8 @@ import curtain from './curtain'
 import lights from './lights'
 
 const connectionMessage = 'Verbinde mit Server…'
+const lampMessage = 'Projektorlampe ist aus!'
+const lampMessageBody = 'Ausgeschaltet um ' // TODO string interpolation ?
 $(() => {
   initDialog()
   initToasts()
@@ -78,6 +81,21 @@ function initProjectorControl() {
   $('#lamp-off-button').click(playback.turnOffLamp)
   $('#douser-open-button').click(playback.openDouser)
   $('#douser-close-button').click(playback.closeDouser)
+  if (Notify.needsPermission && Notify.isSupported()) {
+    Notify.requestPermission(onPermissionGranted, onPermissionDenied);
+  }
+  playback.onLampOff((timestamp) => {
+    const minutes = 1000 * 60
+    const t = new Date(timestamp)
+    const interval = new Date() - t
+    if (interval < 20*minutes) {
+      new Notify(lampMessage, {
+        body: lampMessageBody + t.getHours() + ':' + t.getMinutes(),
+        closeOnClick: true
+      }).show()
+      toastr.info(lampMessage)
+    }
+  })
 }
 
 function initCurtainControl() {
