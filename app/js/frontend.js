@@ -33,7 +33,7 @@ $(() => {
 
 function initDialog() {
   connectingDialog.show(connectionMessage)
-  apiConnection.onopen(() => connectingDialog.hide())
+  apiConnection.onopen(connectingDialog.hide)
   apiConnection.onclose(() => connectingDialog.show(connectionMessage))
 }
 
@@ -46,9 +46,9 @@ function initToasts() {
 }
 
 function initPlaybackControl() {
-  $('#play-button').click(() => playback.play())
-  $('#pause-button').click(() => playback.pause())
-  $('#stop-button').click(() => playback.stop())
+  $('#play-button').click(playback.play)
+  $('#pause-button').click(playback.pause)
+  $('#stop-button').click(playback.stop)
 }
 
 function initVolumeControl() {
@@ -63,18 +63,18 @@ function initVolumeControl() {
   volume.onMute(() => $('#volume-mute-button').addClass('active'))
   volume.onUnmute(() => $('#volume-mute-button').removeClass('active'))
 
-  $('#volume-up-button').click(() => volume.increase())
-  $('#volume-down-button').click(() => volume.decrease())
+  $('#volume-up-button').click(volume.increase)
+  $('#volume-down-button').click(volume.decrease)
 }
 
 function initLampControl() {
-  $('#lamp-on-button').click(() => playback.turnOnLamp())
-  $('#lamp-off-button').click(() => playback.turnOffLamp())
+  $('#lamp-on-button').click(playback.turnOnLamp)
+  $('#lamp-off-button').click(playback.turnOffLamp)
 }
 
 function initDouserControl() {
-  $('#douser-open-button').click(() => playback.openDouser())
-  $('#douser-close-button').click(() => playback.closeDouser())
+  $('#douser-open-button').click(playback.openDouser)
+  $('#douser-close-button').click(playback.closeDouser)
 }
 
 function initLightControl() {
