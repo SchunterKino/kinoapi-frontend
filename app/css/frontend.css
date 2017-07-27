@@ -47,6 +47,7 @@ body {
 .sound-mode-label {
     padding: 0 1em;
     font-weight: normal;
+    cursor: pointer;
 }
 .sound-mode-label input[type="radio"] {
     display: none;
