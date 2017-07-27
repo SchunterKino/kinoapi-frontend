@@ -16,7 +16,7 @@
     <!-- projector -->
     <div class="panel panel-default">
       <div class="panel-heading">
-        <h3 class="panel-title">Projektor</h3>
+        <h3 class="panel-title">Wiedergabe</h3>
       </div>
       <ul class="list-group">
         <!-- playback controls -->
@@ -58,22 +58,6 @@
             </div>
           </div>
         </li>
-        <!-- lamp/douser controls -->
-        <li class="list-group-item">
-          <div class="row">
-            <div class="col-md-6">
-              <div class="btn-group" role="group" aria-label="Lampe">
-                <button id="lamp-on-button" type="button" class="btn btn-default">Lampe An</button>
-                <button id="lamp-off-button" type="button" class="btn btn-default">Lampe Aus</button>
-              </div>
-            </div>
-            <div class="col-md-6">
-              <div class="btn-group" role="group" aria-label="Klappe">
-                <button id="douser-open-button" type="button" class="btn btn-default">Klappe öffnen</button>
-                <button id="douser-close-button" type="button" class="btn btn-default">Klappe schließen</button>
-            </div>
-          </div>
-        </li>
       </ul>
     </div>
 
@@ -88,6 +72,29 @@
         <button id="light-button-66" type="button" class="btn btn-default">66%</button>
         <button id="light-button-100" type="button" class="btn btn-default">100%</button>
       </div>
+    </div>
+
+    <!-- projector (lamp+douser) -->
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">Projektor</h3>
+      </div>
+      <ul class="list-group">
+        <li class="list-group-item clearfix">
+          <div class="col-md-6 col-pad">
+            <div class="btn-group" role="group" aria-label="Lampe">
+              <button id="lamp-on-button" type="button" class="btn btn-default">Lampe An</button>
+              <button id="lamp-off-button" type="button" class="btn btn-default">Lampe Aus</button>
+            </div>
+          </div>
+          <div class="col-md-6 col-pad">
+            <div class="btn-group" role="group" aria-label="Klappe">
+              <button id="douser-open-button" type="button" class="btn btn-default">Klappe öffnen</button>
+              <button id="douser-close-button" type="button" class="btn btn-default">Klappe schließen</button>
+            </div>
+          </div>
+        </li>
+      </ul>
     </div>
 
     <!-- curtain -->
@@ -107,15 +114,21 @@
       </div>
       <ul class="list-group">
         <!-- image mode -->
-        <li class="list-group-item">
+        <li class="list-group-item clearfix">
           <div class="col-xs-12 col-sm-1">
             <label>Video:</label>
           </div>
-          <div id="image-mode" class="btn-group" role="group" aria-label="Video">
-            <button id="image-mode-projector-flat" type="button" class="btn btn-default">Projektor-Flat</button>
-            <button id="image-mode-projector-scope" type="button" class="btn btn-default">Projektor-Scope</button>
-            <button id="image-mode-pc-flat" type="button" class="btn btn-default">PC-Flat</button>
-            <button id="image-mode-pc-scope" type="button" class="btn btn-default">PC-Scope</button>
+          <div class="col-sm-5 col-pad">
+            <div id="image-mode" class="btn-group" role="group" aria-label="Video-Projektor">
+              <button id="image-mode-projector-flat" type="button" class="btn btn-default">Projektor-Flat</button>
+              <button id="image-mode-projector-scope" type="button" class="btn btn-default">Projektor-Scope</button>
+            </div>
+          </div>
+          <div class="col-md-6 col-pad">
+            <div class="btn-group" role="group" aria-label="Video-PC">
+              <button id="image-mode-pc-flat" type="button" class="btn btn-default">PC-Flat</button>
+              <button id="image-mode-pc-scope" type="button" class="btn btn-default">PC-Scope</button>
+            </div>
           </div>
         </li>
         <!-- sound mode -->

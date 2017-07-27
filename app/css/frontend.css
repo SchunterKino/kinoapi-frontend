@@ -7,6 +7,11 @@
     align-items: center;
     justify-content: center;
 }
+@media (max-width: 991px) {
+  .col-pad {
+    margin-bottom: 6px;
+  }
+}
 
 body {
     background: linear-gradient(#fef400, #e77817) fixed;
