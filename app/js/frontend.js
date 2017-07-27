@@ -22,9 +22,8 @@ $(() => {
   initToasts()
   initPlaybackControl()
   initVolumeControl()
-  initLampControl()
-  initDouserControl()
   initLightControl()
+  initProjectorControl()
   initCurtainControl()
   initInputControl()
   initAvailability()
@@ -67,21 +66,18 @@ function initVolumeControl() {
   $('#volume-down-button').click(volume.decrease)
 }
 
-function initLampControl() {
-  $('#lamp-on-button').click(playback.turnOnLamp)
-  $('#lamp-off-button').click(playback.turnOffLamp)
-}
-
-function initDouserControl() {
-  $('#douser-open-button').click(playback.openDouser)
-  $('#douser-close-button').click(playback.closeDouser)
-}
-
 function initLightControl() {
   const levels = [0, 33, 66, 100]
   for (let i in levels) {
     $('#light-button-' + levels[i]).click(() => lights.setLightLevel(i))
   }
+}
+
+function initProjectorControl() {
+  $('#lamp-on-button').click(playback.turnOnLamp)
+  $('#lamp-off-button').click(playback.turnOffLamp)
+  $('#douser-open-button').click(playback.openDouser)
+  $('#douser-close-button').click(playback.closeDouser)
 }
 
 function initCurtainControl() {
@@ -93,23 +89,27 @@ function initCurtainControl() {
 }
 
 function initInputControl() {
-  $('input[name="sound-mode"]:radio').change((e) => volume.setInput(e.target.value))
-  volume.onInputChanged((inputMode) => $('input[name="sound-mode"]').val([inputMode]))
   $('#image-mode-pc-scope').click(() => playback.setInput('pc_scope'))
   $('#image-mode-pc-flat').click(() => playback.setInput('pc_flat'))
   $('#image-mode-projector-scope').click(() => playback.setInput('cinema_scope'))
   $('#image-mode-projector-flat').click(() => playback.setInput('cinema_flat'))
+  $('input[name="sound-mode"]:radio').change((e) => volume.setInput(e.target.value))
+  volume.onInputChanged((inputMode) => $('input[name="sound-mode"]').val([inputMode]))
+  $('input[name="decode-mode"]:radio').change((e) => volume.setDecoding(e.target.value))
+  volume.onDecodingChanged((decodeMode) => $('input[name="decode-mode"]').val([decodeMode]))
 }
 
 function initAvailability() {
   volume.onAvailable(() => {
     $('#volume-up-button,#volume-down-button,#volume-mute-button').attr('disabled', false)
     $('input[name="sound-mode"]:radio').attr('disabled', false)
+    $('input[name="decode-mode"]:radio').attr('disabled', false)
     $('#volume-slider').slider('enable')
   })
   volume.onUnavailable(() => {
     $('#volume-up-button,#volume-down-button,#volume-mute-button').attr('disabled', true)
     $('input[name="sound-mode"]:radio').attr('disabled', true)
+    $('input[name="decode-mode"]:radio').attr('disabled', true)
     $('#volume-slider').slider('disable')
   })
 
