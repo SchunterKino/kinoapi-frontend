@@ -22,6 +22,8 @@ $(() => {
   initToasts()
   initPlaybackControl()
   initVolumeControl()
+  initLampControl()
+  initDouserControl()
   initLightControl()
   initCurtainControl()
   initInputControl()
@@ -65,6 +67,16 @@ function initVolumeControl() {
   $('#volume-down-button').click(() => volume.decrease())
 }
 
+function initLampControl() {
+  $('#lamp-on-button').click(() => playback.turnOnLamp())
+  $('#lamp-off-button').click(() => playback.turnOffLamp())
+}
+
+function initDouserControl() {
+  $('#douser-open-button').click(() => playback.openDouser())
+  $('#douser-close-button').click(() => playback.closeDouser())
+}
+
 function initLightControl() {
   const levels = [0, 33, 66, 100]
   for (let i in levels) {
@@ -105,9 +117,13 @@ function initAvailability() {
   lights.onUnavailable(() => $('[id^=light-button-]').attr('disabled', true))
 
   playback.onAvailable(() => {
-    $('#play-button,#pause-button,#stop-button,[id^=image-mode-]').attr('disabled', false)
+    $('#play-button,#pause-button,#stop-button').attr('disabled', false)
+    $('#lamp-on-button,#lamp-off-button,#douser-open-button,#douser-close-button').attr('disabled', false)
+    $('[id^=image-mode-]').attr('disabled', false)
   })
   playback.onUnavailable(() => {
-    $('#play-button,#pause-button,#stop-button,[id^=image-mode-]').attr('disabled', true)
+    $('#play-button,#pause-button,#stop-button').attr('disabled', true)
+    $('#lamp-on-button,#lamp-off-button,#douser-open-button,#douser-close-button').attr('disabled', true)
+    $('[id^=image-mode-]').attr('disabled', true)
   })
 }
