@@ -13,6 +13,9 @@ apiConnection.onmessage('volume', (msg) => {
     case 'input_mode_changed':
       inputCallback(msg.mode)
       break
+    case 'decode_mode_changed':
+      decodingCallback(msg.mode)
+      break
     default:
       console.log('unsupported action: ' + msg.action)
   }
@@ -22,6 +25,7 @@ var volumeCallback
 var unmuteCallback
 var muteCallback
 var inputCallback
+var decodingCallback
 var availableCallback
 var unavailableCallback
 module.exports = {
@@ -31,10 +35,12 @@ module.exports = {
   mute: () => send('set_mute_status', 'muted', true),
   unmute: () => send('set_mute_status', 'muted', false),
   setInput: (mode) => send('set_input_mode', 'mode', mode),
+  setDecoding: (mode) => send('set_decode_mode', 'mode', mode),
   onVolumeChanged: (callback) => volumeCallback = callback,
   onUnmute: (callback) => unmuteCallback = callback,
   onMute: (callback) => muteCallback = callback,
   onInputChanged: (callback) => inputCallback = callback,
+  onDecodingChanged: (callback) => decodingCallback = callback,
   onAvailable: (callback) => availableCallback = callback,
   onUnavailable: (callback) => unavailableCallback = callback
 }
