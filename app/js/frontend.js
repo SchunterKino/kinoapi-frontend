@@ -82,7 +82,7 @@ function initProjectorControl() {
   $('#douser-open-button').click(playback.openDouser)
   $('#douser-close-button').click(playback.closeDouser)
   if (Notify.needsPermission && Notify.isSupported()) {
-    Notify.requestPermission(onPermissionGranted, onPermissionDenied);
+    Notify.requestPermission();
   }
   playback.onLampOff((timestamp) => {
     const minutes = 1000 * 60
