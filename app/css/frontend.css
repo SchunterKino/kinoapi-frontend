@@ -8,9 +8,9 @@
     justify-content: center;
 }
 @media (max-width: 991px) {
-  .col-pad {
-    margin-bottom: 6px;
-  }
+    .col-pad {
+        margin-bottom: 6px;
+    }
 }
 
 body {
@@ -49,6 +49,10 @@ body {
     font-weight: normal;
     cursor: pointer;
 }
+.sound-mode-label.disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+}
 .sound-mode-label input[type="radio"] {
     display: none;
 }
@@ -64,6 +68,7 @@ body {
 }
 .sound-mode-label input[type='radio']:disabled+span {
     opacity: 0.7;
+    cursor: not-allowed;
 }
 .sound-mode-label input[type="radio"]:checked+span {
     background-color: green;

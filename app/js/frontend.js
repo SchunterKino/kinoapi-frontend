@@ -133,6 +133,7 @@ function disableVolumeControls(disabled) {
   $('#volume-up-button,#volume-down-button,#volume-mute-button').attr('disabled', disabled)
   $('input[name="sound-mode"]:radio').attr('disabled', disabled)
   $('input[name="decode-mode"]:radio').attr('disabled', disabled)
+  $('.sound-mode-label').toggleClass('disabled', disabled)
   $('#volume-slider').slider(disabled ? 'disable' : 'enable')
 }
 
