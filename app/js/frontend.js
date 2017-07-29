@@ -118,30 +118,30 @@ function initInputControl() {
 }
 
 function initAvailability() {
-  volume.onAvailable(() => {
-    $('#volume-up-button,#volume-down-button,#volume-mute-button').attr('disabled', false)
-    $('input[name="sound-mode"]:radio').attr('disabled', false)
-    $('input[name="decode-mode"]:radio').attr('disabled', false)
-    $('#volume-slider').slider('enable')
-  })
-  volume.onUnavailable(() => {
-    $('#volume-up-button,#volume-down-button,#volume-mute-button').attr('disabled', true)
-    $('input[name="sound-mode"]:radio').attr('disabled', true)
-    $('input[name="decode-mode"]:radio').attr('disabled', true)
-    $('#volume-slider').slider('disable')
-  })
+  disableVolumeControls(true)
+  disableLightControls(true)
+  disableProjektorControls(true)
+  volume.onAvailable(() => disableVolumeControls(false))
+  volume.onUnavailable(() => disableVolumeControls(true))
+  lights.onAvailable(() => disableLightControls(false))
+  lights.onUnavailable(() => disableLightControls(true))
+  playback.onAvailable(() => disableProjektorControls(false))
+  playback.onUnavailable(() => disableProjektorControls(true))
+}
 
-  lights.onAvailable(() => $('[id^=light-button-]').attr('disabled', false))
-  lights.onUnavailable(() => $('[id^=light-button-]').attr('disabled', true))
+function disableVolumeControls(disabled) {
+  $('#volume-up-button,#volume-down-button,#volume-mute-button').attr('disabled', disabled)
+  $('input[name="sound-mode"]:radio').attr('disabled', disabled)
+  $('input[name="decode-mode"]:radio').attr('disabled', disabled)
+  $('#volume-slider').slider(disabled ? 'disable' : 'enable')
+}
 
-  playback.onAvailable(() => {
-    $('#play-button,#pause-button,#stop-button').attr('disabled', false)
-    $('#lamp-on-button,#lamp-off-button,#douser-open-button,#douser-close-button').attr('disabled', false)
-    $('[id^=image-mode-]').attr('disabled', false)
-  })
-  playback.onUnavailable(() => {
-    $('#play-button,#pause-button,#stop-button').attr('disabled', true)
-    $('#lamp-on-button,#lamp-off-button,#douser-open-button,#douser-close-button').attr('disabled', true)
-    $('[id^=image-mode-]').attr('disabled', true)
-  })
+function disableLightControls(disabled) {
+  $('[id^=light-button-]').attr('disabled', disabled)
+}
+
+function disableProjektorControls(disabled) {
+  $('#play-button,#pause-button,#stop-button').attr('disabled', disabled)
+  $('#lamp-on-button,#lamp-off-button,#douser-open-button,#douser-close-button').attr('disabled', disabled)
+  $('[id^=image-mode-]').attr('disabled', disabled)
 }
