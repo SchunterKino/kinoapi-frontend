@@ -5,6 +5,10 @@
   <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
   <title><%= htmlWebpackPlugin.options.title %></title>
+  <noscript>
+    <!-- hide jsonly elements when javascript is not enabled -->
+    <style> .jsonly { display: none } </style>
+  </noscript>
 </head>
 
 <body>
@@ -13,8 +17,15 @@
       <img class="img-responsive center-block" src="<%= require('../logo.svg')%>" alt="Logo">
     </div>
 
+    <!-- no script info -->
+    <noscript>
+      <div class="alert alert-danger" role="alert">
+        Bitte <a href="http://www.enable-javascript.com/de/" target="_blank">JavaScript einschalten</a> um die Fernbedienung zu benutzen!
+      </div>
+    </noscript>
+
     <!-- projector -->
-    <div class="panel panel-default">
+    <div class="panel panel-default jsonly">
       <div class="panel-heading">
         <h3 class="panel-title">Wiedergabe</h3>
       </div>
@@ -62,7 +73,7 @@
     </div>
 
     <!-- lights -->
-    <div class="panel panel-default">
+    <div class="panel panel-default jsonly">
       <div class="panel-heading">
         <h3 class="panel-title">Licht</h3>
       </div>
@@ -75,7 +86,7 @@
     </div>
 
     <!-- projector (lamp+douser) -->
-    <div class="panel panel-default">
+    <div class="panel panel-default jsonly">
       <div class="panel-heading">
         <h3 class="panel-title">Projektor</h3>
       </div>
@@ -98,7 +109,7 @@
     </div>
 
     <!-- curtain -->
-    <div class="panel panel-default hidden">
+    <div class="panel panel-default jsonly hidden">
       <div class="panel-heading">
         <h3 class="panel-title">Vorhang</h3>
       </div>
@@ -108,7 +119,7 @@
     </div>
 
     <!-- input modes -->
-    <div class="panel panel-default">
+    <div class="panel panel-default jsonly">
       <div class="panel-heading">
         <h3 class="panel-title">Video- und Audioquelle</h3>
       </div>
