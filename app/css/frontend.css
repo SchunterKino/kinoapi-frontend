@@ -74,3 +74,17 @@ body {
 .sound-mode-label input[type="radio"]:checked+span {
     background-color: green;
 }
+
+.dialog {
+    padding-top:15%;
+    overflow-y:visible;
+}
+.dialog .dialog-message {
+    margin:0;
+}
+.dialog .progress {
+    margin-bottom:0;
+}
+.dialog .progress-bar {
+   width: 100%;
+}
