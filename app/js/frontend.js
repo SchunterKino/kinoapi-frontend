@@ -10,7 +10,8 @@ import toastr from 'toastr'
 import 'toastr/build/toastr.css'
 import Notify from 'notifyjs'
 import '../css/frontend.css'
-import connectingDialog from './dialog/progress'
+import progressDialog from './dialog/progress'
+import loginDialog from './dialog/login'
 import apiConnection from './api/connection'
 import playback from './api/playback'
 import volume from './api/volume'
@@ -19,9 +20,9 @@ import lights from './api/lights'
 
 const connectionMessage = 'Verbinde mit Server…'
 const lampMessage = 'Projektorlampe ist aus!'
-const lampMessageBody = 'Ausgeschaltet um ' // TODO string interpolation ?
+const lampMessageBody = 'Ausgeschaltet um '
 $(() => {
-  initDialog()
+  initDialogs()
   initToasts()
   initPlaybackControl()
   initVolumeControl()
@@ -30,13 +31,18 @@ $(() => {
   initCurtainControl()
   initInputControl()
   initAvailability()
-  apiConnection.connect(true)
+  progressDialog.show(connectionMessage)
+  apiConnection.connect()
 })
 
-function initDialog() {
-  connectingDialog.show(connectionMessage)
-  apiConnection.onopen(connectingDialog.hide)
-  apiConnection.onclose(() => connectingDialog.show(connectionMessage))
+function initDialogs() {
+  apiConnection.onOpen(progressDialog.hide)
+  apiConnection.onClose(() => progressDialog.show(connectionMessage))
+  apiConnection.onAuthRequired(() => loginDialog.show())
+  loginDialog.onLogin((user, password) => {
+    apiConnection.login(user, password)
+    loginDialog.hide()
+  })
 }
 
 function initToasts() {
@@ -44,7 +50,7 @@ function initToasts() {
     positionClass: 'toast-bottom-full-width',
     preventDuplicates: true
   }
-  apiConnection.onerror((msg) => toastr.error(msg))
+  apiConnection.onError((msg) => toastr.error(msg))
 }
 
 function initPlaybackControl() {
@@ -88,7 +94,7 @@ function initProjectorControl() {
     const minutes = 1000 * 60
     const t = new Date(timestamp)
     const interval = new Date() - t
-    if (interval < 20*minutes) {
+    if (interval < 20 * minutes) {
       new Notify(lampMessage, {
         body: lampMessageBody + t.getHours() + ':' + t.getMinutes(),
         closeOnClick: true

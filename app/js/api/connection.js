@@ -1,18 +1,32 @@
 const callbacks = {} // type - callback
+const storageKey = 'de.schunterkino.remote'
+var token = localStorage.getItem(storageKey);
 var socket
 var openCallback
 var closeCallback
 var errorCallback
+var authCallback
 module.exports = {
   onmessage: (type, callback) => callbacks[type] = callback,
   send: (msg) => socket.send(msg),
-  onopen: (callback) => openCallback = callback,
-  onclose: (callback) => closeCallback = callback,
-  onerror: (callback) => errorCallback = callback,
+  onOpen: (callback) => openCallback = callback,
+  onClose: (callback) => closeCallback = callback,
+  onError: (callback) => errorCallback = callback,
+  onAuthRequired: (callback) => authCallback = callback,
+  login: login,
   connect: connect
 }
 
-function connect(retry) {
+function login(user, password) {
+  // TODO hash token or get token from api?
+  // TODO use token as query parameter, cookie or in data?
+  // TODO success/failure callback?
+  token = user + password
+  localStorage.setItem(storageKey, token);
+  connect()
+}
+
+function connect(retry = true) {
   console.log('WS connecting...')
   socket = new WebSocket('wss://remote.schunterkino.de:8641')
 
