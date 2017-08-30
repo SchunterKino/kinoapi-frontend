@@ -1,5 +1,5 @@
-import apiConnection from './apiconnection'
-apiConnection.onmessage('curtain', (msg) => {
+import connection from './connection'
+connection.onmessage('curtain', (msg) => {
   if (msg.action === 'open') {
     openedCallback()
   } else if (msg.action === 'close') {
@@ -17,7 +17,7 @@ module.exports = {
 }
 
 function send(action) {
-  apiConnection.send(JSON.stringify({
+  connection.send(JSON.stringify({
     msg_type: 'curtain',
     action: action
   }))

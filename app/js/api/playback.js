@@ -1,5 +1,5 @@
-import apiConnection from './apiconnection'
-apiConnection.onmessage('playback', (msg) => {
+import connection from './connection'
+connection.onmessage('playback', (msg) => {
   switch (msg.action) {
     case 'projector_connection':
       msg.connected ? availableCallback() : unavailableCallback()
@@ -37,5 +37,5 @@ function send(action, dataKey, dataValue) {
   if (dataKey) {
     msg[dataKey] = dataValue
   }
-  apiConnection.send(JSON.stringify(msg))
+  connection.send(JSON.stringify(msg))
 }

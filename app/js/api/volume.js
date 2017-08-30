@@ -1,5 +1,5 @@
-import apiConnection from './apiconnection'
-apiConnection.onmessage('volume', (msg) => {
+import connection from './connection'
+connection.onmessage('volume', (msg) => {
   switch (msg.action) {
     case 'volume_changed':
       volumeCallback(msg.volume / 10.0)
@@ -53,5 +53,5 @@ function send(action, dataKey, dataValue) {
   if (dataKey) {
     msg[dataKey] = dataValue
   }
-  apiConnection.send(JSON.stringify(msg))
+  connection.send(JSON.stringify(msg))
 }
