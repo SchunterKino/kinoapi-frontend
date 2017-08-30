@@ -4,7 +4,9 @@
 <head>
   <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-  <title><%= htmlWebpackPlugin.options.title %></title>
+  <title>
+    <%= htmlWebpackPlugin.options.title %>
+  </title>
   <noscript>
     <!-- hide jsonly elements when javascript is not enabled -->
     <style> .jsonly { display: none } </style>
@@ -24,7 +26,7 @@
       </div>
     </noscript>
 
-    <!-- projector -->
+    <!-- projector (playback+volume) -->
     <div class="panel panel-default jsonly">
       <div class="panel-heading">
         <h3 class="panel-title">Wiedergabe</h3>
@@ -149,22 +151,22 @@
           </div>
           <div class="col-xs-12 col-sm-10">
             <label class="sound-mode-label">Digital 1<br />
-              <input type="radio" name="sound-mode" value="0" /><span></span>
+              <input type="radio" name="sound-mode" value="0"/><span></span>
             </label>
             <label class="sound-mode-label">Digital 2<br />
-              <input type="radio" name="sound-mode" value="1" /><span></span>
+              <input type="radio" name="sound-mode" value="1"/><span></span>
             </label>
             <label class="sound-mode-label">Digital 3<br />
-              <input type="radio" name="sound-mode" value="2" /><span></span>
+              <input type="radio" name="sound-mode" value="2"/><span></span>
             </label>
             <label class="sound-mode-label">Digital 4<br />
-              <input type="radio" name="sound-mode" value="3" /><span></span>
+              <input type="radio" name="sound-mode" value="3"/><span></span>
             </label>
             <label class="sound-mode-label">Multi-Ch<br />
-              <input type="radio" name="sound-mode" value="4" /><span></span>
+              <input type="radio" name="sound-mode" value="4"/><span></span>
             </label>
             <label class="sound-mode-label">NonSync<br />
-              <input type="radio" name="sound-mode" value="5" /><span></span>
+              <input type="radio" name="sound-mode" value="5"/><span></span>
             </label>
           </div>
         </li>
@@ -175,12 +177,12 @@
           </div>
           <div class="col-xs-6 col-sm-5">
             <label class="sound-mode-label">5.1 Surround<br />
-              <input type="radio" name="decode-mode" value="3" /><span></span>
+              <input type="radio" name="decode-mode" value="3"/><span></span>
             </label>
           </div>
           <div class="col-xs-6 col-sm-5">
             <label class="sound-mode-label">7.1 Surround<br />
-              <input type="radio" name="decode-mode" value="6" /><span></span>
+              <input type="radio" name="decode-mode" value="6"/><span></span>
             </label>
           </div>
         </li>
