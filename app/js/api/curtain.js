@@ -1,9 +1,14 @@
 import connection from './connection'
 connection.onmessage('curtain', (msg) => {
-  if (msg.action === 'open') {
-    openedCallback()
-  } else if (msg.action === 'close') {
-    closedCallback()
+  switch (msg.action) {
+    case 'open':
+      openedCallback()
+      break
+    case 'close':
+      closedCallback()
+      break
+    default:
+      console.warn('unsupported action: ' + msg.action)
   }
 })
 

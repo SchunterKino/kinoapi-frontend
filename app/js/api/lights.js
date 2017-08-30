@@ -1,9 +1,11 @@
 import connection from './connection'
 connection.onmessage('lights', (msg) => {
-  if (msg.action == 'lights_connection') {
-    msg.connected ? availableCallback() : unavailableCallback()
-  } else {
-    console.log('unsupported action ' + msg.action)
+  switch (msg.action) {
+    case 'lights_connection':
+      msg.connected ? availableCallback() : unavailableCallback()
+      break
+    default:
+      console.warn('unsupported action: ' + msg.action)
   }
 })
 
