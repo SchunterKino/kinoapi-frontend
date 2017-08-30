@@ -88,3 +88,8 @@ body {
 .dialog .progress-bar {
    width: 100%;
 }
+@media (min-width: 768px) {
+   .dialog button {
+      float: right;
+   }
+}
