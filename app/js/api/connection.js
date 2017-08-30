@@ -14,7 +14,7 @@ module.exports = {
 
 function connect(retry) {
   console.log('WS connecting...')
-  socket = new WebSocket('ws://remote.schunterkino.de:8641')
+  socket = new WebSocket('wss://remote.schunterkino.de:8641')
 
   socket.onopen = () => {
     console.log('WS opened')
