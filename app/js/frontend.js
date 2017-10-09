@@ -38,9 +38,9 @@ $(() => {
 function initDialogs() {
   apiConnection.onOpen(progressDialog.hide)
   apiConnection.onClose(() => progressDialog.show(connectionMessage))
-  apiConnection.onAuthRequired(() => loginDialog.show())
+  apiConnection.onUnauthorized(() => loginDialog.show())
   loginDialog.onLogin((user, password) => {
-    apiConnection.login(user, password)
+    apiConnection.connect(user, password)
     loginDialog.hide()
   })
 }
