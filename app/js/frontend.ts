@@ -1,15 +1,13 @@
-import 'babel-polyfill'
-import $ from 'jquery'
 import 'bootstrap'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-toggle'
 import 'bootstrap-toggle/css/bootstrap-toggle.css'
 import 'bootstrap-slider'
 import 'bootstrap-slider/dist/css/bootstrap-slider.css'
-import toastr from 'toastr'
+import * as Toastr from 'toastr'
 import 'toastr/build/toastr.css'
-import Notify from 'notifyjs'
-import '../css/frontend.css'
+import * as Notify from 'notifyjs'
+import '../css/frontend'
 import progressDialog from './dialog/progress'
 import loginDialog from './dialog/login'
 import apiConnection from './api/connection'
@@ -46,11 +44,11 @@ function initDialogs() {
 }
 
 function initToasts() {
-  toastr.options = {
+  Toastr.options = {
     positionClass: 'toast-bottom-full-width',
     preventDuplicates: true
   }
-  apiConnection.onError((msg) => toastr.error(msg))
+  apiConnection.onError((msg) => Toastr.error(msg))
 }
 
 function initPlaybackControl() {
@@ -60,7 +58,7 @@ function initPlaybackControl() {
 }
 
 function initVolumeControl() {
-  $('#volume-slider').change((evt) => volume.setVolume(evt.value.newValue))
+  $('#volume-slider').change((e: any) => volume.setVolume(e.value.newValue))
   volume.onVolumeChanged((volume) => {
     $('#volume-slider').slider('setValue', volume, true)
   })
@@ -93,13 +91,13 @@ function initProjectorControl() {
   playback.onLampOff((timestamp) => {
     const minutes = 1000 * 60
     const t = new Date(timestamp)
-    const interval = new Date() - t
+    const interval = +new Date() - +t
     if (interval < 20 * minutes) {
       new Notify(lampMessage, {
         body: lampMessageBody + t.getHours() + ':' + t.getMinutes(),
         closeOnClick: true
       }).show()
-      toastr.info(lampMessage)
+      Toastr.info(lampMessage)
     }
   })
 }
@@ -108,8 +106,8 @@ function initCurtainControl() {
   $('#curtain-switch').change(() => {
     $('#curtain-switch').prop('checked') ? curtain.open() : curtain.close()
   })
-  curtain.onOpened(() => $('#curtain-switch').bootstrapToggle('on'))
-  curtain.onClosed(() => $('#curtain-switch').bootstrapToggle('off'))
+  curtain.onOpened(() => ($('#curtain-switch') as any).bootstrapToggle('on'))
+  curtain.onClosed(() => ($('#curtain-switch') as any).bootstrapToggle('off'))
 }
 
 function initInputControl() {
@@ -117,9 +115,9 @@ function initInputControl() {
   $('#image-mode-pc-flat').click(() => playback.setInput('pc_flat'))
   $('#image-mode-projector-scope').click(() => playback.setInput('cinema_scope'))
   $('#image-mode-projector-flat').click(() => playback.setInput('cinema_flat'))
-  $('input[name="sound-mode"]:radio').change((e) => volume.setInput(e.target.value))
+  $('input[name="sound-mode"]:radio').change((e: any) => volume.setInput(e.target.value))
   volume.onInputChanged((inputMode) => $('input[name="sound-mode"]').val([inputMode]))
-  $('input[name="decode-mode"]:radio').change((e) => volume.setDecoding(e.target.value))
+  $('input[name="decode-mode"]:radio').change((e: any) => volume.setDecoding(e.target.value))
   volume.onDecodingChanged((decodeMode) => $('input[name="decode-mode"]').val([decodeMode]))
 }
 

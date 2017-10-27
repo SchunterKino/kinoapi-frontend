@@ -6,7 +6,7 @@ var openCallback
 var closeCallback
 var errorCallback
 var unauthorizedCallback
-module.exports = {
+export default {
   onmessage: (type, callback) => callbacks[type] = callback,
   send: (msg) => socket.send(msg),
   onOpen: (callback) => openCallback = callback,
@@ -16,7 +16,7 @@ module.exports = {
   connect: connect
 }
 
-function connect(user, password) {
+function connect(user?, password?) {
   console.log('WS connecting...')
   var userString = ''
   if (typeof user !== 'undefined' && typeof password !== 'undefined') {
@@ -48,7 +48,7 @@ function connect(user, password) {
     if (data.msg_type === 'error') {
       errorCallback(data.error)
     } else if (data.msg_type === 'authorization') {
-      token.save(msg.token)
+      token.save(data.token)
     } else if (data.msg_type in callbacks) {
       callbacks[data.msg_type](data)
     }

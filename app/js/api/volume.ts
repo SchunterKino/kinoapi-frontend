@@ -28,8 +28,8 @@ var inputCallback
 var decodingCallback
 var availableCallback
 var unavailableCallback
-module.exports = {
-  setVolume: (value) => send('set_volume', 'volume', parseInt(value * 10)), // 4.0 -> 40
+export default {
+  setVolume: (value) => send('set_volume', 'volume', value * 10), // 4.0 -> 40
   increase: () => send('increase_volume'),
   decrease: () => send('decrease_volume'),
   mute: () => send('set_mute_status', 'muted', true),
@@ -45,7 +45,7 @@ module.exports = {
   onUnavailable: (callback) => unavailableCallback = callback
 }
 
-function send(action, dataKey, dataValue) {
+function send(action, dataKey?, dataValue?) {
   const msg = {
     msg_type: 'volume',
     action: action

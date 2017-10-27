@@ -19,7 +19,7 @@ Build production (minified):
 $ npm run build
 ```
 
-Automatically build on save:
+Start dev server on <http://localhost:8080/> and automatically build on save:
 ```sh
-$ npm run watch
+$ npm start
 ```
