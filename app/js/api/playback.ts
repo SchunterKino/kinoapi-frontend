@@ -15,7 +15,7 @@ connection.onmessage('playback', (msg) => {
 var lampCallback
 var availableCallback
 var unavailableCallback
-module.exports = {
+export default {
   play: () => send('play'),
   pause: () => send('pause'),
   stop: () => send('stop'),
@@ -29,7 +29,7 @@ module.exports = {
   onUnavailable: (callback) => unavailableCallback = callback
 }
 
-function send(action, dataKey, dataValue) {
+function send(action, dataKey?, dataValue?) {
   const msg = {
     msg_type: 'playback',
     action: action

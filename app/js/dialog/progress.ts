@@ -15,7 +15,7 @@ const dialog = $(`
   </div>
 `)
 
-module.exports = {
+export default {
   show: (message) => {
     dialog.find('.dialog-message').text(message)
     dialog.modal('show')

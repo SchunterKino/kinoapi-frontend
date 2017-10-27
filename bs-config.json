@@ -1,0 +1,4 @@
+{
+    "open": false,
+    "server": { "baseDir": "./dist" }
+}

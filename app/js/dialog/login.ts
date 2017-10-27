@@ -24,7 +24,7 @@ const dialog = $(`
 `)
 
 var loginCallback
-module.exports = {
+export default {
   show: () => dialog.modal('show'),
   hide: () => dialog.modal('hide'),
   onLogin: (callback) => loginCallback = callback

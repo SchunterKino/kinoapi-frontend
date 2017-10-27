@@ -14,7 +14,7 @@ connection.onmessage('curtain', (msg) => {
 
 var openedCallback
 var closedCallback
-module.exports = {
+export default {
   open: () => send('open'),
   close: () => send('close'),
   onOpened: (callback) => openedCallback = callback,

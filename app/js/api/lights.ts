@@ -11,7 +11,7 @@ connection.onmessage('lights', (msg) => {
 
 var availableCallback
 var unavailableCallback
-module.exports = {
+export default {
   setLightLevel: (level) => {
     connection.send(JSON.stringify({
       msg_type: 'lights',
