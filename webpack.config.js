@@ -3,12 +3,13 @@ const webpack = require('webpack')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const WebpackPwaManifest = require('webpack-pwa-manifest')
+const ServiceWorkerWebpackPlugin = require('serviceworker-webpack-plugin');
 const autoprefixer = require('autoprefixer')
 
 module.exports = {
   entry: './app/js/frontend',
   output: {
-    path: __dirname + '/dist',
+    path: path.join(__dirname, 'dist'),
     filename: 'frontend.js'
   },
   devtool: 'source-map',
@@ -38,6 +39,10 @@ module.exports = {
         src: path.resolve('app/ic_launcher.png'),
         sizes: [48, 96, 256, 512]
       }]
+    }),
+    new ServiceWorkerWebpackPlugin({
+      entry: path.join(__dirname, 'app/js/notify/sw.js'),
+      publicPath: ''
     }),
     new webpack.ProvidePlugin({
       $: 'jquery',
@@ -71,8 +76,8 @@ module.exports = {
         })
       },
       {
-        test: /.jpe?g$|.gif$|.png$|.svg$|.woff$|.woff2$|.ttf$|.eot$|.svg$/,
-        loader: 'url-loader'
+        test: /\.(jpe?g|gif|png|svg|woff2?|ttf|eot|svg)$/,
+        use: { loader: 'url-loader' }
       }]
   }
 }
