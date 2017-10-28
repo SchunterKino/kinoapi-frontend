@@ -11,6 +11,7 @@ import { Notify } from "./notify";
 const connectionMessage = "Verbinde mit Server…";
 const lampMessage = "Projektorlampe ist aus!";
 const lampMessageBody = "Ausgeschaltet um ";
+let firstLogin = true;
 $(() => {
   initDialogs();
   initToasts();
@@ -28,10 +29,15 @@ $(() => {
 function initDialogs() {
   connection.onOpen(progressDialog.hide);
   connection.onClose(() => progressDialog.show(connectionMessage));
-  connection.onUnauthorized(() => loginDialog.show());
+  connection.onUnauthorized(() => {
+    progressDialog.hide();
+    loginDialog.show(!firstLogin);
+  });
   loginDialog.onLogin((user, password) => {
     connection.connect(user, password);
     loginDialog.hide();
+    progressDialog.show(connectionMessage);
+    firstLogin = false;
   });
 }
 
