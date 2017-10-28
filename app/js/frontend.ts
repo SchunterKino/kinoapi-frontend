@@ -4,13 +4,8 @@ import "bootstrap-toggle";
 import * as Notify from "notifyjs";
 import * as Toastr from "toastr";
 import "../css/frontend";
-import apiConnection from "./api/connection";
-import curtain from "./api/curtain";
-import lights from "./api/lights";
-import playback from "./api/playback";
-import volume from "./api/volume";
-import loginDialog from "./dialog/login";
-import progressDialog from "./dialog/progress";
+import { connection, curtain, lights, playback, volume } from "./api";
+import { loginDialog, progressDialog } from "./dialog";
 
 const connectionMessage = "Verbinde mit Server…";
 const lampMessage = "Projektorlampe ist aus!";
@@ -26,15 +21,15 @@ $(() => {
   initInputControl();
   initAvailability();
   progressDialog.show(connectionMessage);
-  apiConnection.connect();
+  connection.connect();
 });
 
 function initDialogs() {
-  apiConnection.onOpen(progressDialog.hide);
-  apiConnection.onClose(() => progressDialog.show(connectionMessage));
-  apiConnection.onUnauthorized(() => loginDialog.show());
+  connection.onOpen(progressDialog.hide);
+  connection.onClose(() => progressDialog.show(connectionMessage));
+  connection.onUnauthorized(() => loginDialog.show());
   loginDialog.onLogin((user, password) => {
-    apiConnection.connect(user, password);
+    connection.connect(user, password);
     loginDialog.hide();
   });
 }
@@ -44,7 +39,7 @@ function initToasts() {
     positionClass: "toast-bottom-full-width",
     preventDuplicates: true
   };
-  apiConnection.onError((msg) => Toastr.error(msg));
+  connection.onError((msg) => Toastr.error(msg));
 }
 
 function initPlaybackControl() {
