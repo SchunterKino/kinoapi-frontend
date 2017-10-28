@@ -33,8 +33,8 @@ function initDialogs() {
     progressDialog.hide();
     loginDialog.show(!firstLogin);
   });
-  loginDialog.onLogin((user, password) => {
-    connection.connect(user, password);
+  loginDialog.onLogin((password) => {
+    connection.login(password);
     loginDialog.hide();
     progressDialog.show(connectionMessage);
     firstLogin = false;
