@@ -1,5 +1,5 @@
 const dialog = $(`
-  <div class="dialog modal fade" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="dialog modal fade" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-m">
       <div class="modal-content">
         <div class="modal-header">
@@ -21,17 +21,17 @@ const dialog = $(`
       </div>
     </div>
   </div>
-`)
+`);
 
-var loginCallback
+let loginCallback;
 export default {
-  show: () => dialog.modal('show'),
-  hide: () => dialog.modal('hide'),
+  show: () => dialog.modal("show"),
+  hide: () => dialog.modal("hide"),
   onLogin: (callback) => loginCallback = callback
-}
+};
 
-dialog.find('button').click(() => {
-  const user = dialog.find('#user').val()
-  const password = dialog.find('#password').val()
-  loginCallback(user, password)
-})
+dialog.find("button").click(() => {
+  const user = dialog.find("#user").val();
+  const password = dialog.find("#password").val();
+  loginCallback(user, password);
+});
