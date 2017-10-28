@@ -1,11 +1,12 @@
 import "bootstrap";
 import "bootstrap-slider";
 import "bootstrap-toggle";
-import * as Notify from "notifyjs";
 import * as Toastr from "toastr";
 import "../css/frontend";
+import * as icon from "../ic_launcher.png";
 import { connection, curtain, lights, playback, volume } from "./api";
 import { loginDialog, progressDialog } from "./dialog";
+import { Notify } from "./notify";
 
 const connectionMessage = "Verbinde mit Server…";
 const lampMessage = "Projektorlampe ist aus!";
@@ -76,19 +77,20 @@ function initProjectorControl() {
   $("#lamp-off-button").click(playback.turnOffLamp);
   $("#douser-open-button").click(playback.openDouser);
   $("#douser-close-button").click(playback.closeDouser);
-  if (Notify.needsPermission && Notify.isSupported()) {
-    Notify.requestPermission();
-  }
+  Notify.requestPermission();
   playback.onLampOff((timestamp) => {
     const minutes = 1000 * 60;
     const t = new Date(timestamp);
     const interval = +new Date() - +t;
     if (interval < 20 * minutes) {
-      new Notify(lampMessage, {
-        body: lampMessageBody + t.getHours() + ":" + t.getMinutes(),
-        closeOnClick: true
-      }).show();
-      Toastr.info(lampMessage);
+      if (Notify.permissionGranted) {
+        new Notify(lampMessage, {
+          body: lampMessageBody + t.getHours() + ":" + t.getMinutes(),
+          icon
+        }).show();
+      } else {
+        Toastr.info(lampMessage);
+      }
     }
   });
 }
