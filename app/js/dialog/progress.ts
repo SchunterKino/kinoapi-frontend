@@ -1,5 +1,5 @@
 const dialog = $(`
-  <div class="dialog modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="dialog modal fade" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog">
     <div class="modal-dialog modal-m">
       <div class="modal-content">
         <div class="modal-header">
