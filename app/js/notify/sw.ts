@@ -33,8 +33,7 @@ self.addEventListener("install", (event) => {
                 console.log("[SW] installed", assetsToCache);
             })
             .catch((error) => {
-                console.error(error);
-                throw error;
+                console.error("[SW] cache install error", error);
             })
     );
 });
