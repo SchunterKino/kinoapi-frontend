@@ -1,5 +1,3 @@
-const websocketUrl = new URL("wss://remote.schunterkino.de:8641");
-const tokenServerUrl = new URL("https://remote.schunterkino.de:1234"); // FIXME
 export class Connection {
   private callbacks: { [type: string]: (data) => void } = {};
   private socket: WebSocket;
@@ -8,7 +6,7 @@ export class Connection {
   private errorCallback: (error: string) => void;
   private unauthorizedCallback: () => void;
 
-  public constructor(private url: URL) { }
+  public constructor(private websocketUrl: URL, private tokenServerUrl) { }
 
   // TODO use rxjs for callbacks?
   public onmessage(type: string, callback: (data) => void) {
@@ -38,7 +36,7 @@ export class Connection {
   public login(password: string) {
     $.ajax({
       method: "POST",
-      url: tokenServerUrl.toString(),
+      url: this.tokenServerUrl.toString(),
       data: { password }
     })
       .done(() => {
@@ -54,7 +52,7 @@ export class Connection {
 
   public connect() {
     console.log("[WS] connecting...");
-    this.socket = new WebSocket(this.url.toString());
+    this.socket = new WebSocket(this.websocketUrl.toString());
 
     this.socket.onopen = () => {
       console.log("[WS] opened");
@@ -84,4 +82,7 @@ export class Connection {
   }
 }
 
-export default new Connection(websocketUrl);
+export default new Connection(
+  new URL("wss://remote.schunterkino.de:8641"),
+  new URL("https://remote.schunterkino.de/token.php")
+);
