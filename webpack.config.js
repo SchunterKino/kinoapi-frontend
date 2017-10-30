@@ -41,7 +41,7 @@ module.exports = {
       }]
     }),
     new ServiceWorkerWebpackPlugin({
-      entry: path.join(__dirname, 'app/js/notify/sw.js'),
+      entry: path.join(__dirname, 'app/js/notify/sw.ts'),
       publicPath: ''
     }),
     new webpack.ProvidePlugin({

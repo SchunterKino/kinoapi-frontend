@@ -53,16 +53,16 @@ export class Connection {
   }
 
   public connect() {
-    console.log("WS connecting...");
+    console.log("[WS] connecting...");
     this.socket = new WebSocket(this.url.toString());
 
     this.socket.onopen = () => {
-      console.log("WS opened");
+      console.log("[WS] opened");
       this.openCallback();
     };
 
     this.socket.onclose = (evt) => {
-      console.log("WS closed");
+      console.log("[WS] closed");
       this.closeCallback();
       if (evt.code === 4401) {
         this.unauthorizedCallback();
