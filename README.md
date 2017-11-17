@@ -14,12 +14,17 @@ Download dependencies:
 $ npm install
 ```
 
+Start dev server on <http://localhost:8080/> and automatically build on save:
+```sh
+$ npm start
+```
+
 Build production (minified):
 ```sh
 $ npm run build
 ```
 
-Start dev server on <http://localhost:8080/> and automatically build on save:
+Expose the running dev server on a random ngrok.io subdomain with https support:
 ```sh
-$ npm start
+$ npm run ngrok
 ```
