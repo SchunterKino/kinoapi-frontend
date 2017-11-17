@@ -92,7 +92,8 @@ function initProjectorControl() {
       if (Notify.permissionGranted) {
         new Notify(lampMessage, {
           body: lampMessageBody + t.getHours() + ":" + t.getMinutes(),
-          icon
+          icon,
+          tag: "projector1"
         }).show();
       } else {
         Toastr.info(lampMessage);
