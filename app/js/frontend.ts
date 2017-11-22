@@ -73,7 +73,7 @@ function initVolumeControl() {
 
 function initLightControl() {
   const levels = [0, 33, 66, 100];
-  for (const i of levels) {
+  for (const i in levels) {
     $("#light-button-" + levels[i]).click(() => lights.setLightLevel(i));
   }
 }
