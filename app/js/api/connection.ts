@@ -1,3 +1,5 @@
+import * as $ from "jquery";
+
 export class Connection {
   private callbacks: { [type: string]: (data) => void } = {};
   private socket: WebSocket;

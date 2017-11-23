@@ -1,3 +1,5 @@
+import * as $ from "jquery";
+
 const dialog = $(`
   <div class="dialog modal fade" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog">
     <div class="modal-dialog modal-m">

@@ -1,6 +1,7 @@
 import "bootstrap";
 import "bootstrap-slider";
 import "bootstrap-toggle";
+import * as $ from "jquery";
 import * as Toastr from "toastr";
 import "../css/frontend";
 import * as icon from "../ic_launcher.png";
