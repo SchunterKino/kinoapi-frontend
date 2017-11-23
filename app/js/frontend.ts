@@ -11,7 +11,7 @@ import { Notify } from "./notify";
 
 const connectionMessage = "Verbinde mit Server…";
 const lampMessage = "Projektorlampe ist aus!";
-const lampMessageBody = "Ausgeschaltet um ";
+const lampMessageBody = "Ausgeschaltet um";
 let firstLogin = true;
 $(() => {
   initDialogs();
@@ -74,7 +74,7 @@ function initVolumeControl() {
 
 function initLightControl() {
   for (let i = 0; i < 4; i++) {
-    $("#light-button-" + i).click(() => lights.setLightLevel(i));
+    $(`#light-button-${i}`).click(() => lights.setLightLevel(i));
   }
 }
 
@@ -91,7 +91,7 @@ function initProjectorControl() {
     if (interval < 20 * minutes) {
       if (Notify.permissionGranted) {
         new Notify(lampMessage, {
-          body: lampMessageBody + t.getHours() + ":" + t.getMinutes(),
+          body: `${lampMessageBody} ${t.getHours()}:${t.getMinutes()}`,
           icon,
           tag: "projector1"
         }).show();

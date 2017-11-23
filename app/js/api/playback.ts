@@ -8,7 +8,7 @@ connection.onmessage("playback", (msg) => {
       lampCallback(msg.timestamp);
       break;
     default:
-      console.warn("unsupported action: " + msg.action);
+      console.warn("unsupported action", msg.action);
   }
 });
 

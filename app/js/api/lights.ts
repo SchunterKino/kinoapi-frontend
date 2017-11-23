@@ -5,7 +5,7 @@ connection.onmessage("lights", (msg) => {
       msg.connected ? availableCallback() : unavailableCallback();
       break;
     default:
-      console.warn("unsupported action: " + msg.action);
+      console.warn("unsupported action", msg.action);
   }
 });
 

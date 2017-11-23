@@ -17,7 +17,7 @@ connection.onmessage("volume", (msg) => {
       decodingCallback(msg.mode);
       break;
     default:
-      console.warn("unsupported action: " + msg.action);
+      console.warn("unsupported action", msg.action);
   }
 });
 

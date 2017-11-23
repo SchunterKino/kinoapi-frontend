@@ -73,7 +73,7 @@ export class Connection {
     };
 
     this.socket.onmessage = (evt) => {
-      console.log(evt);
+      console.log("[WS] message", evt);
       const data = JSON.parse(evt.data);
       if (data.msg_type === "error") {
         this.errorCallback(data.error);

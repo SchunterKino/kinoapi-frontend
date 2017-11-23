@@ -8,7 +8,7 @@ connection.onmessage("curtain", (msg) => {
       closedCallback();
       break;
     default:
-      console.warn("unsupported action: " + msg.action);
+      console.warn("unsupported action", msg.action);
   }
 });
 
