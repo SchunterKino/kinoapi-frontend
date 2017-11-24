@@ -8,12 +8,12 @@ const dialog = $(`
           <h3 class="dialog-message"></h3>
         </div>
         <div class="modal-body">
-          <form class="form-inline">
+          <form class="form-inline" id="form">
             <div class="form-group password-group">
               <label class="sr-only" for="password">Passwort</label>
               <input type="password" class="form-control" id="password" placeholder="Passwort">
             </div>
-            <button type="button" class="btn btn-primary">Login</button>
+            <button type="submit" class="btn btn-primary">Login</button>
           </form>
         </div>
       </div>
@@ -31,10 +31,12 @@ export default {
     dialog.modal("show");
   },
   hide: () => dialog.modal("hide"),
-  onLogin: (callback) => loginCallback = callback
+  onLogin: (callback) => loginCallback = callback,
+  isVisible: () => dialog.is(":visible")
 };
 
-dialog.find("button").click(() => {
+dialog.find("#form").submit((event) => {
+  event.preventDefault();
   const password = dialog.find("#password").val();
   loginCallback(password);
 });
