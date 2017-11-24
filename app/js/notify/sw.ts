@@ -58,6 +58,11 @@ self.addEventListener("activate", (event) => {
 
 self.addEventListener("fetch", (event) => {
     const url = new URL(event.request.url);
+    if (event.request.method !== "GET") {
+        // don't cache POST, PUT, etc.
+        event.respondWith(fetch(event.request));
+        return;
+    }
     event.respondWith(
         fetch(event.request).then((response) => {
             // network first
