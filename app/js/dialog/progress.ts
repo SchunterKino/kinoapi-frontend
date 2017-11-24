@@ -22,5 +22,9 @@ export default {
     dialog.find(".dialog-message").text(message);
     dialog.modal("show");
   },
-  hide: () => dialog.modal("hide")
+  hide: () => {
+    dialog.modal("hide");
+    $(".modal-backdrop").remove();
+  },
+  isVisible: () => dialog.is(":visible")
 };

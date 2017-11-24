@@ -28,16 +28,23 @@ $(() => {
 });
 
 function initDialogs() {
-  connection.onOpen(progressDialog.hide);
-  connection.onClose(() => progressDialog.show(connectionMessage));
+  connection.onOpen(() => {
+    progressDialog.hide();
+    loginDialog.hide();
+  });
+  connection.onClose(() => {
+    if (!loginDialog.isVisible()) {
+      progressDialog.show(connectionMessage);
+    }
+  });
   connection.onUnauthorized(() => {
     progressDialog.hide();
     loginDialog.show(!firstLogin);
   });
   loginDialog.onLogin((password) => {
-    connection.login(password);
     loginDialog.hide();
     progressDialog.show(connectionMessage);
+    connection.login(password);
     firstLogin = false;
   });
 }

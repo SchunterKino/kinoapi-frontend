@@ -30,7 +30,10 @@ export default {
     dialog.find(".password-group").toggleClass("has-error", error);
     dialog.modal("show");
   },
-  hide: () => dialog.modal("hide"),
+  hide: () => {
+    dialog.modal("hide");
+    $(".modal-backdrop").remove();
+  },
   onLogin: (callback) => loginCallback = callback,
   isVisible: () => dialog.is(":visible")
 };
