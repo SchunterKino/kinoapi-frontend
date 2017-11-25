@@ -13,6 +13,7 @@ const connectionMessage = "Verbinde mit Server…";
 const lampMessage = "Projektorlampe ist aus!";
 const lampMessageBody = "Ausgeschaltet um";
 let firstLogin = true;
+let isSliding = false;
 $(() => {
   initDialogs();
   initToasts();
@@ -64,9 +65,13 @@ function initPlaybackControl() {
 }
 
 function initVolumeControl() {
-  $("#volume-slider").change((e: any) => volume.setVolume(e.value.newValue));
+  $("#volume-slider").on("change", (e: any) => volume.setVolume(e.value.newValue));
+  $("#volume-slider").on("slideStart", () => isSliding = true);
+  $("#volume-slider").on("slideStop", () => isSliding = false);
   volume.onVolumeChanged((vol) => {
-    $("#volume-slider").slider("setValue", vol, true);
+    if (!isSliding) {
+      $("#volume-slider").slider("setValue", vol, false, false);
+    }
   });
 
   $("#volume-mute-button").click(() => {
