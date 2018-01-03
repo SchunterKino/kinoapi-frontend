@@ -14,7 +14,6 @@ const lampOffMessage = "Lampe wirklich ausschalten?";
 const lampOnMessage = "Lampe wirklich einschalten?";
 const lampMessage = "Projektorlampe ist aus!";
 const lampMessageBody = "Ausgeschaltet um";
-let firstLogin = true;
 let isSliding = false;
 $(() => {
   initDialogs();
@@ -37,19 +36,18 @@ function initDialogs() {
     confirmationDialog.hide();
   });
   connection.onClose(() => {
+    confirmationDialog.hide();
     if (!loginDialog.isVisible()) {
       progressDialog.show(connectionMessage);
-      confirmationDialog.hide();
     }
   });
-  connection.onUnauthorized(() => {
+  connection.onUnauthorized((errorCode) => {
     progressDialog.hide();
     confirmationDialog.hide();
-    loginDialog.show(!firstLogin, (password) => {
+    loginDialog.show(errorCode, (password) => {
       confirmationDialog.hide();
       progressDialog.show(connectionMessage);
       connection.login(password);
-      firstLogin = false;
     });
   });
 }

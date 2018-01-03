@@ -1,7 +1,12 @@
 import * as $ from "jquery";
+import { ErrorCode } from "../api";
 
-const message = "Bitte anmelden";
-const failedMessage = "Kennwort ist nicht korrekt";
+const messages: { [errorCode: number]: string } = {};
+messages[ErrorCode.UNAUTHORIZED] = "Kennwort ist nicht korrekt.";
+messages[ErrorCode.INVALID_TOKEN] = "Bitte anmelden.";
+messages[ErrorCode.SESSION_EXPIRED] = "Session ist abgelaufen. Bitte erneut anmelden.";
+messages[ErrorCode.AUTH_ERROR] = "Konnte nicht einloggen. Versuche es später erneut.";
+
 let loginCallback: (password: string) => void;
 
 const dialog = $(`
@@ -42,10 +47,10 @@ dialog.find("#password").keyup(() => {
 });
 
 export default {
-  show: (error: boolean, onLogin: (password: string) => void) => {
+  show: (error: ErrorCode, onLogin: (password: string) => void) => {
     loginCallback = onLogin;
-    dialog.find(".dialog-message").text(error ? failedMessage : message);
-    dialog.find(".password-group").toggleClass("has-error", error);
+    dialog.find(".dialog-message").text(messages[error]);
+    dialog.find(".password-group").toggleClass("has-error", error === ErrorCode.UNAUTHORIZED);
     dialog.modal("show");
   },
   isVisible: () => dialog.is(":visible"),

@@ -1,12 +1,19 @@
 import * as $ from "jquery";
 
+export enum ErrorCode {
+  UNAUTHORIZED = 401,
+  INVALID_TOKEN = 4401,
+  SESSION_EXPIRED = 4402,
+  AUTH_ERROR = 0,
+}
+
 export class Connection {
   private callbacks: { [type: string]: (data) => void } = {};
   private socket: WebSocket;
   private openCallback: () => void;
   private closeCallback: () => void;
   private errorCallback: (error: string) => void;
-  private unauthorizedCallback: () => void;
+  private unauthorizedCallback: (ErrorCode) => void;
 
   public constructor(private websocketUrl: URL, private tokenServerUrl) { }
 
@@ -16,6 +23,7 @@ export class Connection {
   }
 
   public send(msg: string) {
+    console.log("[WS] send", msg);
     this.socket.send(msg);
   }
 
@@ -31,7 +39,7 @@ export class Connection {
     this.errorCallback = callback;
   }
 
-  public onUnauthorized(callback: () => void) {
+  public onUnauthorized(callback: (error: ErrorCode) => void) {
     this.unauthorizedCallback = callback;
   }
 
@@ -45,8 +53,11 @@ export class Connection {
         this.connect();
       })
       .fail((jqXHR, textStatus, error) => {
-        this.unauthorizedCallback();
-        if (jqXHR.status !== 401) {
+        console.log("[login] failed", jqXHR.status);
+        if (jqXHR.status === ErrorCode.UNAUTHORIZED) {
+          this.unauthorizedCallback(ErrorCode.UNAUTHORIZED);
+        } else {
+          this.unauthorizedCallback(ErrorCode.AUTH_ERROR);
           this.errorCallback(jqXHR.responseText);
         }
       });
@@ -62,10 +73,10 @@ export class Connection {
     };
 
     this.socket.onclose = (evt) => {
-      console.log("[WS] closed");
+      console.log("[WS] closed", evt.code);
       this.closeCallback();
-      if (evt.code === 4401) {
-        this.unauthorizedCallback();
+      if (evt.code === ErrorCode.INVALID_TOKEN || evt.code === ErrorCode.SESSION_EXPIRED) {
+        this.unauthorizedCallback(evt.code);
       } else {
         // try to reconnect
         setTimeout(() => this.connect(), 2000);

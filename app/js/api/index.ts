@@ -1,4 +1,4 @@
-export { default as connection } from "./connection";
+export { default as connection, ErrorCode } from "./connection";
 export { default as curtain } from "./curtain";
 export { default as lights } from "./lights";
 export { default as playback } from "./playback";
