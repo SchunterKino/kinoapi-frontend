@@ -6,10 +6,12 @@ import * as Toastr from "toastr";
 import "../css/frontend";
 import * as icon from "../ic_launcher.png";
 import { connection, curtain, lights, playback, volume } from "./api";
-import { loginDialog, progressDialog } from "./dialog";
+import { confirmationDialog, loginDialog, progressDialog } from "./dialog";
 import { Notify } from "./notify";
 
 const connectionMessage = "Verbinde mit Server…";
+const lampOffMessage = "Lampe wirklich ausschalten?";
+const lampOnMessage = "Lampe wirklich einschalten?";
 const lampMessage = "Projektorlampe ist aus!";
 const lampMessageBody = "Ausgeschaltet um";
 let firstLogin = true;
@@ -32,21 +34,23 @@ function initDialogs() {
   connection.onOpen(() => {
     progressDialog.hide();
     loginDialog.hide();
+    confirmationDialog.hide();
   });
   connection.onClose(() => {
     if (!loginDialog.isVisible()) {
       progressDialog.show(connectionMessage);
+      confirmationDialog.hide();
     }
   });
   connection.onUnauthorized(() => {
     progressDialog.hide();
-    loginDialog.show(!firstLogin);
-  });
-  loginDialog.onLogin((password) => {
-    loginDialog.hide();
-    progressDialog.show(connectionMessage);
-    connection.login(password);
-    firstLogin = false;
+    confirmationDialog.hide();
+    loginDialog.show(!firstLogin, (password) => {
+      confirmationDialog.hide();
+      progressDialog.show(connectionMessage);
+      connection.login(password);
+      firstLogin = false;
+    });
   });
 }
 
@@ -91,8 +95,12 @@ function initLightControl() {
 }
 
 function initProjectorControl() {
-  $("#lamp-on-button").click(playback.turnOnLamp);
-  $("#lamp-off-button").click(playback.turnOffLamp);
+  $("#lamp-on-button").click(() => {
+    confirmationDialog.show(lampOnMessage, playback.turnOnLamp);
+  });
+  $("#lamp-off-button").click(() => {
+    confirmationDialog.show(lampOffMessage, playback.turnOffLamp);
+  });
   $("#douser-open-button").click(playback.openDouser);
   $("#douser-close-button").click(playback.closeDouser);
   Notify.requestPermission();
