@@ -32,7 +32,6 @@ const dialog = $(`
 
 const hide = () => {
   dialog.modal("hide");
-  $(".modal-backdrop").remove();
 };
 
 dialog.find("#form").submit((event) => {

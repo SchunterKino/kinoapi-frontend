@@ -20,7 +20,6 @@ const dialog = $(`
 
 const hide = () => {
   dialog.modal("hide");
-  $(".modal-backdrop").remove();
 };
 
 dialog.find("#accept").click((event) => {

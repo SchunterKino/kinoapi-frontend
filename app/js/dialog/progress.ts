@@ -24,7 +24,6 @@ export default {
   },
   hide: () => {
     dialog.modal("hide");
-    $(".modal-backdrop").remove();
   },
   isVisible: () => dialog.is(":visible")
 };
