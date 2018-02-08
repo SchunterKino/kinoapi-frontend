@@ -1,4 +1,4 @@
-import connection from "./connection";
+import { Connection, default as apiconnection } from "./connection";
 
 export enum LightLevel {
   OFF = 0,
@@ -7,26 +7,39 @@ export enum LightLevel {
   MAX = 3,
 }
 
-connection.onmessage("lights", (msg) => {
-  switch (msg.action) {
-    case "connection":
-      msg.connected ? availableCallback() : unavailableCallback();
-      break;
-    default:
-      console.warn("unsupported action", msg.action);
-  }
-});
+export class Lights {
+  private availableCallback: () => void;
+  private unavailableCallback: () => void;
 
-let availableCallback;
-let unavailableCallback;
-export default {
-  setLightLevel: (level) => {
-    connection.send(JSON.stringify({
+  public constructor(private connection: Connection) {
+    this.connection.onmessage("lights", (msg) => {
+      switch (msg.action) {
+        case "connection":
+          msg.connected
+            ? this.availableCallback()
+            : this.unavailableCallback();
+          break;
+        default:
+          console.warn("unsupported action", msg.action);
+      }
+    });
+  }
+
+  public onAvailable(callback: () => void) {
+    this.availableCallback = callback;
+  }
+
+  public onUnavailable(callback: () => void) {
+    this.unavailableCallback = callback;
+  }
+
+  public setLightLevel(level: LightLevel) {
+    this.connection.send(JSON.stringify({
       msg_type: "lights",
       action: "set_light_level",
       level
     }));
-  },
-  onAvailable: (callback) => availableCallback = callback,
-  onUnavailable: (callback) => unavailableCallback = callback
-};
+  }
+}
+
+export default new Lights(apiconnection);

@@ -1,4 +1,4 @@
-import connection from "./connection";
+import { Connection, default as apiconnection } from "./connection";
 
 export enum InputMode {
   DIGITAL_1 = 0,
@@ -21,59 +21,109 @@ export enum DecodeMode {
   MICROPHONESURROUND_7_1 = 6,
 }
 
-connection.onmessage("volume", (msg) => {
-  switch (msg.action) {
-    case "connection":
-      msg.connected ? availableCallback() : unavailableCallback();
-      break;
-    case "volume_changed":
-      volumeCallback(msg.volume / 10.0);
-      break;
-    case "mute_status_changed":
-      msg.muted ? muteCallback() : unmuteCallback();
-      break;
-    case "input_mode_changed":
-      inputCallback(msg.mode);
-      break;
-    case "decode_mode_changed":
-      decodingCallback(msg.mode);
-      break;
-    default:
-      console.warn("unsupported action", msg.action);
-  }
-});
+export class Volume {
+  private availableCallback: () => void;
+  private unavailableCallback: () => void;
+  private volumeCallback: (volume: number) => void;
+  private muteCallback: () => void;
+  private unmuteCallback: () => void;
+  private inputCallback: (mode: InputMode) => void;
+  private decodingCallback: (mode: DecodeMode) => void;
 
-let volumeCallback;
-let unmuteCallback;
-let muteCallback;
-let inputCallback;
-let decodingCallback;
-let availableCallback;
-let unavailableCallback;
-export default {
-  setVolume: (value) => send("set_volume", "volume", value * 10), // 4.0 -> 40
-  increase: () => send("increase_volume"),
-  decrease: () => send("decrease_volume"),
-  mute: () => send("set_mute_status", "muted", true),
-  unmute: () => send("set_mute_status", "muted", false),
-  setInput: (mode) => send("set_input_mode", "mode", mode),
-  setDecoding: (mode) => send("set_decode_mode", "mode", mode),
-  onVolumeChanged: (callback) => volumeCallback = callback,
-  onUnmute: (callback) => unmuteCallback = callback,
-  onMute: (callback) => muteCallback = callback,
-  onInputChanged: (callback) => inputCallback = callback,
-  onDecodingChanged: (callback) => decodingCallback = callback,
-  onAvailable: (callback) => availableCallback = callback,
-  onUnavailable: (callback) => unavailableCallback = callback
-};
-
-function send(action, dataKey?, dataValue?) {
-  const msg = {
-    msg_type: "volume",
-    action
-  };
-  if (dataKey) {
-    msg[dataKey] = dataValue;
+  public constructor(private connection: Connection) {
+    this.connection.onmessage("volume", (msg) => {
+      switch (msg.action) {
+        case "connection":
+          msg.connected
+            ? this.availableCallback()
+            : this.unavailableCallback();
+          break;
+        case "volume_changed":
+          this.volumeCallback(msg.volume / 10.0);
+          break;
+        case "mute_status_changed":
+          msg.muted
+            ? this.muteCallback()
+            : this.unmuteCallback();
+          break;
+        case "input_mode_changed":
+          this.inputCallback(msg.mode);
+          break;
+        case "decode_mode_changed":
+          this.decodingCallback(msg.mode);
+          break;
+        default:
+          console.warn("unsupported action", msg.action);
+      }
+    });
   }
-  connection.send(JSON.stringify(msg));
+
+  public onAvailable(callback: () => void) {
+    this.availableCallback = callback;
+  }
+
+  public onUnavailable(callback: () => void) {
+    this.unavailableCallback = callback;
+  }
+
+  public onVolumeChanged(callback: (volume: number) => void) {
+    this.volumeCallback = callback;
+  }
+
+  public onMute(callback: () => void) {
+    this.muteCallback = callback;
+  }
+
+  public onUnmute(callback: () => void) {
+    this.unmuteCallback = callback;
+  }
+
+  public onInputChanged(callback: (mode: InputMode) => void) {
+    this.inputCallback = callback;
+  }
+
+  public onDecodingChanged(callback: (mode: DecodeMode) => void) {
+    this.decodingCallback = callback;
+  }
+
+  public setVolume(value: number) {
+    this.send("set_volume", "volume", value * 10); // 4.0 -> 40
+  }
+
+  public increase() {
+    this.send("increase_volume");
+  }
+
+  public decrease() {
+    this.send("decrease_volume");
+  }
+
+  public mute() {
+    this.send("set_mute_status", "muted", true);
+  }
+
+  public unmute() {
+    this.send("set_mute_status", "muted", false);
+  }
+
+  public setInput(mode: DecodeMode) {
+    this.send("set_input_mode", "mode", mode);
+  }
+
+  public setDecoding(mode: DecodeMode) {
+    this.send("set_decode_mode", "mode", mode);
+  }
+
+  private send(action: string, dataKey?: string, dataValue?: any) {
+    const msg = {
+      msg_type: "volume",
+      action
+    };
+    if (dataKey) {
+      msg[dataKey] = dataValue;
+    }
+    this.connection.send(JSON.stringify(msg));
+  }
 }
+
+export default new Volume(apiconnection);

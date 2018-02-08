@@ -1,4 +1,4 @@
-import connection from "./connection";
+import { Connection, default as apiconnection } from "./connection";
 
 export enum InputMode {
   CINEMA_FLAT = "cinema_flat",
@@ -7,30 +7,58 @@ export enum InputMode {
   PC_SCOPE = "pc_scope",
 }
 
-connection.onmessage("playback", (msg) => {
-  switch (msg.action) {
-    case "connection":
-      msg.connected ? availableCallback() : unavailableCallback();
-      break;
-    default:
-      console.warn("unsupported action", msg.action);
+export class Playback {
+  private availableCallback: () => void;
+  private unavailableCallback: () => void;
+
+  public constructor(private connection: Connection) {
+    this.connection.onmessage("playback", (msg) => {
+      switch (msg.action) {
+        case "connection":
+          msg.connected
+            ? this.availableCallback()
+            : this.unavailableCallback();
+          break;
+        default:
+          console.warn("unsupported action", msg.action);
+      }
+    });
   }
-});
 
-let availableCallback;
-let unavailableCallback;
-export default {
-  play: () => send("play"),
-  pause: () => send("pause"),
-  stop: () => send("stop"),
-  onAvailable: (callback) => availableCallback = callback,
-  onUnavailable: (callback) => unavailableCallback = callback
-};
+  public onAvailable(callback: () => void) {
+    this.availableCallback = callback;
+  }
 
-function send(action) {
-  const msg = {
-    msg_type: "playback",
-    action
-  };
-  connection.send(JSON.stringify(msg));
+  public onUnavailable(callback: () => void) {
+    this.unavailableCallback = callback;
+  }
+
+  public play() {
+    this.send("play");
+  }
+
+  public pause() {
+    this.send("pause");
+  }
+
+  public stop() {
+    this.send("stop");
+  }
+
+  public setInput(mode: InputMode) {
+    this.send("set_input_mode", mode);
+  }
+
+  private send(action: string, dataKey?: string, dataValue?: any) {
+    const msg = {
+      msg_type: "playback",
+      action
+    };
+    if (dataKey) {
+      msg[dataKey] = dataValue;
+    }
+    this.connection.send(JSON.stringify(msg));
+  }
 }
+
+export default new Playback(apiconnection);

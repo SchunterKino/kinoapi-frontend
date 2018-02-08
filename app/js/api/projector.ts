@@ -1,4 +1,4 @@
-import connection from "./connection";
+import { Connection, default as apiconnection } from "./connection";
 
 export enum PowerState {
   OFF = 0,
@@ -6,51 +6,90 @@ export enum PowerState {
   ON = 2,
 }
 
-connection.onmessage("projector", (msg) => {
-  switch (msg.action) {
-    case "connection":
-      msg.connected ? availableCallback() : unavailableCallback();
-      break;
-    case "power_changed":
-      powerCallback(msg.state, msg.timestamp);
-      break;
-    case "lamp_changed":
-      lampCallback(msg.is_on, msg.timestamp, msg.cooldown);
-      break;
-    case "douser_changed":
-      douserCallback(msg.is_open);
-      break;
-    default:
-      console.warn("unsupported action", msg.action);
-  }
-});
+export class Projector {
+  private availableCallback: () => void;
+  private unavailableCallback: () => void;
+  private powerCallback: (state: PowerState, timestamp?: Date) => void;
+  private lampCallback: (isOn: boolean, timestamp?: Date, cooldown?: number) => void;
+  private douserCallback: (isOpen: boolean) => void;
 
-let lampCallback;
-let powerCallback;
-let availableCallback;
-let unavailableCallback;
-let douserCallback;
-export default {
-  turnOn: () => send("power_on"),
-  turnOff: () => send("power_on"),
-  turnOnLamp: () => send("lamp_on"),
-  turnOffLamp: () => send("lamp_off"),
-  openDouser: () => send("douser_open"),
-  closeDouser: () => send("douser_close"),
-  powerCallback: (callback) => powerCallback = callback,
-  onLampChanged: (callback) => lampCallback = callback,
-  onDouserChanged: (callback) => douserCallback = callback,
-  onAvailable: (callback) => availableCallback = callback,
-  onUnavailable: (callback) => unavailableCallback = callback
-};
-
-function send(action, dataKey?, dataValue?) {
-  const msg = {
-    msg_type: "projector",
-    action
-  };
-  if (dataKey) {
-    msg[dataKey] = dataValue;
+  public constructor(private connection: Connection) {
+    connection.onmessage("projector", (msg) => {
+      switch (msg.action) {
+        case "connection":
+          msg.connected
+            ? this.availableCallback()
+            : this.unavailableCallback();
+          break;
+        case "power_changed":
+          this.powerCallback(msg.state, new Date(msg.timestamp));
+          break;
+        case "lamp_changed":
+          this.lampCallback(msg.is_on, new Date(msg.timestamp), msg.cooldown);
+          break;
+        case "douser_changed":
+          this.douserCallback(msg.is_open);
+          break;
+        default:
+          console.warn("unsupported action", msg.action);
+      }
+    });
   }
-  connection.send(JSON.stringify(msg));
+
+  public onAvailable(callback: () => void) {
+    this.availableCallback = callback;
+  }
+
+  public onUnavailable(callback: () => void) {
+    this.unavailableCallback = callback;
+  }
+
+  public onPowerChanged(callback: (state: PowerState, timestamp?: Date) => void) {
+    this.powerCallback = callback;
+  }
+
+  public onLampChanged(callback: (isOn: boolean, timestamp?: Date, cooldown?: number) => void) {
+    this.lampCallback = callback;
+  }
+
+  public onDouserChanged(callback: (isOpen: boolean) => void) {
+    this.douserCallback = callback;
+  }
+
+  public turnOn() {
+    this.send("power_on");
+  }
+
+  public turnOff() {
+    this.send("power_on");
+  }
+
+  public turnOnLamp() {
+    this.send("lamp_on");
+  }
+
+  public turnOffLamp() {
+    this.send("lamp_off");
+  }
+
+  public openDouser() {
+    this.send("douser_open");
+  }
+
+  public closeDouser() {
+    this.send("douser_close");
+  }
+
+  private send(action: string, dataKey?: string, dataValue?: any) {
+    const msg = {
+      msg_type: "projector",
+      action
+    };
+    if (dataKey) {
+      msg[dataKey] = dataValue;
+    }
+    this.connection.send(JSON.stringify(msg));
+  }
 }
+
+export default new Projector(apiconnection);

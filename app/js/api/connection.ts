@@ -13,9 +13,9 @@ export class Connection {
   private openCallback: () => void;
   private closeCallback: () => void;
   private errorCallback: (error: string) => void;
-  private unauthorizedCallback: (ErrorCode) => void;
+  private unauthorizedCallback: (error: ErrorCode) => void;
 
-  public constructor(private websocketUrl: URL, private tokenServerUrl) { }
+  public constructor(private websocketUrl: URL, private tokenServerUrl: URL) { }
 
   // TODO use rxjs for callbacks?
   public onmessage(type: string, callback: (data) => void) {

@@ -5,7 +5,8 @@ import * as $ from "jquery";
 import * as Toastr from "toastr";
 import "../css/frontend";
 import * as icon from "../ic_launcher.png";
-import { connection, curtain, lights, playback, volume } from "./api";
+import { connection, curtain, lights, playback, projector, volume } from "./api";
+import { AudioInputMode, DecodeMode, ErrorCode, PowerState, VideoInputMode } from "./api";
 import { confirmationDialog, loginDialog, progressDialog } from "./dialog";
 import { Notify } from "./notify";
 
@@ -13,7 +14,7 @@ const connectionMessage = "Verbinde mit Server…";
 const lampOffMessage = "Lampe wirklich ausschalten?";
 const lampOnMessage = "Lampe wirklich einschalten?";
 const lampMessage = "Projektorlampe ist aus!";
-const lampMessageBody = "Ausgeschaltet um";
+const lampMessageBody = "Projektorlampe schaltet aus in";
 let isSliding = false;
 $(() => {
   initDialogs();
@@ -94,29 +95,36 @@ function initLightControl() {
 
 function initProjectorControl() {
   $("#lamp-on-button").click(() => {
-    confirmationDialog.show(lampOnMessage, playback.turnOnLamp);
+    confirmationDialog.show(lampOnMessage, projector.turnOnLamp);
   });
   $("#lamp-off-button").click(() => {
-    confirmationDialog.show(lampOffMessage, playback.turnOffLamp);
+    confirmationDialog.show(lampOffMessage, projector.turnOffLamp);
   });
-  $("#douser-open-button").click(playback.openDouser);
-  $("#douser-close-button").click(playback.closeDouser);
+  $("#douser-open-button").click(projector.openDouser);
+  $("#douser-close-button").click(projector.closeDouser);
   Notify.requestPermission();
-  playback.onLampOff((timestamp) => {
+  projector.onLampChanged((isOn, timestamp, cooldown) => {
     const minutes = 1000 * 60;
     const t = new Date(timestamp);
     const interval = +new Date() - +t;
-    if (interval < 20 * minutes) {
+    if (cooldown) {
       if (Notify.permissionGranted) {
+        const m = Math.floor(cooldown / 60);
+        const s = (cooldown / 60) % 60;
         new Notify(lampMessage, {
-          body: `${lampMessageBody} ${t.getHours()}:${t.getMinutes()}`,
+          body: `${lampMessageBody} ${m}:${s}`,
           icon,
           tag: "projector1"
         }).show();
       } else {
         Toastr.info(lampMessage);
       }
+    } else if (interval > 0) {
+
     }
+  });
+  projector.onDouserChanged(() => {
+    // TODO implement
   });
 }
 
@@ -129,10 +137,10 @@ function initCurtainControl() {
 }
 
 function initInputControl() {
-  $("#image-mode-pc-scope").click(() => playback.setInput("pc_scope"));
-  $("#image-mode-pc-flat").click(() => playback.setInput("pc_flat"));
-  $("#image-mode-projector-scope").click(() => playback.setInput("cinema_scope"));
-  $("#image-mode-projector-flat").click(() => playback.setInput("cinema_flat"));
+  $("#image-mode-pc-scope").click(() => projector.setInput("pc_scope"));
+  $("#image-mode-pc-flat").click(() => projector.setInput("pc_flat"));
+  $("#image-mode-projector-scope").click(() => projector.setInput("cinema_scope"));
+  $("#image-mode-projector-flat").click(() => projector.setInput("cinema_flat"));
   $('input[name="sound-mode"]:radio').change((e: any) => volume.setInput(e.target.value));
   volume.onInputChanged((inputMode) => $('input[name="sound-mode"]').val([inputMode]));
   $('input[name="decode-mode"]:radio').change((e: any) => volume.setDecoding(e.target.value));
