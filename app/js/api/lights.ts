@@ -1,7 +1,15 @@
 import connection from "./connection";
+
+export enum LightLevel {
+  OFF = 0,
+  LOW = 1,
+  HIGH = 2,
+  MAX = 3,
+}
+
 connection.onmessage("lights", (msg) => {
   switch (msg.action) {
-    case "lights_connection":
+    case "connection":
       msg.connected ? availableCallback() : unavailableCallback();
       break;
     default:

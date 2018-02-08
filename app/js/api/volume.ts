@@ -1,14 +1,36 @@
 import connection from "./connection";
+
+export enum InputMode {
+  DIGITAL_1 = 0,
+  DIGITAL_2 = 1,
+  DIGITAL_3 = 2,
+  DIGITAL_4 = 3,
+  ANALOG = 4,
+  NON_SYNC = 5,
+  MICROPHONE = 6,
+  LAST = 7,
+}
+
+export enum DecodeMode {
+  AUTO = 0,
+  INVALID = 1,
+  N_A = 2,
+  SURROUND_5_1 = 3,
+  DOLBY_PRO_LOGIC = 4,
+  DOLBY_PRO_LOGIC_2 = 5,
+  MICROPHONESURROUND_7_1 = 6,
+}
+
 connection.onmessage("volume", (msg) => {
   switch (msg.action) {
+    case "connection":
+      msg.connected ? availableCallback() : unavailableCallback();
+      break;
     case "volume_changed":
       volumeCallback(msg.volume / 10.0);
       break;
     case "mute_status_changed":
       msg.muted ? muteCallback() : unmuteCallback();
-      break;
-    case "dolby_connection":
-      msg.connected ? availableCallback() : unavailableCallback();
       break;
     case "input_mode_changed":
       inputCallback(msg.mode);
