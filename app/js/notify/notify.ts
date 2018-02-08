@@ -26,6 +26,7 @@ export class Notify {
     private static registration: ServiceWorkerRegistration;
 
     constructor(private message: string, private options?: NotificationOptions) { }
+
     public show() {
         if (Notify.permissionGranted) {
             Notify.registration.showNotification(this.message, this.options);

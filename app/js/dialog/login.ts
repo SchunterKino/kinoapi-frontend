@@ -7,51 +7,55 @@ messages[ErrorCode.INVALID_TOKEN] = "Bitte anmelden.";
 messages[ErrorCode.SESSION_EXPIRED] = "Session ist abgelaufen. Bitte erneut anmelden.";
 messages[ErrorCode.AUTH_ERROR] = "Konnte nicht einloggen. Versuche es später erneut.";
 
-let loginCallback: (password: string) => void;
-
-const dialog = $(`
-  <div class="dialog modal fade" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog">
-    <div class="modal-dialog modal-m">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h3 class="dialog-message"></h3>
-        </div>
-        <div class="modal-body">
-          <form class="form-inline" id="form">
-            <div class="form-group password-group">
-              <label class="sr-only" for="password">Passwort</label>
-              <input type="password" class="form-control" id="password" placeholder="Passwort">
-            </div>
-            <button type="submit" class="btn btn-primary">Login</button>
-          </form>
+export class LoginDialog {
+  private loginCallback: (password: string) => void;
+  private dialog: JQuery<HTMLElement> = $(`
+    <div class="dialog modal fade" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog">
+      <div class="modal-dialog modal-m">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h3 class="dialog-message"></h3>
+          </div>
+          <div class="modal-body">
+            <form class="form-inline" id="form">
+              <div class="form-group password-group">
+                <label class="sr-only" for="password">Passwort</label>
+                <input type="password" class="form-control" id="password" placeholder="Passwort">
+              </div>
+              <button type="submit" class="btn btn-primary">Login</button>
+            </form>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-`);
+  `);
 
-const hide = () => {
-  dialog.modal("hide");
-};
+  public constructor() {
+    this.dialog.find("#form").submit((event) => {
+      event.preventDefault();
+      const password = this.dialog.find("#password").val();
+      this.hide();
+      this.loginCallback(password.toString());
+    });
+    this.dialog.find("#password").keyup(() => {
+      this.dialog.find(".password-group").removeClass("has-error");
+    });
+  }
 
-dialog.find("#form").submit((event) => {
-  event.preventDefault();
-  const password = dialog.find("#password").val();
-  hide();
-  loginCallback(password.toString());
-});
+  public show(error: ErrorCode, onLogin: (password: string) => void) {
+    this.loginCallback = onLogin;
+    this.dialog.find(".dialog-message").text(messages[error]);
+    this.dialog.find(".password-group").toggleClass("has-error", error === ErrorCode.UNAUTHORIZED);
+    this.dialog.modal("show");
+  }
 
-dialog.find("#password").keyup(() => {
-  dialog.find(".password-group").removeClass("has-error");
-});
+  public hide() {
+    this.dialog.modal("hide");
+  }
 
-export default {
-  show: (error: ErrorCode, onLogin: (password: string) => void) => {
-    loginCallback = onLogin;
-    dialog.find(".dialog-message").text(messages[error]);
-    dialog.find(".password-group").toggleClass("has-error", error === ErrorCode.UNAUTHORIZED);
-    dialog.modal("show");
-  },
-  isVisible: () => dialog.is(":visible"),
-  hide
-};
+  public isVisible(): boolean {
+    return this.dialog.is(":visible");
+  }
+}
+
+export default new LoginDialog();

@@ -1,40 +1,44 @@
 import * as $ from "jquery";
 
-let acceptCallback: () => void;
-
-const dialog = $(`
-  <div class="dialog modal fade" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog">
-    <div class="modal-dialog modal-m">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h3 class="dialog-message"></h3>
-        </div>
-        <div class="modal-body from-inline">
-          <button id="accept" class="btn btn-primary">Ok</button>
-          <button id="cancel" class="btn btn-default">Abbrechen</button>
+export class ConfirmationDialog {
+  private acceptCallback: () => void;
+  private dialog: JQuery<HTMLElement> = $(`
+    <div class="dialog modal fade" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog">
+      <div class="modal-dialog modal-m">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h3 class="dialog-message"></h3>
+          </div>
+          <div class="modal-body from-inline">
+            <button id="accept" class="btn btn-primary">Ok</button>
+            <button id="cancel" class="btn btn-default">Abbrechen</button>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-`);
+  `);
 
-const hide = () => {
-  dialog.modal("hide");
-};
+  public constructor() {
+    this.dialog.find("#cancel").click(() => this.hide());
+    this.dialog.find("#accept").click((event) => {
+      this.hide();
+      this.acceptCallback();
+    });
+  }
 
-dialog.find("#accept").click((event) => {
-  hide();
-  acceptCallback();
-});
+  public show(message: string, accept: () => void) {
+    this.acceptCallback = accept;
+    this.dialog.find(".dialog-message").text(message);
+    this.dialog.modal("show");
+  }
 
-dialog.find("#cancel").click(hide);
+  public hide() {
+    this.dialog.modal("hide");
+  }
 
-export default {
-  show: (message: string, accept: () => void) => {
-    acceptCallback = accept;
-    dialog.find(".dialog-message").text(message);
-    dialog.modal("show");
-  },
-  isVisible: () => dialog.is(":visible"),
-  hide
-};
+  public isVisible(): boolean {
+    return this.dialog.is(":visible");
+  }
+}
+
+export default new ConfirmationDialog();
