@@ -46,7 +46,7 @@ export class Playback {
   }
 
   public setInput(mode: InputMode) {
-    this.send("set_input_mode", mode);
+    this.send("set_input_mode", "mode", mode);
   }
 
   private send(action: string, dataKey?: string, dataValue?: any) {
