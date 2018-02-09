@@ -8,18 +8,19 @@ import * as icon from "../ic_launcher.png";
 import { connection, curtain, lights, playback, projector, volume } from "./api";
 import { AudioInputMode, DecodeMode, ErrorCode, PowerState, VideoInputMode } from "./api";
 import { confirmationDialog, loginDialog, progressDialog } from "./dialog";
-import { Notify } from "./notify";
+import { DouserNotify, LampNotify, Notify, PowerNotify } from "./notify";
 
 const connectingMessage = "Verbinde mit Server…";
-const lampOffMessage = "Lampe wirklich ausschalten?";
-const lampOnMessage = "Lampe wirklich einschalten?";
-const lampMessage = "Projektorlampe ist aus!";
-const lampMessageBody = "Projektorlampe schaltet aus in";
+const lampOffConfirmMessage = "Lampe wirklich ausschalten?";
+const lampOnConfirmMessage = "Lampe wirklich einschalten?";
+const minutes = 60 * 1000;
+const maxMessageAge = 20 * minutes;
 let isSliding = false;
 
 $(() => {
   initDialogs();
   initToasts();
+  initNotifications();
   initCurtainControl();
   initLightControl();
   initPlaybackControl();
@@ -62,6 +63,31 @@ function initToasts() {
   connection.onError((msg: string) => Toastr.error(msg));
 }
 
+function initNotifications() {
+  Notify.requestPermission();
+  const countDownLampNotify = (isOn: boolean, timestamp?: Date, cooldown?: number) => {
+    new LampNotify(isOn, timestamp, cooldown).show();
+    if (cooldown && cooldown > 0) {
+      setTimeout(() => {
+        countDownLampNotify(isOn, timestamp, cooldown - 1);
+      }, 1000);
+    }
+  };
+  projector.onLampChanged((isOn: boolean, timestamp?: Date, cooldown?: number) => {
+    if (timestamp && ((+Date.now() - +timestamp) < maxMessageAge)) {
+      countDownLampNotify(isOn, timestamp, cooldown);
+    }
+  });
+  projector.onDouserChanged((isOpen: boolean) => {
+    new DouserNotify(isOpen).show();
+  });
+  projector.onPowerChanged((state: PowerState, timestamp?: Date) => {
+    if (timestamp && (+Date.now() - +timestamp) < maxMessageAge) {
+      new PowerNotify(state, timestamp).show();
+    }
+  });
+}
+
 function initCurtainControl() {
   $("#curtain-switch").change(() => {
     $("#curtain-switch").prop("checked") ? curtain.open() : curtain.close();
@@ -84,22 +110,13 @@ function initPlaybackControl() {
 
 function initProjectorControl() {
   $("#lamp-on-button").click(() => {
-    confirmationDialog.show(lampOnMessage, () => projector.turnOnLamp());
+    confirmationDialog.show(lampOnConfirmMessage, () => projector.turnOnLamp());
   });
   $("#lamp-off-button").click(() => {
-    confirmationDialog.show(lampOffMessage, () => projector.turnOffLamp());
+    confirmationDialog.show(lampOffConfirmMessage, () => projector.turnOffLamp());
   });
   $("#douser-open-button").click(() => projector.openDouser());
   $("#douser-close-button").click(() => projector.closeDouser());
-  projector.onPowerChanged((state: PowerState, timestamp?: Date) => {
-    // TODO implement
-  });
-  projector.onLampChanged((isOn: boolean, timestamp?: Date, cooldown?: number) => {
-    // TODO implement
-  });
-  projector.onDouserChanged((isOpen: boolean) => {
-    // TODO implement
-  });
 }
 
 function initVolumeControl() {
