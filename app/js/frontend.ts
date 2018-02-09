@@ -169,26 +169,26 @@ function initAvailability() {
 }
 
 function disableCurtainControls(disabled: boolean) {
-  $("#curtain-switch").attr("disabled", disabled.toString());
+  $("#curtain-switch").prop("disabled", disabled);
 }
 
 function disableLightsControls(disabled: boolean) {
-  $("[id^=light-button-]").attr("disabled", disabled.toString());
+  $("[id^=light-button-]").prop("disabled", disabled);
 }
 
 function disablePlaybackControls(disabled: boolean) {
-  $("#play-button,#pause-button,#stop-button").attr("disabled", disabled.toString());
-  $("[id^=image-mode-]").attr("disabled", disabled.toString());
+  $("#play-button,#pause-button,#stop-button").prop("disabled", disabled);
+  $("[id^=image-mode-]").prop("disabled", disabled);
 }
 
 function disableProjectorControls(disabled: boolean) {
-  $("#lamp-on-button,#lamp-off-button,#douser-open-button,#douser-close-button").attr("disabled", disabled.toString());
+  $("#lamp-on-button,#lamp-off-button,#douser-open-button,#douser-close-button").prop("disabled", disabled);
 }
 
 function disableVolumeControls(disabled: boolean) {
-  $("#volume-up-button,#volume-down-button,#volume-mute-button").attr("disabled", disabled.toString());
-  $('input[name="sound-mode"]:radio').attr("disabled", disabled.toString());
-  $('input[name="decode-mode"]:radio').attr("disabled", disabled.toString());
+  $("#volume-up-button,#volume-down-button,#volume-mute-button").prop("disabled", disabled);
+  $('input[name="sound-mode"]:radio').prop("disabled", disabled);
+  $('input[name="decode-mode"]:radio').prop("disabled", disabled);
   $(".sound-mode-label").toggleClass("disabled", disabled);
   $("#volume-slider").slider(disabled ? "disable" : "enable");
 }
