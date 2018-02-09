@@ -18,7 +18,7 @@ export enum DecodeMode {
   SURROUND_5_1 = 3,
   DOLBY_PRO_LOGIC = 4,
   DOLBY_PRO_LOGIC_2 = 5,
-  MICROPHONESURROUND_7_1 = 6,
+  SURROUND_7_1 = 6,
 }
 
 export class Volume {

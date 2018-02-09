@@ -145,9 +145,9 @@ function initInputControl() {
   $("#image-mode-projector-scope").click(() => playback.setInput(VideoInputMode.CINEMA_SCOPE));
   $("#image-mode-projector-flat").click(() => playback.setInput(VideoInputMode.CINEMA_FLAT));
   $('input[name="sound-mode"]:radio').change((e: any) => volume.setInput(e.target.value));
-  volume.onInputChanged((mode: AudioInputMode) => $('input[name="sound-mode"]').val(mode));
+  volume.onInputChanged((mode: AudioInputMode) => $('input[name="sound-mode"]').val([mode.toString()]));
   $('input[name="decode-mode"]:radio').change((e: any) => volume.setDecoding(e.target.value));
-  volume.onDecodingChanged((mode: DecodeMode) => $('input[name="decode-mode"]').val(mode));
+  volume.onDecodingChanged((mode: DecodeMode) => $('input[name="decode-mode"]').val([mode.toString()]));
 }
 
 function initAvailability() {
