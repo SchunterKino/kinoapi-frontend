@@ -22,10 +22,17 @@ export class Projector {
             : this.unavailableCallback();
           break;
         case "power_changed":
-          this.powerCallback(msg.state, new Date(msg.timestamp));
+          this.powerCallback(
+            msg.state,
+            msg.timestamp ? new Date(msg.timestamp) : null
+          );
           break;
         case "lamp_changed":
-          this.lampCallback(msg.is_on, new Date(msg.timestamp), msg.cooldown);
+          this.lampCallback(
+            msg.is_on,
+            msg.timestamp ? new Date(msg.timestamp) : null,
+            msg.cooldown ? msg.cooldown * 1000 : null
+          );
           break;
         case "douser_changed":
           this.douserCallback(msg.is_open);
