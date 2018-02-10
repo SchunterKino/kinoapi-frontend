@@ -8,7 +8,7 @@ import * as icon from "../ic_launcher.png";
 import { connection, curtain, lights, playback, projector, volume } from "./api";
 import { AudioInputMode, DecodeMode, ErrorCode, PowerState, VideoInputMode } from "./api";
 import { confirmationDialog, loginDialog, progressDialog } from "./dialog";
-import { DouserNotify, LampNotify, Notify, PowerNotify } from "./notify";
+import { douserNotify, lampNotify, Notify, powerNotify } from "./notify";
 
 const connectingMessage = "Verbinde mit Server…";
 const lampOffConfirmMessage = "Lampe wirklich ausschalten?";
@@ -65,25 +65,17 @@ function initToasts() {
 
 function initNotifications() {
   Notify.requestPermission();
-  const countDownLampNotify = (isOn: boolean, timestamp?: Date, cooldown?: number) => {
-    new LampNotify(isOn, timestamp, cooldown).show();
-    if (cooldown && cooldown > 0) {
-      setTimeout(() => {
-        countDownLampNotify(isOn, timestamp, cooldown - 1);
-      }, 1000);
-    }
-  };
   projector.onLampChanged((isOn: boolean, timestamp?: Date, cooldown?: number) => {
-    if (timestamp && ((+Date.now() - +timestamp) < maxMessageAge)) {
-      countDownLampNotify(isOn, timestamp, cooldown);
+    if (timestamp !== null && (+Date.now() - +timestamp) < maxMessageAge) {
+      lampNotify.set(isOn, timestamp, cooldown);
     }
   });
   projector.onDouserChanged((isOpen: boolean) => {
-    new DouserNotify(isOpen).show();
+    douserNotify.set(isOpen);
   });
   projector.onPowerChanged((state: PowerState, timestamp?: Date) => {
-    if (timestamp && (+Date.now() - +timestamp) < maxMessageAge) {
-      new PowerNotify(state, timestamp).show();
+    if (timestamp !== null && (+Date.now() - +timestamp) < maxMessageAge) {
+      powerNotify.set(state, timestamp);
     }
   });
 }

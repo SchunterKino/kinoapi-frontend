@@ -3,28 +3,31 @@ import * as icon from "../../ic_launcher.png";
 import { PowerState } from "../api";
 import { Notify } from "./notify";
 
-const powerStateMessages: { [powerState: number]: string } = {};
-powerStateMessages[PowerState.OFF] = "Projektor heruntergefahren.";
-powerStateMessages[PowerState.ON] = "Projektor hochgefahren.";
-powerStateMessages[PowerState.WARM_UP] = "Projektor fährt hoch.";
-
 export class PowerNotify {
     private message: string;
     private body: string;
-    public constructor(state: PowerState, timestamp?: Date) {
-        const message = powerStateMessages[state];
-        const body = `Um ${timestamp.toLocaleTimeString()}`;
+
+    public constructor(
+        private powerStateMessages: { [powerState: number]: string } = {}
+    ) { }
+
+    public set(state: PowerState, timestamp: Date) {
+        this.message = this.powerStateMessages[state];
+        this.body = `Um ${timestamp.toLocaleTimeString()}`;
+        this.show();
     }
 
-    public show() {
+    private show() {
         if (Notify.permissionGranted) {
-            new Notify(this.message, {
-                body: this.body,
-                icon,
-                tag: "projector_power"
-            }).show();
+            new Notify(this.message, { body: this.body, icon, tag: "projector_power" }).show();
         } else {
-            Toastr.info(this.message, this.body);
+            Toastr.info(this.body, this.message);
         }
     }
 }
+
+export default new PowerNotify({
+    [PowerState.OFF]: "Projektor heruntergefahren.",
+    [PowerState.ON]: "Projektor hochgefahren.",
+    [PowerState.WARM_UP]: "Projektor fährt hoch.",
+});

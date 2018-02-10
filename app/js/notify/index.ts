@@ -1,4 +1,4 @@
-export * from "./notify";
-export * from "./douser";
-export * from "./lamp";
-export * from "./power";
+export { Notify } from "./notify";
+export { default as lampNotify } from "./lamp";
+export { default as douserNotify } from "./douser";
+export { default as powerNotify } from "./power";
