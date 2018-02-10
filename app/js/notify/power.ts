@@ -20,9 +20,8 @@ export class PowerNotify {
     private show() {
         if (Notify.permissionGranted) {
             new Notify(this.message, { body: this.body, icon, tag: "projector_power" }).show();
-        } else {
-            Toastr.info(this.body, this.message);
         }
+        Toastr.info(this.body, this.message);
     }
 }
 
