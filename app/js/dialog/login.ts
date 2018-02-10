@@ -1,12 +1,6 @@
 import * as $ from "jquery";
 import { ErrorCode } from "../api";
 
-const messages: { [errorCode: number]: string } = {};
-messages[ErrorCode.UNAUTHORIZED] = "Kennwort ist nicht korrekt.";
-messages[ErrorCode.INVALID_TOKEN] = "Bitte anmelden.";
-messages[ErrorCode.SESSION_EXPIRED] = "Session ist abgelaufen. Bitte erneut anmelden.";
-messages[ErrorCode.AUTH_ERROR] = "Konnte nicht einloggen. Versuche es später erneut.";
-
 export class LoginDialog {
   private loginCallback: (password: string) => void;
   private dialog: JQuery<HTMLElement> = $(`
@@ -30,7 +24,7 @@ export class LoginDialog {
     </div>
   `);
 
-  public constructor() {
+  public constructor(private errorMessages: { [errorCode: number]: string }) {
     this.dialog.find("#form").submit((event) => {
       event.preventDefault();
       const password = this.dialog.find("#password").val();
@@ -44,7 +38,7 @@ export class LoginDialog {
 
   public show(error: ErrorCode, onLogin: (password: string) => void) {
     this.loginCallback = onLogin;
-    this.dialog.find(".dialog-message").text(messages[error]);
+    this.dialog.find(".dialog-message").text(this.errorMessages[error]);
     this.dialog.find(".password-group").toggleClass("has-error", error === ErrorCode.UNAUTHORIZED);
     this.dialog.modal("show");
   }
@@ -58,4 +52,9 @@ export class LoginDialog {
   }
 }
 
-export default new LoginDialog();
+export default new LoginDialog({
+  [ErrorCode.UNAUTHORIZED]: "Kennwort ist nicht korrekt.",
+  [ErrorCode.INVALID_TOKEN]: "Bitte anmelden.",
+  [ErrorCode.SESSION_EXPIRED]: "Session ist abgelaufen. Bitte erneut anmelden.",
+  [ErrorCode.AUTH_ERROR]: "Konnte nicht einloggen. Versuche es später erneut.",
+});
