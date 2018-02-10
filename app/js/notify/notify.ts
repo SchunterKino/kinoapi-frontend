@@ -13,7 +13,6 @@ export class Notify {
         }
         Notification.requestPermission((result) => {
             if (result === "granted") {
-                Notify.permissionGranted = true;
                 runtime.register().then((registration) => {
                     Notify.registration = registration;
                     Notify.permissionGranted = true;
