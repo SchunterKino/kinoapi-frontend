@@ -17,7 +17,7 @@ export class DouserNotify {
 
     private show() {
         if (Notify.permissionGranted) {
-            new Notify(this.message, { icon, tag: "projector_douser" }).show();
+            new Notify(this.message, { icon, tag: "projector" }).show();
         }
         Toastr.info(this.message);
     }

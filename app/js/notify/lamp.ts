@@ -81,7 +81,7 @@ export class LampNotify {
         }
 
         if (Notify.permissionGranted) {
-            new Notify(message, { body, icon, tag: "projector_lamp" }).show();
+            new Notify(message, { body, icon, tag: "projector" }).show();
         }
         if (timeOut !== null) {
             Toastr.info(null, message, { progressBar: true, timeOut });

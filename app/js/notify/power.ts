@@ -19,7 +19,7 @@ export class PowerNotify {
 
     private show() {
         if (Notify.permissionGranted) {
-            new Notify(this.message, { body: this.body, icon, tag: "projector_power" }).show();
+            new Notify(this.message, { body: this.body, icon, tag: "projector" }).show();
         }
         Toastr.info(this.body, this.message);
     }
