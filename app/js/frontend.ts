@@ -79,6 +79,7 @@ function initNotifications() {
     // douserNotify.set(isOpen);
   });
   projector.onPowerChanged((state: PowerState, timestamp?: Date) => {
+    disableDouserControls(state !== PowerState.ON);
     if (timestamp !== null && (+Date.now() - +timestamp) < maxMessageAge) {
       powerNotify.set(state, timestamp);
     }
@@ -189,8 +190,14 @@ function disablePlaybackControls(disabled: boolean) {
 }
 
 function disableProjectorControls(disabled: boolean) {
-  $("#lamp-on-button,#lamp-off-button,#douser-open-button,#douser-close-button,#imb-on-button,#imb-off-button")
-    .prop("disabled", disabled);
+  if (disabled) {
+    disableDouserControls(true);
+  }
+  $("#lamp-on-button,#lamp-off-button,#imb-on-button,#imb-off-button").prop("disabled", disabled);
+}
+
+function disableDouserControls(disabled: boolean) {
+  $("#douser-open-button,#douser-close-button").prop("disabled", disabled);
 }
 
 function disableVolumeControls(disabled: boolean) {
