@@ -40,6 +40,7 @@ export class LoginDialog {
     this.loginCallback = onLogin;
     this.dialog.find(".dialog-message").text(this.errorMessages[error]);
     this.dialog.find(".password-group").toggleClass("has-error", error === ErrorCode.UNAUTHORIZED);
+    $(".modal-backdrop").remove();
     this.dialog.modal("show");
   }
 

@@ -29,6 +29,7 @@ export class ConfirmationDialog {
   public show(message: string, accept: () => void) {
     this.acceptCallback = accept;
     this.dialog.find(".dialog-message").text(message);
+    $(".modal-backdrop").remove();
     this.dialog.modal("show");
   }
 

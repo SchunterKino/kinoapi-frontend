@@ -20,6 +20,7 @@ export class ProgressDialog {
 
   public show(message: string) {
     this.dialog.find(".dialog-message").text(message);
+    $(".modal-backdrop").remove();
     this.dialog.modal("show");
   }
 
