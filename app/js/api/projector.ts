@@ -68,7 +68,7 @@ export class Projector {
   }
 
   public turnOff() {
-    this.send("power_on");
+    this.send("power_off");
   }
 
   public turnOnLamp() {
