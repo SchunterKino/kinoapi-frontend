@@ -110,6 +110,8 @@ function initProjectorControl() {
   });
   $("#douser-open-button").click(() => projector.openDouser());
   $("#douser-close-button").click(() => projector.closeDouser());
+  $("#imb-on-button").click(() => projector.turnOn());
+  $("#imb-off-button").click(() => projector.turnOff());
 }
 
 function initVolumeControl() {
@@ -175,7 +177,8 @@ function disablePlaybackControls(disabled: boolean) {
 }
 
 function disableProjectorControls(disabled: boolean) {
-  $("#lamp-on-button,#lamp-off-button,#douser-open-button,#douser-close-button").prop("disabled", disabled);
+  $("#lamp-on-button,#lamp-off-button,#douser-open-button,#douser-close-button,#imb-on-button,#imb-off-button")
+    .prop("disabled", disabled);
 }
 
 function disableVolumeControls(disabled: boolean) {
