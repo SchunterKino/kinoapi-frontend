@@ -71,7 +71,8 @@ function initNotifications() {
     }
   });
   projector.onDouserChanged((isOpen: boolean) => {
-    douserNotify.set(isOpen);
+    // not important enough :)
+    // douserNotify.set(isOpen);
   });
   projector.onPowerChanged((state: PowerState, timestamp?: Date) => {
     if (timestamp !== null && (+Date.now() - +timestamp) < maxMessageAge) {
