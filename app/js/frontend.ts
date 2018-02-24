@@ -13,8 +13,10 @@ import { douserNotify, lampNotify, Notify, powerNotify } from "./notify";
 const connectingMessage = "Verbinde mit Server…";
 const lampOffConfirmMessage = "Lampe wirklich ausschalten?";
 const lampOnConfirmMessage = "Lampe wirklich einschalten?";
+const imbOffConfirmMessage = "IMB wirklich ausschalten?";
+const imbOnConfirmMessage = "IMB wirklich einschalten?";
 const minutes = 60 * 1000;
-const maxMessageAge = 20 * minutes;
+const maxMessageAge = 5 * minutes;
 let isSliding = false;
 let sliderMax: number;
 let sliderMin: number;
@@ -112,8 +114,12 @@ function initProjectorControl() {
   });
   $("#douser-open-button").click(() => projector.openDouser());
   $("#douser-close-button").click(() => projector.closeDouser());
-  $("#imb-on-button").click(() => projector.turnOn());
-  $("#imb-off-button").click(() => projector.turnOff());
+  $("#imb-on-button").click(() => {
+    confirmationDialog.show(imbOnConfirmMessage, () => projector.turnOn());
+  });
+  $("#imb-off-button").click(() => {
+    confirmationDialog.show(imbOffConfirmMessage, () => projector.turnOff());
+  });
 }
 
 function initVolumeControl() {
