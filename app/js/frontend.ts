@@ -16,6 +16,8 @@ const lampOnConfirmMessage = "Lampe wirklich einschalten?";
 const minutes = 60 * 1000;
 const maxMessageAge = 20 * minutes;
 let isSliding = false;
+let sliderMax: number;
+let sliderMin: number;
 
 $(() => {
   initDialogs();
@@ -115,11 +117,15 @@ function initProjectorControl() {
 }
 
 function initVolumeControl() {
+  sliderMax = parseFloat($("#volume-slider").data("sliderMax"));
+  sliderMin = parseFloat($("#volume-slider").data("sliderMin"));
   $("#volume-slider").on("change", (e: any) => volume.setVolume(e.value.newValue));
   $("#volume-slider").on("slideStart", () => isSliding = true);
   $("#volume-slider").on("slideStop", () => isSliding = false);
   volume.onVolumeChanged((vol) => {
     if (!isSliding) {
+      $("#volume-slider").slider("setAttribute", "max", Math.max(vol, sliderMax));
+      $("#volume-slider").slider("setAttribute", "min", Math.min(vol, sliderMin));
       $("#volume-slider").slider("setValue", vol, false, false);
     }
   });
