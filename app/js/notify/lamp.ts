@@ -19,7 +19,7 @@ export class LampNotify {
         this.isOn = isOn;
         this.timestamp = timestamp;
         this.cooldown = cooldown;
-        this.show();
+        this.show(false);
         if (this.autoRefresh) {
             this.clearPreviousRefresh();
             if (this.cooldown != null) {
@@ -36,31 +36,23 @@ export class LampNotify {
     }
 
     private refreshAfterDelay(delay: number) {
-        const cooldownFromNow = this.getCooldownFromNow(this.timestamp, this.cooldown);
-        if (cooldownFromNow > 0) {
+        if (this.cooldown > 0) {
             this.refreshTimeoutId = window.setTimeout(() => {
                 this.refreshTimeoutId = null;
-                this.show();
+                this.show(true);
                 this.refreshAfterDelay(delay);
-            }, cooldownFromNow % delay);
+            }, this.cooldown % delay);
         }
     }
 
-    private getCooldownFromNow(timestamp: Date, cooldown: number): number {
-        const timestampAge = (+Date.now() - +timestamp);
-        return cooldown - timestampAge;
-    }
-
-    private show() {
+    private show(update: boolean) {
         let message: string;
         let body: string;
-        let timeOut = null;
         if (this.cooldown === null) {
             message = this.isOn ? this.lampOnMessage : this.lampOffMessage;
             body = `Um ${this.timestamp.toLocaleTimeString()}`;
         } else {
-            timeOut = this.getCooldownFromNow(this.timestamp, this.cooldown);
-            const seconds = Math.round(timeOut / 1000);
+            const seconds = Math.round(this.cooldown / 1000);
             const minutes = Math.floor(seconds / 60);
             if (minutes > 1) {
                 message = this.lampCooldownMessage;
@@ -75,16 +67,17 @@ export class LampNotify {
                 message = this.lampCooldownMessage;
                 body = `Noch eine Sekunde.`;
             } else {
-                message = this.lampOffMessage;
-                body = `Um ${this.timestamp.toLocaleTimeString()}`;
+                message = this.lampCooldownMessage;
+                body = `Jeden Moment fertig!`;
             }
         }
 
         if (Notify.permissionGranted) {
-            new Notify(message, { body, icon, tag: "projector" }).show();
-        }
-        if (timeOut !== null) {
-            Toastr.info(null, message, { progressBar: true, timeOut });
+            const renotify = update ? true : undefined;
+            const options: any = { body, icon, renotify, tag: "projector" };
+            new Notify(message, options).show(() => this.clearPreviousRefresh());
+        } else if (this.cooldown !== null) {
+            Toastr.info(body, message, { progressBar: true, timeout: this.cooldown });
         } else {
             Toastr.info(body, message);
         }

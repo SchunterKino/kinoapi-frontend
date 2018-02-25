@@ -26,11 +26,21 @@ export class Notify {
 
     constructor(private message: string, private options?: NotificationOptions) { }
 
-    public show() {
-        if (Notify.permissionGranted) {
-            Notify.registration.showNotification(this.message, this.options);
+    public show(dismissCallback?: () => void) {
+        if (!Notify.permissionGranted) {
+            console.warn("[notification] permission not granted");
         } else {
-            console.warn("Could not show Notification");
+            Notify.registration
+                .showNotification(this.message, this.options)
+                .then(() => Notify.registration.getNotifications({ tag: this.options.tag }))
+                .then((notifications: Notification[]) => {
+                    if (notifications.length === 0) {
+                        console.error("[notification] not found");
+                    } else if (dismissCallback) {
+                        console.log("[notification] dismissed");
+                        notifications[0].onclose = () => dismissCallback();
+                    }
+                });
         }
     }
 }
