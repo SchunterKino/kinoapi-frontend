@@ -20,16 +20,20 @@ export class ProgressDialog {
 
   public show(message: string) {
     this.dialog.find(".dialog-message").text(message);
-    $(".modal-backdrop").remove();
-    this.dialog.modal("show");
+    if (!this.isVisible()) {
+      $(".modal-backdrop").remove();
+      this.dialog.modal("show");
+    }
   }
 
   public hide() {
-    this.dialog.modal("hide");
+    if (this.isVisible()) {
+      this.dialog.modal("hide");
+    }
   }
 
-  public isVisible() {
-    this.dialog.is(":visible");
+  public isVisible(): boolean {
+    return this.dialog.is(":visible");
   }
 }
 
