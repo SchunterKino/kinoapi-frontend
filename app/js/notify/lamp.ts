@@ -40,6 +40,7 @@ export class LampNotify {
             this.refreshTimeoutId = window.setTimeout(() => {
                 this.refreshTimeoutId = null;
                 this.show(true);
+                this.cooldown -= delay / 1000;
                 this.refreshAfterDelay(delay);
             }, this.cooldown % delay);
         }
@@ -48,12 +49,14 @@ export class LampNotify {
     private show(update: boolean) {
         let message: string;
         let body: string;
+        let seconds;
+        let minutes;
         if (this.cooldown === null) {
             message = this.isOn ? this.lampOnMessage : this.lampOffMessage;
             body = `Um ${this.timestamp.toLocaleTimeString()}`;
         } else {
-            const seconds = Math.round(this.cooldown / 1000);
-            const minutes = Math.floor(seconds / 60);
+            seconds = Math.round(this.cooldown / 1000);
+            minutes = Math.floor(seconds / 60);
             if (minutes > 1) {
                 message = this.lampCooldownMessage;
                 body = `Noch ${minutes} Minuten.`;
@@ -76,8 +79,8 @@ export class LampNotify {
             const renotify = update ? true : undefined;
             const options: any = { body, icon, renotify, tag: "projector" };
             new Notify(message, options).show(() => this.clearPreviousRefresh());
-        } else if (this.cooldown !== null) {
-            Toastr.info(body, message, { progressBar: true, timeout: this.cooldown });
+        } else if (seconds !== null) {
+            Toastr.info(body, message, { progressBar: true, timeout: seconds });
         } else {
             Toastr.info(body, message);
         }

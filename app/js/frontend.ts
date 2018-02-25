@@ -15,8 +15,8 @@ const lampOffConfirmMessage = "Lampe wirklich ausschalten?";
 const lampOnConfirmMessage = "Lampe wirklich einschalten?";
 const imbOffConfirmMessage = "IMB wirklich ausschalten?";
 const imbOnConfirmMessage = "IMB wirklich einschalten?";
-const minutes = 60 * 1000;
-const maxMessageAge = 5 * minutes;
+const seconds = 1000;
+const maxMessageAge = 30 * seconds;
 let isSliding = false;
 let sliderMax: number;
 let sliderMin: number;
@@ -70,19 +70,19 @@ function initToasts() {
 function initNotifications() {
   Notify.requestPermission();
   projector.onLampChanged((isOn: boolean, timestamp?: Date, cooldown?: number) => {
-    if (timestamp !== null && (+Date.now() - +timestamp) < maxMessageAge) {
+    const isCoolingDown = cooldown !== null;
+    disableLampControls(isCoolingDown);
+    const isRecentEnough = (+Date.now() - +timestamp) < maxMessageAge;
+    if (isCoolingDown || (!isOn && isRecentEnough)) {
       lampNotify.set(isOn, timestamp, cooldown);
     }
   });
   projector.onDouserChanged((isOpen: boolean) => {
-    // not important enough :)
     // douserNotify.set(isOpen);
   });
-  projector.onPowerChanged((state: PowerState, timestamp?: Date) => {
+  projector.onPowerChanged((state: PowerState, timestamp: Date) => {
     disableDouserControls(state !== PowerState.ON);
-    if (timestamp !== null && (+Date.now() - +timestamp) < maxMessageAge) {
-      powerNotify.set(state, timestamp);
-    }
+    // powerNotify.set(state, timestamp);
   });
 }
 
@@ -192,12 +192,21 @@ function disablePlaybackControls(disabled: boolean) {
 function disableProjectorControls(disabled: boolean) {
   if (disabled) {
     disableDouserControls(true);
+    disableLampControls(true);
   }
-  $("#lamp-on-button,#lamp-off-button,#imb-on-button,#imb-off-button").prop("disabled", disabled);
+  disableImbControls(disabled);
+}
+
+function disableLampControls(disabled: boolean) {
+  $("#lamp-on-button,#lamp-off-button").prop("disabled", disabled);
 }
 
 function disableDouserControls(disabled: boolean) {
   $("#douser-open-button,#douser-close-button").prop("disabled", disabled);
+}
+
+function disableImbControls(disabled: boolean) {
+  $("#imb-on-button,#imb-off-button").prop("disabled", disabled);
 }
 
 function disableVolumeControls(disabled: boolean) {

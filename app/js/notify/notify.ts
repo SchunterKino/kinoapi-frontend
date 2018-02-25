@@ -37,7 +37,7 @@ export class Notify {
                     if (notifications.length === 0) {
                         console.error("[notification] not found");
                     } else if (dismissCallback) {
-                        console.log("[notification] dismissed");
+                        console.log("[notification] shown");
                         notifications[0].onclose = () => dismissCallback();
                     }
                 });

@@ -9,8 +9,8 @@ export enum PowerState {
 export class Projector {
   private availableCallback: () => void;
   private unavailableCallback: () => void;
-  private powerCallback: (state: PowerState, timestamp?: Date) => void;
-  private lampCallback: (isOn: boolean, timestamp?: Date, cooldown?: number) => void;
+  private powerCallback: (state: PowerState, timestamp: Date) => void;
+  private lampCallback: (isOn: boolean, timestamp: Date, cooldown?: number) => void;
   private douserCallback: (isOpen: boolean) => void;
 
   public constructor(private connection: Connection) {
@@ -24,13 +24,13 @@ export class Projector {
         case "power_changed":
           this.powerCallback(
             msg.state,
-            msg.timestamp ? new Date(msg.timestamp) : null
+            new Date(msg.timestamp)
           );
           break;
         case "lamp_changed":
           this.lampCallback(
             msg.is_on,
-            msg.timestamp ? new Date(msg.timestamp) : null,
+            new Date(msg.timestamp),
             msg.cooldown ? msg.cooldown * 1000 : null
           );
           break;
