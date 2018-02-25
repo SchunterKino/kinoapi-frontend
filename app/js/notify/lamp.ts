@@ -75,7 +75,7 @@ export class LampNotify {
                 message = this.lampCooldownMessage;
                 body = `Noch eine Sekunde.`;
             } else {
-                message = this.isOn ? this.lampOffMessage : this.lampOnMessage;
+                message = this.lampOffMessage;
                 body = `Um ${this.timestamp.toLocaleTimeString()}`;
             }
         }
