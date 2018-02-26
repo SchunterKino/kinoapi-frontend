@@ -9,7 +9,7 @@ export class ConfirmationDialog {
           <div class="modal-header">
             <h3 class="dialog-message"></h3>
           </div>
-          <div class="modal-body from-inline">
+          <div class="modal-footer">
             <button id="accept" class="btn btn-primary">Ok</button>
             <button id="cancel" class="btn btn-default">Abbrechen</button>
           </div>
