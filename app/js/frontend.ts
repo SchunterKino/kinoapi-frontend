@@ -22,6 +22,7 @@ let sliderMax: number;
 let sliderMin: number;
 
 $(() => {
+  initLogout();
   initDialogs();
   initToasts();
   initNotifications();
@@ -36,19 +37,29 @@ $(() => {
   connection.connect();
 });
 
+function initLogout() {
+  $("#logout").click(() => {
+    document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=" + location.hostname;
+    connection.close();
+  });
+}
+
 function initDialogs() {
   connection.onOpen(() => {
     progressDialog.hide();
     loginDialog.hide();
     confirmationDialog.hide();
+    $("#status-bar").removeClass("hidden");
   });
   connection.onClose(() => {
+    $("#status-bar").addClass("hidden");
     confirmationDialog.hide();
     if (!loginDialog.isVisible()) {
       progressDialog.show(connectingMessage);
     }
   });
   connection.onUnauthorized((errorCode: ErrorCode) => {
+    $("#status-bar").addClass("hidden");
     progressDialog.hide();
     confirmationDialog.hide();
     loginDialog.show(errorCode, (password: string) => {

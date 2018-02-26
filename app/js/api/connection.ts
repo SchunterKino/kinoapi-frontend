@@ -93,6 +93,11 @@ export class Connection {
       }
     };
   }
+
+  public close() {
+    this.socket.close(1000);
+    this.socket = null;
+  }
 }
 
 export default new Connection(
