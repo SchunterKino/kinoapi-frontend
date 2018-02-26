@@ -81,8 +81,13 @@ function initNotifications() {
     // douserNotify.set(isOpen);
   });
   projector.onPowerChanged((state: PowerState, timestamp: Date) => {
-    disableDouserControls(state !== PowerState.ON);
+    const isIMBOff = state !== PowerState.ON;
+    disableDouserControls(isIMBOff);
+    disableVideoInputControls(isIMBOff);
     // powerNotify.set(state, timestamp);
+  });
+  projector.onContentIngestionChanged((isIngesting: boolean, timestamp: Date) => {
+
   });
 }
 
@@ -148,10 +153,8 @@ function initVolumeControl() {
 }
 
 function initInputControl() {
-  $("#image-mode-pc-scope").click(() => playback.setInput(VideoInputMode.PC_SCOPE));
-  $("#image-mode-pc-flat").click(() => playback.setInput(VideoInputMode.PC_FLAT));
-  $("#image-mode-projector-scope").click(() => playback.setInput(VideoInputMode.CINEMA_SCOPE));
-  $("#image-mode-projector-flat").click(() => playback.setInput(VideoInputMode.CINEMA_FLAT));
+  $('input[name="image-mode"]:radio').change((e: any) => projector.setChannel(e.target.value));
+  projector.onChannelChanged((channel: VideoInputMode) => $('input[name="image-mode"]').val([channel.toString()]));
   $('input[name="sound-mode"]:radio').change((e: any) => volume.setInput(e.target.value));
   volume.onInputChanged((mode: AudioInputMode) => $('input[name="sound-mode"]').val([mode.toString()]));
   $('input[name="decode-mode"]:radio').change((e: any) => volume.setDecoding(e.target.value));
@@ -186,13 +189,13 @@ function disableLightsControls(disabled: boolean) {
 
 function disablePlaybackControls(disabled: boolean) {
   $("#play-button,#pause-button,#stop-button").prop("disabled", disabled);
-  $("[id^=image-mode-]").prop("disabled", disabled);
 }
 
 function disableProjectorControls(disabled: boolean) {
   if (disabled) {
     disableDouserControls(true);
     disableLampControls(true);
+    disableVideoInputControls(true);
   }
   disableImbControls(disabled);
 }
@@ -207,6 +210,10 @@ function disableDouserControls(disabled: boolean) {
 
 function disableImbControls(disabled: boolean) {
   $("#imb-on-button,#imb-off-button").prop("disabled", disabled);
+}
+
+function disableVideoInputControls(disabled: boolean) {
+  $('input[name="image-mode"]:radio').prop("disabled", disabled);
 }
 
 function disableVolumeControls(disabled: boolean) {

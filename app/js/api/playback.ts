@@ -1,12 +1,5 @@
 import { Connection, default as apiconnection } from "./connection";
 
-export enum InputMode {
-  CINEMA_FLAT = "cinema_flat",
-  CINEMA_SCOPE = "cinema_scope",
-  PC_FLAT = "pc_flat",
-  PC_SCOPE = "pc_scope",
-}
-
 export class Playback {
   private availableCallback: () => void;
   private unavailableCallback: () => void;
@@ -45,18 +38,11 @@ export class Playback {
     this.send("stop");
   }
 
-  public setInput(mode: InputMode) {
-    this.send("set_input_mode", "mode", mode);
-  }
-
-  private send(action: string, dataKey?: string, dataValue?: any) {
+  private send(action: string) {
     const msg = {
       msg_type: "playback",
       action
     };
-    if (dataKey) {
-      msg[dataKey] = dataValue;
-    }
     this.connection.send(JSON.stringify(msg));
   }
 }

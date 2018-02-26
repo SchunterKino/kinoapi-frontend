@@ -6,12 +6,22 @@ export enum PowerState {
   ON = 2,
 }
 
+export enum InputMode {
+  UNKNOWN = 0,
+  CINEMA_FLAT = 1,
+  CINEMA_SCOPE = 2,
+  PC_FLAT = 3,
+  PC_SCOPE = 4,
+}
+
 export class Projector {
   private availableCallback: () => void;
   private unavailableCallback: () => void;
   private powerCallback: (state: PowerState, timestamp: Date) => void;
   private lampCallback: (isOn: boolean, timestamp: Date, cooldown?: number) => void;
   private douserCallback: (isOpen: boolean) => void;
+  private channelCallback: (channel: InputMode) => void;
+  private ingestionCallback: (isIngesting: boolean, timestamp: Date) => void;
 
   public constructor(private connection: Connection) {
     connection.onmessage("projector", (msg) => {
@@ -36,6 +46,15 @@ export class Projector {
           break;
         case "douser_changed":
           this.douserCallback(msg.is_open);
+          break;
+        case "channel_changed":
+          this.channelCallback(msg.channel);
+          break;
+        case "ingest_state_changed":
+          this.ingestionCallback(
+            msg.is_ingesting,
+            new Date(msg.timestamp)
+          );
           break;
         default:
           console.warn("unsupported action", msg.action);
@@ -63,6 +82,14 @@ export class Projector {
     this.douserCallback = callback;
   }
 
+  public onChannelChanged(callback: (channel: InputMode) => void) {
+    this.channelCallback = callback;
+  }
+
+  public onContentIngestionChanged(callback: (isIngesting: boolean, timestamp: Date) => void) {
+    this.ingestionCallback = callback;
+  }
+
   public turnOn() {
     this.send("power_on");
   }
@@ -85,6 +112,10 @@ export class Projector {
 
   public closeDouser() {
     this.send("douser_close");
+  }
+
+  public setChannel(channel: InputMode) {
+    this.send("set_channel", "channel", channel);
   }
 
   private send(action: string, dataKey?: string, dataValue?: any) {
