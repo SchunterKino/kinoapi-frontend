@@ -76,8 +76,13 @@ function initNotifications() {
     if (isCoolingDown || (!isOn && isRecentEnough)) {
       lampNotify.set(isOn, timestamp, cooldown);
     }
+
+    $('input[name="lamp-state"]').val([isOn ? "1" : "0"]);
+    $('input[name="lamp-state"]:checked').parent().addClass("active").siblings().removeClass("active");
   });
   projector.onDouserChanged((isOpen: boolean) => {
+    $('input[name="douser-state"]').val([isOpen ? "1" : "0"]);
+    $('input[name="douser-state"]:checked').parent().addClass("active").siblings().removeClass("active");
     // douserNotify.set(isOpen);
   });
   projector.onPowerChanged((state: PowerState, timestamp: Date) => {
@@ -85,9 +90,12 @@ function initNotifications() {
     disableDouserControls(isIMBOff);
     disableVideoInputControls(isIMBOff);
     // powerNotify.set(state, timestamp);
+
+    $('input[name="imb-power"]').val([!isIMBOff ? "1" : "0"]);
+    $('input[name="imb-power"]:checked').parent().addClass("active").siblings().removeClass("active");
   });
   projector.onContentIngestionChanged((isIngesting: boolean, timestamp: Date) => {
-
+    // TODO
   });
 }
 
@@ -112,19 +120,28 @@ function initPlaybackControl() {
 }
 
 function initProjectorControl() {
-  $("#lamp-on-button").click(() => {
-    confirmationDialog.show(lampOnConfirmMessage, () => projector.turnOnLamp());
+  $('input[name="imb-power"]:radio').change((e: any) => {
+    if (e.target.value === "1") {
+      confirmationDialog.show(imbOnConfirmMessage, () => projector.turnOn());
+    } else {
+      confirmationDialog.show(imbOffConfirmMessage, () => projector.turnOff());
+    }
   });
-  $("#lamp-off-button").click(() => {
-    confirmationDialog.show(lampOffConfirmMessage, () => projector.turnOffLamp());
+
+  $('input[name="lamp-state"]:radio').change((e: any) => {
+    if (e.target.value === "1") {
+      confirmationDialog.show(lampOnConfirmMessage, () => projector.turnOnLamp());
+    } else {
+      confirmationDialog.show(lampOffConfirmMessage, () => projector.turnOffLamp());
+    }
   });
-  $("#douser-open-button").click(() => projector.openDouser());
-  $("#douser-close-button").click(() => projector.closeDouser());
-  $("#imb-on-button").click(() => {
-    confirmationDialog.show(imbOnConfirmMessage, () => projector.turnOn());
-  });
-  $("#imb-off-button").click(() => {
-    confirmationDialog.show(imbOffConfirmMessage, () => projector.turnOff());
+
+  $('input[name="douser-state"]:radio').change((e: any) => {
+    if (e.target.value === "1") {
+      projector.openDouser();
+    } else {
+      projector.closeDouser();
+    }
   });
 }
 
@@ -201,15 +218,15 @@ function disableProjectorControls(disabled: boolean) {
 }
 
 function disableLampControls(disabled: boolean) {
-  $("#lamp-on-button,#lamp-off-button").prop("disabled", disabled);
+  $('input[name="lamp-state"]:radio').prop("disabled", disabled);
 }
 
 function disableDouserControls(disabled: boolean) {
-  $("#douser-open-button,#douser-close-button").prop("disabled", disabled);
+  $('input[name="douser-state"]:radio').prop("disabled", disabled);
 }
 
 function disableImbControls(disabled: boolean) {
-  $("#imb-on-button,#imb-off-button").prop("disabled", disabled);
+  $('input[name="imb-power"]:radio').prop("disabled", disabled);
 }
 
 function disableVideoInputControls(disabled: boolean) {

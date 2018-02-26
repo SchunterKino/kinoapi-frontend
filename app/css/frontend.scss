@@ -43,6 +43,17 @@ body {
 .btn-default:hover {
     background-color: #ffffff;
 }
+
+.btn-positive.active, .btn-positive.active:hover, .btn-positive.active.focus {
+    background-color: rgb(68, 157, 68);
+    color: white;
+}
+
+.btn-negative.active, .btn-negative.active:hover, .btn-negative.active.focus  {
+    background-color: rgb(201, 48, 44);
+    color: white;
+}
+
 #volume-mute-button.active {
     background-color: #bd362f;
     color: white;
