@@ -39,10 +39,10 @@ export class LampNotify {
         if (this.cooldown > 0) {
             this.refreshTimeoutId = window.setTimeout(() => {
                 this.refreshTimeoutId = null;
+                this.cooldown -= delay;
                 this.show(true);
-                this.cooldown -= delay / 1000;
                 this.refreshAfterDelay(delay);
-            }, this.cooldown % delay);
+            }, delay);
         }
     }
 
@@ -77,7 +77,7 @@ export class LampNotify {
 
         if (Notify.permissionGranted) {
             const silent = update ? true : undefined;
-            const options: any = { body, icon, silent, tag: "projector" };
+            const options: any = { body, icon, silent, requireInteraction: true, tag: "projector" };
             new Notify(message, options).show(() => this.clearPreviousRefresh());
         } else if (seconds !== null) {
             Toastr.info(body, message, { progressBar: true, timeout: seconds });
