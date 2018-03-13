@@ -23,7 +23,7 @@ export class LampNotify {
         if (this.autoRefresh) {
             this.clearPreviousRefresh();
             if (this.cooldown != null) {
-                this.refreshAfterDelay(1000);
+                this.refreshAfterDelay();
             }
         }
     }
@@ -35,13 +35,14 @@ export class LampNotify {
         }
     }
 
-    private refreshAfterDelay(delay: number) {
+    private refreshAfterDelay() {
         if (this.cooldown > 0) {
+            const delay = this.getDelay();
             this.refreshTimeoutId = window.setTimeout(() => {
                 this.refreshTimeoutId = null;
                 this.cooldown -= delay;
                 this.show(true);
-                this.refreshAfterDelay(delay);
+                this.refreshAfterDelay();
             }, delay);
         }
     }
@@ -84,6 +85,18 @@ export class LampNotify {
         } else {
             Toastr.info(body, message);
         }
+    }
+
+    private getDelay() {
+        const seconds = Math.round(this.cooldown / 1000);
+        const minutes = Math.floor(seconds / 60);
+        if (minutes >= 2) {
+            return 60 * 1000;
+        }
+        if (seconds > 30) {
+            return 15 * 1000;
+        }
+        return 5 * 1000;
     }
 }
 
