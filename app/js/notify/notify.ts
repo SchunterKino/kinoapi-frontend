@@ -27,20 +27,23 @@ export class Notify {
     constructor(private message: string, private options?: NotificationOptions) { }
 
     public show(dismissCallback?: () => void) {
+        if (dismissCallback) {
+            this.onNotificationClosed(dismissCallback);
+        }
         if (!Notify.permissionGranted) {
             console.warn("[notification] permission not granted");
         } else {
-            Notify.registration
-                .showNotification(this.message, this.options)
-                .then(() => Notify.registration.getNotifications({ tag: this.options.tag }))
-                .then((notifications: Notification[]) => {
-                    if (notifications.length === 0) {
-                        console.error("[notification] not found");
-                    } else if (dismissCallback) {
-                        console.log("[notification] shown");
-                        notifications[0].onclose = () => dismissCallback();
-                    }
-                });
+            Notify.registration.showNotification(this.message, this.options);
         }
+    }
+
+    private onNotificationClosed(dismissCallback: () => void) {
+        const listener = (event) => {
+            if (event.data[1] === this.options.tag) {
+                window.navigator.serviceWorker.removeEventListener("message", listener);
+                dismissCallback();
+            }
+        };
+        window.navigator.serviceWorker.addEventListener("message", listener);
     }
 }

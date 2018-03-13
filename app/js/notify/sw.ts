@@ -10,7 +10,13 @@ self.addEventListener("push", (event) => {
 });
 
 self.addEventListener("notificationclick", (event) => {
+    console.log("[SW] notificationclick");
     event.notification.close();
+    event.waitUntil(self.clients.matchAll().then((clients) => {
+        return Promise.all(clients.map((client) => {
+            return client.postMessage(["notificationclick", event.notification.tag]);
+        }));
+    }));
 });
 
 /*** caching ***/
