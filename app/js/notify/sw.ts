@@ -14,7 +14,16 @@ self.addEventListener("notificationclick", (event) => {
     event.notification.close();
     event.waitUntil(self.clients.matchAll().then((clients) => {
         return Promise.all(clients.map((client) => {
-            return client.postMessage(["notificationclick", event.notification.tag]);
+            return client.postMessage([event.notification.tag]);
+        }));
+    }));
+});
+
+self.addEventListener("notificationclose", (event) => {
+    console.log("[SW] notificationclose");
+    event.waitUntil(self.clients.matchAll().then((clients) => {
+        return Promise.all(clients.map((client) => {
+            return client.postMessage([event.notification.tag]);
         }));
     }));
 });
