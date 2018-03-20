@@ -81,7 +81,7 @@ export class LampNotify {
             const options: any = { body, icon, silent, requireInteraction: true, tag: "projector" };
             new Notify(message, options).show(() => this.clearPreviousRefresh());
         } else if (seconds !== null) {
-            Toastr.info(body, message, { progressBar: true, timeout: seconds });
+            Toastr.info(message, body, { progressBar: true, timeOut: seconds * 1000 });
         } else {
             Toastr.info(body, message);
         }
