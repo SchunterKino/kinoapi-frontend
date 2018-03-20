@@ -8,7 +8,7 @@ import * as icon from "../ic_launcher.png";
 import { connection, curtain, lights, playback, projector, volume } from "./api";
 import { AudioInputMode, DecodeMode, ErrorCode, PowerState, VideoInputMode } from "./api";
 import { confirmationDialog, loginDialog, progressDialog } from "./dialog";
-import { douserNotify, lampNotify, Notify, powerNotify } from "./notify";
+import { lampNotify, Notify } from "./notify";
 
 const connectingMessage = "Verbinde mit Server…";
 const lampOffConfirmMessage = "Lampe wirklich ausschalten?";

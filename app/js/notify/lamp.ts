@@ -79,7 +79,11 @@ export class LampNotify {
         if (Notify.permissionGranted) {
             const silent = update ? true : undefined;
             const options: any = { body, icon, silent, requireInteraction: true, tag: "projector" };
-            new Notify(message, options).show(() => this.clearPreviousRefresh());
+            new Notify(
+                message,
+                options,
+                () => this.clearPreviousRefresh()
+            ).show();
         } else if (seconds !== null) {
             Toastr.info(message, body, {
                 progressBar: true,
