@@ -13,7 +13,7 @@
     "bootstrap-slider": "^10.0.0",
     "bootstrap-toggle": "^2.2.2",
     "jquery": "^3.3.1",
-    "toastr": "^2.1.2"
+    "toastr": "^2.1.4"
   },
   "devDependencies": {
     "css-loader": "^0.28.10",
