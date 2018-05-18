@@ -6,7 +6,7 @@
   "repository": "SchunterKino/kinoapi-frontend",
   "private": true,
   "dependencies": {
-    "@types/bootstrap": "^3.3.38",
+    "@types/bootstrap": "^4.1.0",
     "@types/bootstrap-slider": "^9.9.0",
     "@types/jquery": "^3.3.0",
     "bootstrap": "^3.3.7",
