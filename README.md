@@ -6,6 +6,7 @@ Webapp to control cinema tech:
 - turn on/off lights
 - open/close curtain
 
+[![Build Status](https://travis-ci.org/SchunterKino/kinoapi-frontend.svg?branch=master)](https://travis-ci.org/SchunterKino/kinoapi-frontend)
 
 ## Building
 
