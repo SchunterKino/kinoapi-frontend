@@ -28,7 +28,7 @@
     "style-loader": "^0.21.0",
     "ts-loader": "^3.5.0",
     "tslint": "^5.9.1",
-    "tslint-loader": "^3.5.3",
+    "tslint-loader": "^3.6.0",
     "typescript": "^2.7.2",
     "typings": "^2.1.1",
     "url-loader": "^1.0.1",
