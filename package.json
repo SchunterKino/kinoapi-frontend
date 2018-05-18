@@ -9,7 +9,7 @@
     "@types/bootstrap": "^3.3.38",
     "@types/bootstrap-slider": "^9.9.0",
     "@types/jquery": "^3.3.0",
-    "bootstrap": "^3.3.7",
+    "bootstrap": "^4.1.1",
     "bootstrap-slider": "^10.0.0",
     "bootstrap-toggle": "^2.2.2",
     "jquery": "^3.3.1",
