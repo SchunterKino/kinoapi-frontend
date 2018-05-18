@@ -230,24 +230,29 @@ function disableProjectorControls(disabled: boolean) {
 
 function disableLampControls(disabled: boolean) {
   $('input[name="lamp-state"]:radio').prop("disabled", disabled);
+  $('input[name="lamp-state"]:radio').parent("label").toggleClass("disabled", disabled);
 }
 
 function disableDouserControls(disabled: boolean) {
   $('input[name="douser-state"]:radio').prop("disabled", disabled);
+  $('input[name="douser-state"]:radio').parent("label").toggleClass("disabled", disabled);
 }
 
 function disableImbControls(disabled: boolean) {
   $('input[name="imb-power"]:radio').prop("disabled", disabled);
+  $('input[name="imb-power"]:radio').parent("label").toggleClass("disabled", disabled);
 }
 
 function disableVideoInputControls(disabled: boolean) {
   $('input[name="image-mode"]:radio').prop("disabled", disabled);
+  $('input[name="image-mode"]:radio').parent("label").toggleClass("disabled", disabled);
 }
 
 function disableVolumeControls(disabled: boolean) {
   $("#volume-up-button,#volume-down-button,#volume-mute-button").prop("disabled", disabled);
   $('input[name="sound-mode"]:radio').prop("disabled", disabled);
+  $('input[name="sound-mode"]:radio').parent("label").toggleClass("disabled", disabled);
   $('input[name="decode-mode"]:radio').prop("disabled", disabled);
-  $(".sound-mode-label").toggleClass("disabled", disabled);
+  $('input[name="decode-mode"]:radio').parent("label").toggleClass("disabled", disabled);
   $("#volume-slider").slider(disabled ? "disable" : "enable");
 }
