@@ -1,16 +1,21 @@
 const path = require('path')
 const webpack = require('webpack')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
-const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const WebpackPwaManifest = require('webpack-pwa-manifest')
-const ServiceWorkerWebpackPlugin = require('serviceworker-webpack-plugin');
+const ServiceWorkerWebpackPlugin = require('serviceworker-webpack-plugin')
 const autoprefixer = require('autoprefixer')
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
+const MiniCssExtractPlugin = require("mini-css-extract-plugin")
+const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin")
 
 module.exports = {
-  entry: './app/js/frontend',
+  mode: 'production',
+  entry: {
+    frontend: './app/js/frontend.ts',
+  },
   output: {
     path: path.join(__dirname, 'dist'),
-    filename: 'frontend.js'
+    filename: '[name].js'
   },
   devtool: 'source-map',
   devServer: {
@@ -18,6 +23,16 @@ module.exports = {
   },
   resolve: {
     extensions: ['*', '.webpack.js', '.web.js', '.ts', '.js', '.scss', '.css', '.ejs']
+  },
+  optimization: {
+    minimizer: [
+      new UglifyJsPlugin({
+        cache: true,
+        parallel: true,
+        sourceMap: true
+      }),
+      new OptimizeCSSAssetsPlugin({})
+    ]
   },
   plugins: [
     new HtmlWebpackPlugin({
@@ -49,7 +64,10 @@ module.exports = {
       jQuery: 'jquery',
       'window.jQuery': 'jquery',
     }),
-    new ExtractTextPlugin('styles.css'),
+    new MiniCssExtractPlugin({
+      filename: "[name].css",
+      chunkFilename: "[id].css"
+    }),
   ],
   module: {
     rules: [
@@ -64,20 +82,17 @@ module.exports = {
       },
       {
         test: /\.s?css$/,
-        use: ExtractTextPlugin.extract({
-          use: [
-            { loader: 'css-loader', options: { sourceMap: true } },
-            { loader: 'postcss-loader', options: { sourceMap: true, plugins: () => [autoprefixer] } },
-            { loader: 'sass-loader', options: { sourceMap: true } },
-          ],
-          fallback: [
-            { loader: 'style-loader', options: { sourceMap: true } }
-          ]
-        })
+        use: [
+          MiniCssExtractPlugin.loader,
+          { loader: 'css-loader', options: { sourceMap: true } },
+          { loader: 'postcss-loader', options: { sourceMap: true, plugins: () => [autoprefixer] } },
+          { loader: 'sass-loader', options: { sourceMap: true } }
+        ],
       },
       {
         test: /\.(jpe?g|gif|png|svg|woff2?|ttf|eot|svg)$/,
         use: { loader: 'url-loader' }
-      }]
+      }
+    ]
   }
 }
