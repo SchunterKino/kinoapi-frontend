@@ -24,7 +24,7 @@
     "node-sass": "^4.9.0",
     "optimize-css-assets-webpack-plugin": "^4.0.2",
     "postcss-loader": "^2.1.5",
-    "sass-loader": "^7.0.1",
+    "sass-loader": "^7.0.2",
     "serviceworker-webpack-plugin": "^1.0.0-alpha02",
     "style-loader": "^0.21.0",
     "ts-loader": "^4.3.1",
