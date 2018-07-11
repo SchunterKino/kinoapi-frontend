@@ -23,7 +23,7 @@
     "ngrok": "^3.0.1",
     "node-sass": "^4.9.1",
     "optimize-css-assets-webpack-plugin": "^4.0.3",
-    "postcss-loader": "^2.1.5",
+    "postcss-loader": "^2.1.6",
     "sass-loader": "^7.0.3",
     "serviceworker-webpack-plugin": "^1.0.0-alpha02",
     "style-loader": "^0.21.0",
