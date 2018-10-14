@@ -11,17 +11,23 @@ export class Notify {
             Notify.permissionGranted = true;
             return;
         }
-        Notification.requestPermission((result) => {
-            if (result === "granted") {
-                runtime.register().then((registration) => {
-                    Notify.registration = registration;
-                    Notify.permissionGranted = true;
-                    window.navigator.serviceWorker.addEventListener("message", Notify.onNotificationClosed);
-                });
-            } else {
-                console.warn("Notification permission not granted");
-            }
-        });
+        // TODO typescript doesn't support new notification api yet
+        (Notification as any).requestPermission()
+            .then((result: NotificationPermission) => {
+                if (result === "granted") {
+                    return runtime.register();
+                } else {
+                    return Promise.reject("Notification permission not granted");
+                }
+            })
+            .then((registration: ServiceWorkerRegistration) => {
+                Notify.registration = registration;
+                Notify.permissionGranted = true;
+                window.navigator.serviceWorker.addEventListener("message", Notify.onNotificationClosed);
+            })
+            .catch((reason) => {
+                console.warn(reason);
+            });
     }
 
     private static registration: ServiceWorkerRegistration;
