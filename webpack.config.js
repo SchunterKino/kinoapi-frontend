@@ -88,7 +88,7 @@ module.exports = {
         ],
       },
       {
-        test: /\.(jpe?g|gif|png|woff2?(\?v=[0-9]\.[0-9]\.[0-9]))$/,
+        test: /\.(jpe?g|gif|png|woff2?(\?v=[0-9]\.[0-9]\.[0-9])?)$/,
         use: { loader: 'url-loader' }
       },
       {
