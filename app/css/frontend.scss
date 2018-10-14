@@ -26,17 +26,17 @@ body {
 .slider {
     width: 100% !important;
 }
-
+// Tooltip fix for Bootstrap 4
 .slider.slider-horizontal .tooltip.tooltip-main.in,
 .slider.slider-vertical .tooltip.tooltip-main.in { opacity: 0.7 !important; }
 
 .btn-positive.active, .btn-positive.active:hover, .btn-positive.active.focus {
-    background-color: rgb(68, 157, 68);
+    background-color: rgb(68, 157, 68) !important;
     color: white;
 }
 
 .btn-negative.active, .btn-negative.active:hover, .btn-negative.active.focus  {
-    background-color: rgb(201, 48, 44);
+    background-color: rgb(201, 48, 44) !important;
     color: white;
 }
 
@@ -80,6 +80,7 @@ body {
 .dialog {
     padding-top:15%;
     overflow-y:visible;
+    z-index: $zindex-tooltip + 1;
 }
 .dialog .dialog-message {
     margin:0;
