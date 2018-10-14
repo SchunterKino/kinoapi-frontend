@@ -39,12 +39,12 @@ body {
 
 .btn-positive.active, .btn-positive.active:hover, .btn-positive.active.focus {
     background-color: rgb(68, 157, 68) !important;
-    color: white;
+    color: white !important;
 }
 
 .btn-negative.active, .btn-negative.active:hover, .btn-negative.active.focus  {
     background-color: rgb(201, 48, 44) !important;
-    color: white;
+    color: white !important;
 }
 
 #volume-mute-button.active {
@@ -87,7 +87,6 @@ body {
 .dialog {
     padding-top:15%;
     overflow-y:visible;
-    z-index: $zindex-tooltip + 1;
 }
 .dialog .dialog-message {
     margin:0;
