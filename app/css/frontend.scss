@@ -1,9 +1,12 @@
+$zindex-tooltip: 1039; // $zindex-modal-backdrop - 1
 @import '~bootstrap/scss/bootstrap.scss';
 @import '~bootstrap-slider/dist/css/bootstrap-slider.css';
 @import '~toastr/build/toastr.css';
 $fa-font-path: "~@fortawesome/fontawesome-free/webfonts" !default;
 @import '~@fortawesome/fontawesome-free/scss/fontawesome';
 @import '~@fortawesome/fontawesome-free/scss/solid';
+
+
 
 @include media-breakpoint-down(lg) {
     .col-pad {
