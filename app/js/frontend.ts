@@ -30,9 +30,9 @@ $(() => {
   initProjectorControl();
   initVolumeControl();
   initInputControl();
-  initAvailability();
-  progressDialog.show(connectingMessage);
-  connection.connect();
+  // initAvailability();
+  // progressDialog.show(connectingMessage);
+  // connection.connect();
 });
 
 function initLogout() {
@@ -85,22 +85,16 @@ function initNotifications() {
     if (isCoolingDown || (!isOn && isRecentEnough)) {
       lampNotify.set(isOn, timestamp, cooldown);
     }
-    // TODO move to own function
-    $("#lamp-button-on").toggleClass("active", isOn);
-    $("#lamp-button-off").toggleClass("active", !isOn);
-  });
-  projector.onDouserChanged((isOpen: boolean) => {
-    // TODO move to own function
-    $("#douser-button-open").toggleClass("active", isOpen);
-    $("#douser-button-close").toggleClass("active", !isOpen);
+    toggleLampControls(isOn);
   });
   projector.onPowerChanged((state: PowerState, timestamp: Date) => {
     const isIMBOff = state !== PowerState.ON;
     disableDouserControls(isIMBOff);
     disableVideoInputControls(isIMBOff);
-    // TODO move to own function
-    $("#imb-button-on").toggleClass("active", !isIMBOff);
-    $("#imb-button-off").toggleClass("active", isIMBOff);
+    toggleImbControls(!isIMBOff);
+  });
+  projector.onDouserChanged((isOpen: boolean) => {
+    toggleDouserControls(isOpen);
   });
   projector.onContentIngestionChanged((isIngesting: boolean, timestamp: Date) => {
     // TODO support
@@ -120,70 +114,54 @@ function initPlaybackControl() {
 }
 
 function initProjectorControl() {
-  // TODO refactor
-  // IMB
+  // imb
   $("#imb-button-on").click((e: any) => {
-    if ($("#imb-button-on").hasClass("active")) {
-      return;
+    if (!$("#imb-button-on").hasClass("active")) {
+      confirmationDialog.show(imbOnConfirmMessage, () => {
+        toggleImbControls(true);
+        projector.turnOn();
+      });
     }
-    confirmationDialog.show(imbOnConfirmMessage, () => {
-      $("#imb-button-on").addClass("active");
-      $("#imb-button-off").removeClass("active");
-      projector.turnOn();
-    });
   });
-
   $("#imb-button-off").click((e: any) => {
-    if ($("#imb-button-off").hasClass("active")) {
-      return;
+    if (!$("#imb-button-off").hasClass("active")) {
+      confirmationDialog.show(imbOffConfirmMessage, () => {
+        toggleImbControls(false);
+        projector.turnOff();
+      });
     }
-    confirmationDialog.show(imbOffConfirmMessage, () => {
-      $("#imb-button-on").removeClass("active");
-      $("#imb-button-off").addClass("active");
-      projector.turnOff();
-    });
   });
 
   // lamp
   $("#lamp-button-on").click((e: any) => {
-    if ($("#lamp-button-on").hasClass("active")) {
-      return;
+    if (!$("#lamp-button-on").hasClass("active")) {
+      confirmationDialog.show(lampOnConfirmMessage, () => {
+        toggleLampControls(true);
+        projector.turnOnLamp();
+      });
     }
-    confirmationDialog.show(lampOnConfirmMessage, () => {
-      $("#lamp-button-on").addClass("active");
-      $("#lamp-button-off").removeClass("active");
-      projector.turnOnLamp();
-    });
   });
-
   $("#lamp-button-off").click((e: any) => {
-    if ($("#lamp-button-off").hasClass("active")) {
-      return;
+    if (!$("#lamp-button-off").hasClass("active")) {
+      confirmationDialog.show(lampOffConfirmMessage, () => {
+        toggleLampControls(false);
+        projector.turnOffLamp();
+      });
     }
-    confirmationDialog.show(lampOffConfirmMessage, () => {
-      $("#lamp-button-on").removeClass("active");
-      $("#lamp-button-off").addClass("active");
-      projector.turnOffLamp();
-    });
   });
 
   // douser
   $("#douser-button-open").click((e: any) => {
-    if ($("#douser-button-open").hasClass("active")) {
-      return;
+    if (!$("#douser-button-open").hasClass("active")) {
+      toggleDouserControls(true);
+      projector.openDouser();
     }
-    $("#douser-button-open").addClass("active");
-    $("#douser-button-close").removeClass("active");
-    projector.openDouser();
   });
-
   $("#douser-button-close").click((e: any) => {
-    if ($("#douser-button-close").hasClass("active")) {
-      return;
+    if (!$("#douser-button-close").hasClass("active")) {
+      toggleDouserControls(false);
+      projector.closeDouser();
     }
-    $("#douser-button-open").removeClass("active");
-    $("#douser-button-close").addClass("active");
-    projector.closeDouser();
   });
 }
 
@@ -283,4 +261,19 @@ function disableVolumeControls(disabled: boolean) {
   $('input[name="decode-mode"]:radio').prop("disabled", disabled);
   $('input[name="decode-mode"]:radio').parent("label").toggleClass("disabled", disabled);
   $("#volume-slider").slider(disabled ? "disable" : "enable");
+}
+
+function toggleLampControls(isOn: boolean) {
+  $("#lamp-button-on").toggleClass("active", isOn);
+  $("#lamp-button-off").toggleClass("active", !isOn);
+}
+
+function toggleImbControls(isOn: boolean) {
+  $("#imb-button-on").toggleClass("active", isOn);
+  $("#imb-button-off").toggleClass("active", !isOn);
+}
+
+function toggleDouserControls(isOpen: boolean) {
+  $("#douser-button-open").toggleClass("active", isOpen);
+  $("#douser-button-close").toggleClass("active", !isOpen);
 }
