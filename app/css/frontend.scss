@@ -26,10 +26,9 @@ body {
 .slider {
     width: 100% !important;
 }
-.tooltip {
-    /* don't show over modal */
-    z-index: auto;
-}
+
+.slider.slider-horizontal .tooltip.tooltip-main.in,
+.slider.slider-vertical .tooltip.tooltip-main.in { opacity: 0.7 !important; }
 
 .btn-positive.active, .btn-positive.active:hover, .btn-positive.active.focus {
     background-color: rgb(68, 157, 68);
