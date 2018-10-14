@@ -33,6 +33,10 @@ body {
 .slider.slider-horizontal .tooltip.tooltip-main.in,
 .slider.slider-vertical .tooltip.tooltip-main.in { opacity: 0.7 !important; }
 
+.btn-outline-secondary {
+    color: $gray-900 !important;
+}
+
 .btn-positive.active, .btn-positive.active:hover, .btn-positive.active.focus {
     background-color: rgb(68, 157, 68) !important;
     color: white;
