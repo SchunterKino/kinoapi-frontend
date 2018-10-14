@@ -1,6 +1,5 @@
 import "bootstrap";
 import "bootstrap-slider";
-import "bootstrap-toggle";
 import * as $ from "jquery";
 import * as Toastr from "toastr";
 import "../css/frontend";
@@ -26,7 +25,6 @@ $(() => {
   initDialogs();
   initToasts();
   initNotifications();
-  initCurtainControl();
   initLightControl();
   initPlaybackControl();
   initProjectorControl();
@@ -108,14 +106,6 @@ function initNotifications() {
   projector.onContentIngestionChanged((isIngesting: boolean, timestamp: Date) => {
     // TODO
   });
-}
-
-function initCurtainControl() {
-  $("#curtain-switch").change(() => {
-    $("#curtain-switch").prop("checked") ? curtain.open() : curtain.close();
-  });
-  curtain.onOpened(() => ($("#curtain-switch") as any).bootstrapToggle("on"));
-  curtain.onClosed(() => ($("#curtain-switch") as any).bootstrapToggle("off"));
 }
 
 function initLightControl() {
