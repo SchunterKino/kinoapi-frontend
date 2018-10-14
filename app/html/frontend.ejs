@@ -15,7 +15,7 @@
 
 <body>
   <div class="container text-center">
-    <div class="page-header">
+    <div class="page-header p-3">
       <img class="img-fluid mx-auto" src="<%= require('../logo.svg')%>" alt="Logo">
     </div>
     <!-- no script info -->
@@ -24,7 +24,7 @@
         Bitte <a href="http://www.enable-javascript.com/de/" target="_blank">JavaScript einschalten</a> um die
         Fernbedienung zu benutzen!</div>
     </noscript>
-    <div class="card jsonly d-none" id="status-bar">
+    <div class="card jsonly mb-3 d-none" id="status-bar">
       <div class="card-body">
         <div class="row">
           <div class="col-lg-12">
@@ -35,35 +35,29 @@
       </div>
     </div>
     <!-- projector (playback+volume) -->
-    <div class="card jsonly">
-      <div class="card-header">
-        <h3 class="card-title">Wiedergabe</h3>
-      </div>
+    <div class="card jsonly mb-3">
+      <div class="card-header">Wiedergabe</div>
       <ul class="list-group">
         <!-- playback controls -->
         <li class="list-group-item">
-          <div class="row ">
-            <div class="col-lg-12">
-              <div class="btn-group btn-group-lg" role="group" aria-label="Playback">
-                <button id="play-button" type="button" class="btn btn-outline-secondary"> <span class="fas fa-play"></span>
-                </button>
-                <button id="pause-button" type="button" class="btn btn-outline-secondary"> <span class="fas fa-pause"></span>
-                </button>
-                <button id="stop-button" type="button" class="btn btn-outline-secondary"> <span class="fas fa-stop"></span>
-                </button>
-              </div>
-            </div>
+          <div class="btn-group btn-group-lg" role="group" aria-label="Playback">
+            <button id="play-button" type="button" class="btn btn-outline-secondary"> <span class="fas fa-play"></span>
+            </button>
+            <button id="pause-button" type="button" class="btn btn-outline-secondary"> <span class="fas fa-pause"></span>
+            </button>
+            <button id="stop-button" type="button" class="btn btn-outline-secondary"> <span class="fas fa-stop"></span>
+            </button>
           </div>
         </li>
         <!-- volume controls -->
         <li class="list-group-item">
-          <div class="row vertical-align">
+          <div class="row">
             <div class="offset-1 offset-sm-2 col-5 col-md-5">
               <input id="volume-slider" data-slider-id="volume-slider-data" type="text" name="Lautstärke" data-provide="slider"
                 data-slider-min="2.0" data-slider-max="5.0" data-slider-step="0.1" data-slider-value="0"
                 data-slider-tooltip="always" data-slider-focus="true">
             </div>
-            <div class=" col-7 col-md-3">
+            <div class="col-7 col-md-3">
               <div class="btn-group btn-group-lg" role="group" aria-label="Lautst&#xE4;rke">
                 <button id="volume-mute-button" type="button" class="btn btn-outline-secondary"> <span class="fas fa-volume-off"></span>
                 </button>
@@ -78,135 +72,141 @@
       </ul>
     </div>
     <!-- lights -->
-    <div class="card jsonly">
-      <div class="card-header">
-        <h3 class="card-title">Licht</h3>
-      </div>
-      <div class="card-body btn-group btn-group-lg" role="group" aria-label="Licht">
-        <button id="light-button-0" type="button" class="btn btn-outline-secondary">Aus</button>
-        <button id="light-button-1" type="button" class="btn btn-outline-secondary">33%</button>
-        <button id="light-button-2" type="button" class="btn btn-outline-secondary">66%</button>
-        <button id="light-button-3" type="button" class="btn btn-outline-secondary">100%</button>
-      </div>
-    </div>
-    <!-- projector (lamp+douser) -->
-    <div class="card jsonly">
-      <div class="card-header">
-        <h3 class="card-title">Projektor</h3>
-      </div>
+    <div class="card jsonly mb-3">
+      <div class="card-header">Licht</div>
       <ul class="list-group">
         <li class="list-group-item clearfix">
-          <div class="col-lg-4 col-pad">
-            <div class="btn-group btn-group-toggle btn-group-lg" data-toggle="buttons" role="group" aria-label="IMB">
-              <label class="btn btn-outline-secondary btn-positive">IMB An
-                <input type="radio" name="imb-power" value="1">
-              </label>
-              <label class="btn btn-outline-secondary btn-negative">IMB Aus
-                <input type="radio" name="imb-power" value="0">
-              </label>
-            </div>
+          <div class="btn-group btn-group-lg" role="group" aria-label="Licht">
+            <button id="light-button-0" type="button" class="btn btn-outline-secondary">Aus</button>
+            <button id="light-button-1" type="button" class="btn btn-outline-secondary">33%</button>
+            <button id="light-button-2" type="button" class="btn btn-outline-secondary">66%</button>
+            <button id="light-button-3" type="button" class="btn btn-outline-secondary">100%</button>
           </div>
-          <div class="col-lg-4 col-pad">
-            <div class="btn-group btn-group-toggle btn-group-lg" data-toggle="buttons" role="group" aria-label="Lampe">
-              <label class="btn btn-outline-secondary btn-positive">Lampe An
-                <input type="radio" name="lamp-state" value="1">
-              </label>
-              <label class="btn btn-outline-secondary btn-negative">Lampe Aus
-                <input type="radio" name="lamp-state" value="0">
-              </label>
+        </li>
+      </ul>
+    </div>
+    <!-- projector (lamp+douser) -->
+    <div class="card jsonly mb-3">
+      <div class="card-header">Projektor</div>
+      <ul class="list-group">
+        <li class="list-group-item clearfix">
+          <div class="row">
+            <div class="col-lg-4 col-pad">
+              <div class="btn-group btn-group-toggle btn-group-lg" data-toggle="buttons" role="group" aria-label="IMB">
+                <label class="btn btn-outline-secondary btn-positive">IMB An
+                  <input type="radio" name="imb-power" value="1">
+                </label>
+                <label class="btn btn-outline-secondary btn-negative">IMB Aus
+                  <input type="radio" name="imb-power" value="0">
+                </label>
+              </div>
             </div>
-          </div>
-          <div class="col-lg-4 col-pad">
-            <div class="btn-group btn-group-toggle btn-group-lg" data-toggle="buttons" role="group" aria-label="Klappe">
-              <label class="btn btn-outline-secondary btn-positive">Klappe auf
-                <input type="radio" name="douser-state" value="1">
-              </label>
-              <label class="btn btn-outline-secondary btn-negative">Klappe zu
-                <input type="radio" name="douser-state" value="0">
-              </label>
+            <div class="col-lg-4 col-pad">
+              <div class="btn-group btn-group-toggle btn-group-lg" data-toggle="buttons" role="group" aria-label="Lampe">
+                <label class="btn btn-outline-secondary btn-positive">Lampe An
+                  <input type="radio" name="lamp-state" value="1">
+                </label>
+                <label class="btn btn-outline-secondary btn-negative">Lampe Aus
+                  <input type="radio" name="lamp-state" value="0">
+                </label>
+              </div>
+            </div>
+            <div class="col-lg-4 col-pad">
+              <div class="btn-group btn-group-toggle btn-group-lg" data-toggle="buttons" role="group" aria-label="Klappe">
+                <label class="btn btn-outline-secondary btn-positive">Klappe auf
+                  <input type="radio" name="douser-state" value="1">
+                </label>
+                <label class="btn btn-outline-secondary btn-negative">Klappe zu
+                  <input type="radio" name="douser-state" value="0">
+                </label>
+              </div>
             </div>
           </div>
         </li>
       </ul>
     </div>
     <!-- input modes -->
-    <div class="card jsonly">
-      <div class="card-header">
-        <h3 class="card-title">Video- und Audioquelle</h3>
-      </div>
+    <div class="card jsonly mb-3">
+      <div class="card-header">Video- und Audioquelle</div>
       <ul class="list-group">
         <!-- image mode -->
         <li class="list-group-item clearfix">
-          <div class="col-12 col-md-2">
-            <label>Video:</label>
-          </div>
-          <div class="col-12 col-md-10">
-            <label class="sound-mode-label">Projektor-Flat
-              <br>
-              <input type="radio" name="image-mode" value="1"><span></span>
-            </label>
-            <label class="sound-mode-label">Projektor-Scope
-              <br>
-              <input type="radio" name="image-mode" value="2"><span></span>
-            </label>
-            <label class="sound-mode-label">PC-Flat
-              <br>
-              <input type="radio" name="image-mode" value="3"><span></span>
-            </label>
-            <label class="sound-mode-label">PC-Scope
-              <br>
-              <input type="radio" name="image-mode" value="4"><span></span>
-            </label>
+          <div class="row">
+            <div class="col-12 col-md-2">
+              <span class="font-weight-bold">Video:</span>
+            </div>
+            <div class="col-12 col-md-10">
+              <label class="sound-mode-label">Projektor-Flat
+                <br>
+                <input type="radio" name="image-mode" value="1"><span></span>
+              </label>
+              <label class="sound-mode-label">Projektor-Scope
+                <br>
+                <input type="radio" name="image-mode" value="2"><span></span>
+              </label>
+              <label class="sound-mode-label">PC-Flat
+                <br>
+                <input type="radio" name="image-mode" value="3"><span></span>
+              </label>
+              <label class="sound-mode-label">PC-Scope
+                <br>
+                <input type="radio" name="image-mode" value="4"><span></span>
+              </label>
+            </div>
           </div>
         </li>
         <!-- sound mode -->
         <li class="list-group-item clearfix">
-          <div class="col-12 col-md-2">
-            <label>Audio:</label>
-          </div>
-          <div class="col-12 col-md-10">
-            <label class="sound-mode-label">Digital 1
-              <br>
-              <input type="radio" name="sound-mode" value="0"><span></span>
-            </label>
-            <label class="sound-mode-label">Digital 2
-              <br>
-              <input type="radio" name="sound-mode" value="1"><span></span>
-            </label>
-            <label class="sound-mode-label">Digital 3
-              <br>
-              <input type="radio" name="sound-mode" value="2"><span></span>
-            </label>
-            <label class="sound-mode-label">Digital 4
-              <br>
-              <input type="radio" name="sound-mode" value="3"><span></span>
-            </label>
-            <label class="sound-mode-label">Multi-Ch
-              <br>
-              <input type="radio" name="sound-mode" value="4"><span></span>
-            </label>
-            <label class="sound-mode-label">NonSync
-              <br>
-              <input type="radio" name="sound-mode" value="5"><span></span>
-            </label>
+          <div class="row">
+            <div class="col-12 col-md-2">
+              <span class="font-weight-bold">Audio:</span>
+            </div>
+            <div class="col-12 col-md-10">
+              <label class="sound-mode-label">Digital 1
+                <br>
+                <input type="radio" name="sound-mode" value="0"><span></span>
+              </label>
+              <label class="sound-mode-label">Digital 2
+                <br>
+                <input type="radio" name="sound-mode" value="1"><span></span>
+              </label>
+              <label class="sound-mode-label">Digital 3
+                <br>
+                <input type="radio" name="sound-mode" value="2"><span></span>
+              </label>
+              <label class="sound-mode-label">Digital 4
+                <br>
+                <input type="radio" name="sound-mode" value="3"><span></span>
+              </label>
+              <label class="sound-mode-label">Multi-Ch
+                <br>
+                <input type="radio" name="sound-mode" value="4"><span></span>
+              </label>
+              <label class="sound-mode-label">NonSync
+                <br>
+                <input type="radio" name="sound-mode" value="5"><span></span>
+              </label>
+            </div>
           </div>
         </li>
         <!-- decoding -->
         <li class="list-group-item clearfix">
-          <div class="col-12 col-md-2">
-            <label>Decoding für Digital 1:</label>
-          </div>
-          <div class="col-6 col-md-5">
-            <label class="sound-mode-label">5.1 Surround
-              <br>
-              <input type="radio" name="decode-mode" value="3"><span></span>
-            </label>
-          </div>
-          <div class="col-6 col-md-5">
-            <label class="sound-mode-label">7.1 Surround
-              <br>
-              <input type="radio" name="decode-mode" value="6"><span></span>
-            </label>
+          <div class="row">
+            <div class="col-12 col-md-2 font-weight-bold">
+              <span class="font-weight-bold">Decoding für Digital 1:</span>
+            </div>
+            <div class="col-6 col-md-5">
+              <label class="sound-mode-label">5.1 Surround
+                <br>
+                <input type="radio" name="decode-mode" value="3"><span></span>
+              </label>
+            </div>
+            <div class="col-6 col-md-5">
+              <label class="sound-mode-label">7.1 Surround
+                <br>
+                <input type="radio" name="decode-mode" value="6"><span></span>
+              </label>
+            </div>
           </div>
         </li>
       </ul>

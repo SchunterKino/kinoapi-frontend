@@ -1,19 +1,11 @@
-@import '~bootstrap/dist/css/bootstrap.css';
+@import '~bootstrap/scss/bootstrap.scss';
+@import '~bootstrap-slider/dist/css/bootstrap-slider.css';
 @import '~toastr/build/toastr.css';
 $fa-font-path: "~@fortawesome/fontawesome-free/webfonts" !default;
 @import '~@fortawesome/fontawesome-free/scss/fontawesome';
 @import '~@fortawesome/fontawesome-free/scss/solid';
 
-.vertical-align {
-    display: flex;
-    flex-direction: row;
-}
-.vertical-align>[class^="col-"], .vertical-align>[class*=" col-"] {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-@media (max-width: 991px) {
+@include media-breakpoint-down(lg) {
     .col-pad {
         margin-bottom: 6px;
     }
@@ -21,6 +13,7 @@ $fa-font-path: "~@fortawesome/fontawesome-free/webfonts" !default;
 
 body {
     background: linear-gradient(#fef400, #e77817);
+    min-width: 360px;
 }
 .page-header {
     /* no line below header */
@@ -36,13 +29,6 @@ body {
 .tooltip {
     /* don't show over modal */
     z-index: auto;
-}
-
-.btn-default:focus {
-    background-color: #ffffff;
-}
-.btn-default:hover {
-    background-color: #ffffff;
 }
 
 .btn-positive.active, .btn-positive.active:hover, .btn-positive.active.focus {
