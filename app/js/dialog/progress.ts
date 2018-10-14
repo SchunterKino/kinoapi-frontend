@@ -9,8 +9,8 @@ export class ProgressDialog {
             <h3 class="dialog-message"></h3>
           </div>
           <div class="modal-body">
-            <div class="progress progress-striped active">
-              <div class="progress-bar"></div>
+            <div class="progress active">
+              <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar"></div>
             </div>
           </div>
         </div>
