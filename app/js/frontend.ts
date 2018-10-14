@@ -120,6 +120,7 @@ function initPlaybackControl() {
 }
 
 function initProjectorControl() {
+  // TODO refactor
   // IMB
   $("#imb-button-on").click((e: any) => {
     if ($("#imb-button-on").hasClass("active")) {
@@ -258,19 +259,16 @@ function disableProjectorControls(disabled: boolean) {
   disableImbControls(disabled);
 }
 
+function disableImbControls(disabled: boolean) {
+  $("[id^=imb-button-]").prop("disabled", disabled);
+}
+
 function disableLampControls(disabled: boolean) {
-  $('input[name="lamp-state"]:radio').prop("disabled", disabled);
-  $('input[name="lamp-state"]:radio').parent("label").toggleClass("disabled", disabled);
+  $("[id^=lamp-button-]").prop("disabled", disabled);
 }
 
 function disableDouserControls(disabled: boolean) {
-  $('input[name="douser-state"]:radio').prop("disabled", disabled);
-  $('input[name="douser-state"]:radio').parent("label").toggleClass("disabled", disabled);
-}
-
-function disableImbControls(disabled: boolean) {
-  $('input[name="imb-power"]:radio').prop("disabled", disabled);
-  $('input[name="imb-power"]:radio').parent("label").toggleClass("disabled", disabled);
+  $("[id^=douser-button-]").prop("disabled", disabled);
 }
 
 function disableVideoInputControls(disabled: boolean) {
