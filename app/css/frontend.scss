@@ -2,6 +2,9 @@
 @import '~bootstrap-toggle/css/bootstrap-toggle.css';
 @import '~bootstrap-slider/dist/css/bootstrap-slider.css';
 @import '~toastr/build/toastr.css';
+$fa-font-path: "~@fortawesome/fontawesome-free/webfonts" !default;
+@import '~@fortawesome/fontawesome-free/scss/fontawesome';
+@import '~@fortawesome/fontawesome-free/scss/solid';
 
 .vertical-align {
     display: flex;

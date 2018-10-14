@@ -88,9 +88,13 @@ module.exports = {
         ],
       },
       {
-        test: /\.(jpe?g|gif|png|svg|woff2?|ttf|eot|svg)$/,
+        test: /\.(jpe?g|gif|png|woff2?(\?v=[0-9]\.[0-9]\.[0-9]))$/,
         use: { loader: 'url-loader' }
-      }
+      },
+      {
+        test: /\.(ttf|eot|svg)(\?[\s\S]+)?$/,
+        use: { loader: 'file-loader' }
+},
     ]
   }
 }
