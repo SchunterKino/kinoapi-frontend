@@ -47,17 +47,17 @@ function initDialogs() {
     progressDialog.hide();
     loginDialog.hide();
     confirmationDialog.hide();
-    $("#status-bar").removeClass("hidden");
+    $("#status-bar").removeClass("d-none");
   });
   connection.onClose(() => {
-    $("#status-bar").addClass("hidden");
+    $("#status-bar").addClass("d-none");
     confirmationDialog.hide();
     if (!loginDialog.isVisible()) {
       progressDialog.show(connectingMessage);
     }
   });
   connection.onUnauthorized((errorCode: ErrorCode) => {
-    $("#status-bar").addClass("hidden");
+    $("#status-bar").addClass("d-none");
     progressDialog.hide();
     confirmationDialog.hide();
     loginDialog.show(errorCode, (password: string) => {
