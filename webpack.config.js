@@ -10,11 +10,9 @@ const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin")
 
 module.exports = {
   mode: 'production',
-  entry: {
-    frontend: './app/js/frontend.ts',
-  },
+  entry: './app/js/frontend.ts',
   output: {
-    path: path.join(__dirname, 'dist'),
+    path: path.resolve(__dirname, 'dist'),
     filename: '[name].js'
   },
   devtool: 'source-map',

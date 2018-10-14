@@ -7,7 +7,7 @@ export class Notify {
             console.warn("Notifications not supported");
             return;
         }
-        if (Notification.prototype.permission === "granted") {
+        if (Notification.permission === "granted") {
             Notify.permissionGranted = true;
             return;
         }
