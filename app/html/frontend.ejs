@@ -92,33 +92,21 @@
         <li class="list-group-item clearfix">
           <div class="row">
             <div class="col-lg-4 col-pad">
-              <div class="btn-group btn-group-toggle btn-group-lg" data-toggle="buttons" role="group" aria-label="IMB">
-                <label class="btn btn-outline-secondary btn-positive">IMB An
-                  <input type="radio" name="imb-power" value="1">
-                </label>
-                <label class="btn btn-outline-secondary btn-negative">IMB Aus
-                  <input type="radio" name="imb-power" value="0">
-                </label>
+              <div class="btn-group btn-group-toggle btn-group-lg" role="group" aria-label="IMB">
+                <button type="button" class="btn btn-outline-secondary btn-positive" id="imb-button-on">IMB an</button>
+                <button type="button" class="btn btn-outline-secondary btn-negative" id="imb-button-off">IMB aus</button>
               </div>
             </div>
             <div class="col-lg-4 col-pad">
-              <div class="btn-group btn-group-toggle btn-group-lg" data-toggle="buttons" role="group" aria-label="Lampe">
-                <label class="btn btn-outline-secondary btn-positive">Lampe An
-                  <input type="radio" name="lamp-state" value="1">
-                </label>
-                <label class="btn btn-outline-secondary btn-negative">Lampe Aus
-                  <input type="radio" name="lamp-state" value="0">
-                </label>
+              <div class="btn-group btn-group-toggle btn-group-lg" role="group" aria-label="Lampe">
+                <button type="button" class="btn btn-outline-secondary btn-positive" id="lamp-button-on">Lampe an</button>
+                <button type="button" class="btn btn-outline-secondary btn-negative" id="lamp-button-off">Lampe aus</button>
               </div>
             </div>
             <div class="col-lg-4 col-pad">
-              <div class="btn-group btn-group-toggle btn-group-lg" data-toggle="buttons" role="group" aria-label="Klappe">
-                <label class="btn btn-outline-secondary btn-positive">Klappe auf
-                  <input type="radio" name="douser-state" value="1">
-                </label>
-                <label class="btn btn-outline-secondary btn-negative">Klappe zu
-                  <input type="radio" name="douser-state" value="0">
-                </label>
+              <div class="btn-group btn-group-toggle btn-group-lg" role="group" aria-label="Klappe">
+                <button type="button" class="btn btn-outline-secondary btn-positive" id="douser-button-open">Klappe auf</button>
+                <button type="button" class="btn btn-outline-secondary btn-negative" id="douser-button-close">Klappe zu</button>
               </div>
             </div>
           </div>

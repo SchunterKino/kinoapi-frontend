@@ -47,7 +47,7 @@ function initDialogs() {
     progressDialog.hide();
     loginDialog.hide();
     confirmationDialog.hide();
-    $("#status-bar").removeClass("d-none");
+    $("#status-bar").removeClass("d-none"); // TODO move to own function
   });
   connection.onClose(() => {
     $("#status-bar").addClass("d-none");
@@ -85,26 +85,25 @@ function initNotifications() {
     if (isCoolingDown || (!isOn && isRecentEnough)) {
       lampNotify.set(isOn, timestamp, cooldown);
     }
-
-    $('input[name="lamp-state"]').val([isOn ? "1" : "0"]);
-    $('input[name="lamp-state"]:checked').parent().addClass("active").siblings().removeClass("active");
+    // TODO move to own function
+    $("#lamp-button-on").toggleClass("active", isOn);
+    $("#lamp-button-off").toggleClass("active", !isOn);
   });
   projector.onDouserChanged((isOpen: boolean) => {
-    $('input[name="douser-state"]').val([isOpen ? "1" : "0"]);
-    $('input[name="douser-state"]:checked').parent().addClass("active").siblings().removeClass("active");
-    // douserNotify.set(isOpen);
+    // TODO move to own function
+    $("#douser-button-open").toggleClass("active", isOpen);
+    $("#douser-button-close").toggleClass("active", !isOpen);
   });
   projector.onPowerChanged((state: PowerState, timestamp: Date) => {
     const isIMBOff = state !== PowerState.ON;
     disableDouserControls(isIMBOff);
     disableVideoInputControls(isIMBOff);
-    // powerNotify.set(state, timestamp);
-
-    $('input[name="imb-power"]').val([!isIMBOff ? "1" : "0"]);
-    $('input[name="imb-power"]:checked').parent().addClass("active").siblings().removeClass("active");
+    // TODO move to own function
+    $("#imb-button-on").toggleClass("active", !isIMBOff);
+    $("#imb-button-off").toggleClass("active", isIMBOff);
   });
   projector.onContentIngestionChanged((isIngesting: boolean, timestamp: Date) => {
-    // TODO
+    // TODO support
   });
 }
 
@@ -121,28 +120,69 @@ function initPlaybackControl() {
 }
 
 function initProjectorControl() {
-  $('input[name="imb-power"]:radio').change((e: any) => {
-    if (e.target.value === "1") {
-      confirmationDialog.show(imbOnConfirmMessage, () => projector.turnOn());
-    } else {
-      confirmationDialog.show(imbOffConfirmMessage, () => projector.turnOff());
+  // IMB
+  $("#imb-button-on").click((e: any) => {
+    if ($("#imb-button-on").hasClass("active")) {
+      return;
     }
+    confirmationDialog.show(imbOnConfirmMessage, () => {
+      $("#imb-button-on").addClass("active");
+      $("#imb-button-off").removeClass("active");
+      projector.turnOn();
+    });
   });
 
-  $('input[name="lamp-state"]:radio').change((e: any) => {
-    if (e.target.value === "1") {
-      confirmationDialog.show(lampOnConfirmMessage, () => projector.turnOnLamp());
-    } else {
-      confirmationDialog.show(lampOffConfirmMessage, () => projector.turnOffLamp());
+  $("#imb-button-off").click((e: any) => {
+    if ($("#imb-button-off").hasClass("active")) {
+      return;
     }
+    confirmationDialog.show(imbOffConfirmMessage, () => {
+      $("#imb-button-on").removeClass("active");
+      $("#imb-button-off").addClass("active");
+      projector.turnOff();
+    });
   });
 
-  $('input[name="douser-state"]:radio').change((e: any) => {
-    if (e.target.value === "1") {
-      projector.openDouser();
-    } else {
-      projector.closeDouser();
+  // lamp
+  $("#lamp-button-on").click((e: any) => {
+    if ($("#lamp-button-on").hasClass("active")) {
+      return;
     }
+    confirmationDialog.show(lampOnConfirmMessage, () => {
+      $("#lamp-button-on").addClass("active");
+      $("#lamp-button-off").removeClass("active");
+      projector.turnOnLamp();
+    });
+  });
+
+  $("#lamp-button-off").click((e: any) => {
+    if ($("#lamp-button-off").hasClass("active")) {
+      return;
+    }
+    confirmationDialog.show(lampOffConfirmMessage, () => {
+      $("#lamp-button-on").removeClass("active");
+      $("#lamp-button-off").addClass("active");
+      projector.turnOffLamp();
+    });
+  });
+
+  // douser
+  $("#douser-button-open").click((e: any) => {
+    if ($("#douser-button-open").hasClass("active")) {
+      return;
+    }
+    $("#douser-button-open").addClass("active");
+    $("#douser-button-close").removeClass("active");
+    projector.openDouser();
+  });
+
+  $("#douser-button-close").click((e: any) => {
+    if ($("#douser-button-close").hasClass("active")) {
+      return;
+    }
+    $("#douser-button-open").removeClass("active");
+    $("#douser-button-close").addClass("active");
+    projector.closeDouser();
   });
 }
 
