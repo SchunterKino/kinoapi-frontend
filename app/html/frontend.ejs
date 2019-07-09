@@ -25,12 +25,15 @@
         Fernbedienung zu benutzen!</div>
     </noscript>
     <div class="card jsonly mb-3 d-none" id="status-bar">
-      <div class="card-body">
-        <div class="row">
-          <div class="col-lg-12">
-            <div id="status-info"></div>
-            <button id="logout" type="button" class="btn btn-primary btn-sm float-right">Logout</button>
+      <div class="row">
+        <div class="offset-2 col-7">
+          <div id="ingestion-progress" class="progress h-75 ml-1 mt-1 d-none">
+            <div class="progress-bar progress-bar-striped progress-bar-animated w-100" role="progressbar">Kopiere...</div>
           </div>
+          <div id="ingestion-done" class="small mt-1 d-none"></div>
+        </div>
+        <div class="offset-1 col-2">
+          <button id="logout" type="button" class="btn btn-primary btn-sm float-right">Logout</button>
         </div>
       </div>
     </div>

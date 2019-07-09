@@ -30,9 +30,9 @@ $(() => {
   initProjectorControl();
   initVolumeControl();
   initInputControl();
-  // initAvailability();
-  // progressDialog.show(connectingMessage);
-  // connection.connect();
+  initAvailability();
+  progressDialog.show(connectingMessage);
+  connection.connect();
 });
 
 function initLogout() {
@@ -97,7 +97,21 @@ function initNotifications() {
     toggleDouserControls(isOpen);
   });
   projector.onContentIngestionChanged((isIngesting: boolean, timestamp: Date) => {
-    // TODO support
+    if (isIngesting) {
+      $("#ingestion-progress").removeClass("d-none");
+    } else {
+      $("#ingestion-progress").addClass("d-none");
+      // Display the message for 2 hours.
+      const isRecentEnough = (+Date.now() - +timestamp) < 2 * 60 * 60 * seconds;
+      if (isRecentEnough) {
+        // Show time when ingestion finished.
+        const time = `${timestamp.getHours()}:${timestamp.getMinutes()}:${timestamp.getSeconds()}`;
+        $("#ingestion-done").text(`Kopiervorgang abgeschlossen um ${time} Uhr.`);
+        $("#ingestion-done").removeClass("d-none");
+      } else {
+        $("#ingestion-done").addClass("d-none");
+      }
+    }
   });
 }
 
